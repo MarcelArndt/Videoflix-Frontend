@@ -1,0 +1,41 @@
+.head-wrapper{
+    z-index: 99;
+    position: sticky;
+    top: 0px;
+    left: 0px;
+    width: 100%;
+    height: 100px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0px 64px;
+    box-sizing: border-box;
+}
+
+.logo{
+    width: 33%;
+    max-width: 200px;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    max-height: 32px;
+    flex-direction: start;
+    scale: 100%;
+    transition: scale 0.25s ease-in-out, filter 0.25s ease-in-out;
+
+    img{
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+        object-position: left;
+        filter: brightness(100%) contrast(100%);
+
+    }
+
+    &:hover{
+        cursor: pointer;
+        filter: brightness(125%) contrast(90%);
+        scale: 102%;
+        transition: all 0.25s ease-in-out;
+    }
+}

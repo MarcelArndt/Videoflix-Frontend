@@ -1,1 +1,101 @@
-/* You can add global styles to this file, and also import other style files */
+@font-face {
+    font-family: 'dm-sans';
+    font-weight: 100 1000;
+    src: url('./../public/assets/fonts/DMSans-Italic-VariableFont_opsz,wght.ttf') format('truetype');
+}
+
+:root {
+    --background: #000a14;
+    --blue: #2e3edf;
+    --blue-hover: #8208ff;
+    --red: #ff002e;
+    --violet: #8208ff;
+    --pink:#ffbbde;
+    --white: #FFFFFF;
+    --error: #ff002e;
+
+}
+
+body {
+    scroll-behavior: smooth;
+    margin: 0 0;
+    background-color: var(--background);
+    font-family: 'dm-sans';
+    font-weight: 400;
+    color: var(--white);
+}
+
+button{
+    margin-top: 6px;
+    background-color: var(--blue);
+    color: var(--white);
+    font-size: 1.125rem;
+    padding: 12px 32px;
+    border-radius: 32px;
+    outline: none;
+    transition: background-color 0.25s ease-in-out, scale 0.25s ease-in-out, border-color 0.25s ease-in-out; 
+    border: 1px solid transparent;
+
+    &:hover{
+        scale: 100%;
+        cursor: pointer;
+        background-color: var(--blue-hover);
+        transition: all 0.25s ease-in-out;
+        border-color: transparent;
+    }
+}
+
+.main-wrapper{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.content-wrapper{
+    width: 100%;
+    max-width: 1920px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+}
+
+.screen-wrapper{
+    width: 100%;
+    height: 100vh;
+    position: fixed;
+    top: 0px;
+    left: 0px;
+}
+
+.curtain{
+        position: fixed;
+        z-index: 98;
+        top: 0px;
+        left: 0px;
+        width: 100%;
+        height: 100vh;
+        &::after{
+            width: 100%;
+            height: 44%;
+            content: '';
+            z-index: 90;
+            position: absolute;
+            bottom: 0px;
+            left: 0px;
+            background: linear-gradient(180deg,rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 1) 100%);
+  
+        }
+        &::before{
+            width: 100%;
+            height: 44%;
+            content: '';
+            z-index: 90;
+            position: absolute;
+            top: 0px;
+            left: 0px;
+            background: linear-gradient(180deg,rgba(0, 0, 0, 1) 0%, rgba(0, 0, 0, 0) 100%);
+
+        }
+}
