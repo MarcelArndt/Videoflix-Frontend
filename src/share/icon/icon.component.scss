@@ -1,0 +1,14 @@
+@font-face {
+    font-display: swap;
+    font-family: 'Material Symbols Outlined';
+    font-style: normal;
+    font-weight: 400;
+    src: url('../../../public/assets/fonts/material-symbols-outlined-v213-latin-regular.woff2') format('woff2');
+}
+
+span {
+    font-family: 'Material Symbols Outlined';
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}

@@ -1,11 +1,11 @@
-import { Component } from '@angular/core';
+import { Component , Input} from '@angular/core';
 
 @Component({
-  selector: 'app-icon',
+  selector: 'icon',
   imports: [],
   templateUrl: './icon.component.html',
   styleUrl: './icon.component.scss'
 })
 export class IconComponent {
-
+  @Input() id: string = '';
 }
