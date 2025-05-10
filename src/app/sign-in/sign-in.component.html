@@ -1,0 +1,30 @@
+
+
+<section class="screen-wrapper sign-in">
+
+    <div class="black-glass-background">
+        <div class="flex">
+        <h1>Log in</h1>
+         <form>
+
+            <div class="input-field">
+                <icon>mail</icon>
+                <input placeholder="Email Address">
+            </div>
+
+            <div class="input-field">
+                <icon>password</icon>
+                <input  [type]="fieldTypeIsPassword ? 'password' : 'text'" placeholder="Password" placeholder="Password">
+                <icon (click)="changePasswordFieldType()" class="show-password-icon">{{fieldTypeIsPassword ? 'visibility' : 'visibility_off' }}</icon>
+            </div>
+
+             <button>Log in</button>
+             <a>Forgot password?</a>
+             <p>New to Videoflix? <a class="bold">Sign Up now</a></p>
+
+         </form>
+        </div>
+    </div>
+
+    <div class="curtain darken"></div>
+</section>

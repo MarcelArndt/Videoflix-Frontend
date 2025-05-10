@@ -111,9 +111,20 @@ ul{
 }
 
 .black-glass-background{
+    z-index: 900;
     background-color: var(--glass);
     border-radius: 32px;
     backdrop-filter: blur(3px);
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50% ,-50%);
+    display: flex;
+    justify-content: center;
+    align-content: center;
+    align-items: center;
+    padding:16px 56px;
+    box-sizing: border-box;
 }
 
 h1{
@@ -152,7 +163,6 @@ input{
 
 .darken{
     background-color: var(--darken);
-
 }
 
 .curtain{
