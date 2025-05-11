@@ -1,0 +1,23 @@
+ <h1>Sign Up</h1>
+         <form>
+
+            <div class="input-field">
+                <icon>mail</icon>
+                <input placeholder="Email Address">
+            </div>
+
+            <div class="input-field">
+                <icon>password</icon>
+                <input  [type]="fieldTypeIsPassword ? 'password' : 'text'" placeholder="Enter a password">
+                <icon (click)="changePasswordFieldType()" class="show-password-icon">{{fieldTypeIsPassword ? 'visibility' : 'visibility_off' }}</icon>
+            </div>
+
+            <div class="input-field">
+                <icon>password</icon>
+                <input  [type]="fieldTypeIsPassword ? 'password' : 'text'" placeholder="Confirm password">
+                <icon (click)="changePasswordFieldType()" class="show-password-icon">{{fieldTypeIsPassword ? 'visibility' : 'visibility_off' }}</icon>
+            </div>
+
+             <button routerLink="/sign_up/confirm">Get Started</button>
+
+         </form>

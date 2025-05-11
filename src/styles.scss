@@ -12,12 +12,37 @@
     --violet: #8208ff;
     --pink:#ffbbde;
     --white: #FFFFFF;
+    --reduce-white: #c4c4c4;
     --error: #ff002e;
     --glass: rgba(28, 28, 28, 0.75);
     --darken: rgba(28, 28, 28, 0.9);
    
 
 }
+
+a{
+    max-width: max-content;
+    color: var(--white);
+    transition: color 0.25s ease-in-out;
+    text-decoration: none;
+
+    &:hover{
+        cursor: pointer;
+        color: var(--blue-hover);
+        transition: color 0.25s ease-in-out;
+    }
+}
+
+p{
+    display: block;
+    margin-block-start: 0em;
+    margin-block-end: 0em;
+    margin-inline-start: 0px;
+    margin-inline-end: 0px;
+    unicode-bidi: isolate;
+    margin: 12px 0px;
+}
+
 
 body {
     scroll-behavior: smooth;
@@ -153,6 +178,10 @@ input{
         color: var(--white);
         font-size: 1.125rem;
         font-weight: 400;
+    }
+
+    &:autofill{
+        background-color: var(--glass);
     }
 
     &:hover, &:focus, &:active {

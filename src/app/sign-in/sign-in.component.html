@@ -14,13 +14,13 @@
 
             <div class="input-field">
                 <icon>password</icon>
-                <input  [type]="fieldTypeIsPassword ? 'password' : 'text'" placeholder="Password" placeholder="Password">
+                <input  [type]="fieldTypeIsPassword ? 'password' : 'text'" placeholder="Password">
                 <icon (click)="changePasswordFieldType()" class="show-password-icon">{{fieldTypeIsPassword ? 'visibility' : 'visibility_off' }}</icon>
             </div>
 
              <button>Log in</button>
              <a>Forgot password?</a>
-             <p>New to Videoflix? <a class="bold">Sign Up now</a></p>
+             <p>New to Videoflix? <a class="bold" routerLink="/sign_up">Sign Up now</a></p>
 
          </form>
         </div>
