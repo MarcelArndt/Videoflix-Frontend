@@ -3,11 +3,11 @@ import { RouterOutlet } from '@angular/router';
 import { FooterNavigationComponent } from '../footer-navigation/footer-navigation.component';
 
 @Component({
-  selector: 'app-sign-up',
+  selector: 'app-forgot-password',
   imports: [RouterOutlet, FooterNavigationComponent],
-  templateUrl: './sign-up.component.html',
-  styleUrl: './sign-up.component.scss'
+  templateUrl: './forgot-password.component.html',
+  styleUrl: './forgot-password.component.scss'
 })
-export class SignUpComponent {
+export class ForgotPasswordComponent {
 
 }
