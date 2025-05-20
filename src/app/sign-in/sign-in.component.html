@@ -4,7 +4,7 @@
 
     <div class="black-glass-background">
         <div class="flex">
-        <h1>Log in</h1>
+        <h2>Log in</h2>
          <form>
 
             <div class="input-field">
@@ -18,7 +18,7 @@
                 <icon (click)="changePasswordFieldType()" class="show-password-icon">{{fieldTypeIsPassword ? 'visibility' : 'visibility_off' }}</icon>
             </div>
 
-             <button>Log in</button>
+             <button routerLink="/media">Log in</button>
              <a routerLink="/forgot_pw">Forgot password?</a>
              <p>New to Videoflix? <a class="bold" routerLink="/sign_up">Sign Up now</a></p>
 

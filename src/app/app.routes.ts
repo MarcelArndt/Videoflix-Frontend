@@ -10,6 +10,7 @@ import { ForgotPasswordFormComponent } from './forgot-password/forgot-password-f
 import { ForgotPasswordCheckMailComponent } from './forgot-password/forgot-password-check-mail/forgot-password-check-mail.component';
 import { ForgotPasswordResetComponent } from './forgot-password/forgot-password-reset/forgot-password-reset.component';
 import { ResetPasswordValidComponent } from './forgot-password/reset-password-valid/reset-password-valid.component';
+import { MediaCenterComponent } from './media-center/media-center.component';
 
 export const routes: Routes = [
     { path: '', component: HomescreenComponent },
@@ -27,4 +28,5 @@ export const routes: Routes = [
         { path: 'reset', component: ForgotPasswordResetComponent },
         { path: 'validated', component: ResetPasswordValidComponent }
     ] },
+    {path: 'media', component: MediaCenterComponent },
 ];
