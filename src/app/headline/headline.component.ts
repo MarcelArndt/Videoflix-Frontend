@@ -17,8 +17,6 @@ export class HeadlineComponent {
   constructor(private router:Router){}
 
 
-
-
   @HostListener('window:resize', [])
   onResize() {
     this.sourceOfLogo = this.checkUlrForLogo()

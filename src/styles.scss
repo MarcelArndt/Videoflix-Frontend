@@ -196,7 +196,10 @@ input{
     &:hover, &:focus, &:active {
         border-color: var(--blue);
     }
+}
 
+section{
+    width: 100%;
 }
 
 .darken{

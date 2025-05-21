@@ -1,0 +1,12 @@
+
+<div class="slider-wrapper">
+    <div *ngFor="let category of allCategoryKey" class="scroolbar"> 
+        <h3>{{service.dataquarry[category].title}}</h3>
+        <div class="fade-out"></div>
+        <div class="scrollbar-wrapper">
+            <div class="scrollbar-content">
+                <div *ngFor="let item of arrayWithAllKeysOfItems(category)" class="box"></div>
+            </div>
+        </div>
+    </div>
+</div>

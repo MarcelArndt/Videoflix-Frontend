@@ -8,6 +8,7 @@ video{
     position: absolute;
     top: 0px;
     left: 0px;
+    z-index: -1;
 
     &::before{
         content: '';
@@ -29,7 +30,7 @@ video{
         top: auto;
         bottom: 0px;
         left: 0px;
-        background: linear-gradient(180deg,rgba(0, 0, 0, 0) 0%, rgb(0, 0, 0, 1) 100%);
+        background: linear-gradient(180deg,rgba(0, 10, 20, 0) 0%, rgb(0, 10, 20, 1) 100%);
      }
 
 }
