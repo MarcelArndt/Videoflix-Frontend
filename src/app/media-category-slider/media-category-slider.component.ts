@@ -2,9 +2,10 @@ import { Component } from '@angular/core';
 import { MediaCategoryService } from './media-category.service';
 import { CommonModule } from '@angular/common';
 import { Category } from '../../interface/interface';
+import { IconComponent } from '../../share/icon/icon.component';
 @Component({
   selector: 'app-media-category-slider',
-  imports: [ CommonModule ],
+  imports: [ CommonModule, IconComponent ],
   templateUrl: './media-category-slider.component.html',
   styleUrl: './media-category-slider.component.scss'
 })

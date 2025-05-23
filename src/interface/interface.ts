@@ -11,6 +11,7 @@ export interface Category {
 export interface CategoryItem {
   name: string;
   url: string;
+  placeholder:string,
 }
 
 
