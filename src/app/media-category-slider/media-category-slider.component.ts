@@ -1,7 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, ElementRef, QueryList, ViewChildren, HostListener} from '@angular/core';
 import { MediaCategoryService } from './media-category.service';
 import { CommonModule } from '@angular/common';
-import { Category } from '../../interface/interface';
+import { Category, canObjectScroll } from '../../interface/interface';
 import { IconComponent } from '../../share/icon/icon.component';
 @Component({
   selector: 'app-media-category-slider',
@@ -12,18 +12,54 @@ import { IconComponent } from '../../share/icon/icon.component';
 export class MediaCategorySliderComponent {
 constructor(public service: MediaCategoryService){}
 
+@ViewChildren('scrollWrapper') scrollWrappers!: QueryList<ElementRef<HTMLDivElement>>;
+
 allCategoryKey:string[] = []
+canScrollLeft: canObjectScroll = {};
+canScrollRight:canObjectScroll = {};
 
+@HostListener('window:resize', ['$event'])
+  onResize(event: Event) {
+    this.checkAllScrollPositions();
+  }
 
-ngOnInit(){
+  ngOnInit(){
   this.allCategoryKey = Object.keys(this.service.dataquarry)
-}
+  }
 
-arrayWithAllKeysOfItems(category: string): string[] {
-  return Object.keys(this.service.dataquarry[category].content);
-}
+  ngAfterViewInit() {
+    setTimeout(() => {this.checkAllScrollPositions()});
+  }
 
+  arrayWithAllKeysOfItems(category: string): string[] {
+    return Object.keys(this.service.dataquarry[category].content);
+  }
 
+  onScroll(event: Event, category: string) {
+    const targetAsHTMLElement = event.target as HTMLElement;
+    this.updateScrollButtons(targetAsHTMLElement, category);
+  }
 
+  checkAllScrollPositions() {
+    this.scrollWrappers.forEach((ref, index) => {
+      const category = this.allCategoryKey[index];
+      this.updateScrollButtons(ref.nativeElement, category);
+    });
+  }
+
+  updateScrollButtons(element: HTMLElement, category: string) {
+  this.canScrollLeft[category] = element.scrollLeft > 0;
+  this.canScrollRight[category] = element.scrollLeft + element.clientWidth < element.scrollWidth;
+  }
+
+  scrollTo(category: string, direction:string = ""){
+    const movingSpeed =  direction == "next" || direction == "right" ? 300 : -300; 
+    const index = this.allCategoryKey.indexOf(category);
+    const element = this.scrollWrappers.get(index)?.nativeElement;
+    if (element) {
+      element.scrollBy({ left: movingSpeed, behavior: 'smooth' });
+      setTimeout(() => this.updateScrollButtons(element, category), 300);
+    }
+  }
 
 }

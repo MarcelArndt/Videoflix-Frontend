@@ -79,6 +79,7 @@
     padding-bottom: 96px;
     transform: translateY(50%);
     margin-top: 250px;
+    scroll-behavior: smooth;
 }
 
 .scrollbar-content{
@@ -89,6 +90,7 @@
 }
 
 .scrollbar-wrapper{
+    scroll-behavior: smooth;
     display: flex;
     width: 100%;
     overflow-x: auto;
@@ -122,7 +124,6 @@
     width: 92px;
     bottom: 18px;
 
-
     icon{
         transition: color 0.25s ease-in-out;
         color: rgba(255,255,255,0.55);
@@ -132,6 +133,7 @@
         left: 50%;
         transform: translate(-50%, -50%);
         z-index: 100;
+        user-select: none;
     }
 
     &:hover, &:hover icon{ 

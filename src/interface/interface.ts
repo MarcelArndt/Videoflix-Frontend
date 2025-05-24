@@ -14,4 +14,8 @@ export interface CategoryItem {
   placeholder:string,
 }
 
+export interface canObjectScroll
+  { [category: string]: boolean }
+
+
 

@@ -1,10 +1,10 @@
 
 <div class="slider-wrapper">
     <div *ngFor="let category of allCategoryKey" class="scroolbar"> 
-        <div class="button-previous navigation-button"><icon>arrow_back_ios</icon></div>
-        <div class="button-next navigation-button"><icon>arrow_forward_ios</icon></div>
+        <div class="button-previous navigation-button" *ngIf="canScrollLeft[category]" (click)="scrollTo(category)"><icon>arrow_back_ios</icon></div>
+        <div class="button-next navigation-button" *ngIf="canScrollRight[category]" (click)="scrollTo(category, 'next')"><icon>arrow_forward_ios</icon></div>
         <h3>{{service.dataquarry[category].title}}</h3>  
-        <div class="scrollbar-wrapper">
+        <div class="scrollbar-wrapper" #scrollWrapper (scroll)="onScroll($event, category)">
             <div class="scrollbar-content">
                 <div *ngFor="let item of arrayWithAllKeysOfItems(category); let i = index" class="box" [attr.data-text]="service.dataquarry[category].content[i].name">
                     <img [src]="service.dataquarry[category].content[i].placeholder">
