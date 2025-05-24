@@ -1,8 +1,9 @@
 import { Component, ElementRef, QueryList, ViewChildren, HostListener} from '@angular/core';
-import { MediaCategoryService } from './media-category.service';
+import { MediaCategoryService } from '../media-category.service';
 import { CommonModule } from '@angular/common';
-import { Category, canObjectScroll } from '../../interface/interface';
-import { IconComponent } from '../../share/icon/icon.component';
+import { Category, canObjectScroll } from '../../../interface/interface';
+import { IconComponent } from '../../../share/icon/icon.component';
+
 @Component({
   selector: 'app-media-category-slider',
   imports: [ CommonModule, IconComponent ],
@@ -24,7 +25,7 @@ canScrollRight:canObjectScroll = {};
   }
 
   ngOnInit(){
-  this.allCategoryKey = Object.keys(this.service.dataquarry)
+  this.allCategoryKey = Object.keys(this.service.dataquarry);
   }
 
   ngAfterViewInit() {

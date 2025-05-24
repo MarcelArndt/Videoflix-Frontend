@@ -1,7 +1,26 @@
 <div class="preview-wrapper">
-    <video src="assets/placeholder/placeholder-movie.mp4" autoplay muted loop></video>
+    <!-- <video src="assets/placeholder/placeholder-movie.mp4" autoplay muted loop></video> -->
+
+    <video #videoScreen
+    id="my-video"
+    class="video-js"
+    autoplay 
+    muted 
+    loop
+    preload="auto"
+    data-setup="{}">
+
+    <source [src]="" type="video/mp4" />
+
+    <p class="vjs-no-js">
+      To view this video please enable JavaScript, and consider upgrading to a
+      web browser that
+      <a href="https://videojs.com/html5-video-support/" target="_blank"
+        >supports HTML5 video</a
+      >
+    </p>
+  </video>
 
     <app-media-preview-text></app-media-preview-text>
-
 
 </div>
