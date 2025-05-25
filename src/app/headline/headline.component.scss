@@ -39,3 +39,14 @@
         transition: all 0.25s ease-in-out;
     }
 }
+
+@media only screen and (max-width: 650px) {
+    .head-wrapper{
+    padding: 0px 24px;
+    }
+
+    .logo{
+        width: 32px;
+    }
+    
+}

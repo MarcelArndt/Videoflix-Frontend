@@ -12,3 +12,10 @@
         transition: color 0.25s ease-in-out;
     }
 }
+
+
+@media screen and (max-width:1180px){
+    .footer-navi{ 
+        bottom: 24px;
+    }
+}
