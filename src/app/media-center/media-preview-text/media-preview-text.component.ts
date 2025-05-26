@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { IconComponent } from '../../../share/icon/icon.component';
 
 @Component({
@@ -8,5 +8,6 @@ import { IconComponent } from '../../../share/icon/icon.component';
   styleUrl: './media-preview-text.component.scss'
 })
 export class MediaPreviewTextComponent {
-
+  @Input() headline:string = '';
+  @Input() discretion:string = '';
 }

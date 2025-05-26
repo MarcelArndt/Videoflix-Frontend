@@ -14,6 +14,10 @@ export class MediaPreviewVideoComponent {
   constructor(public service: MediaCategoryService){}
   @ViewChild('videoScreen') videoPlayer!:ElementRef;
 
+  headline:string='';
+  discretion:string='';
+
+
   ngAfterViewInit(){
       this.service.selectedChoice$.subscribe((item: CategoryItem) => {
       const videoHTMLElement = this.videoPlayer.nativeElement;
@@ -22,6 +26,8 @@ export class MediaPreviewVideoComponent {
         sourceElement.setAttribute('src', item.url);
          videoHTMLElement.load();
          videoHTMLElement.play();
+         this.headline = item.headline;
+         this.discretion= item.discretion;
       }
     });
   }

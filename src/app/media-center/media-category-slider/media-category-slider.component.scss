@@ -71,14 +71,10 @@
 
 .slider-wrapper{
     width: 100%;
-    position: absolute;
-    top: 50%;
     display: flex;
     align-items: center;
     flex-direction: column;
     padding-bottom: 96px;
-    transform: translateY(50%);
-    margin-top: 250px;
     scroll-behavior: smooth;
 }
 
@@ -199,7 +195,7 @@
 
 @media (max-width:1360px){
     .slider-wrapper{
-    margin-top: clamp(0px, 6vw, 150px);
+      margin-top: clamp(0px, 6vw, 150px);
     }
 }
 

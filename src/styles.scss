@@ -16,6 +16,7 @@
     --error: #ff002e;
     --glass: rgba(28, 28, 28, 0.75);
     --darken: rgba(28, 28, 28, 0.9);
+    --max-resolution: 3440px;
 }
 
 a{
@@ -104,7 +105,7 @@ ul{
 
 .content-wrapper{
     width: 100%;
-    max-width: 3440px;
+    max-width: var(--max-resolution);
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -153,7 +154,7 @@ ul{
 
 h1{
     text-align: center;
-    font-size: clamp(2rem, 10vw, 5.5rem);
+    font-size: clamp(3rem, 10vw, 5.5rem);
     margin-block-start: 0px;
     margin-block-end: 0px;
     margin-inline-start: 0px;

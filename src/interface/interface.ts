@@ -12,6 +12,8 @@ export interface CategoryItem {
   name: string;
   url: string;
   placeholder:string,
+  headline:string,
+  discretion:string,
 }
 
 export interface canObjectScroll

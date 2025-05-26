@@ -1,7 +1,7 @@
 <div class="preview-wrapper">
-    <!-- <video src="assets/placeholder/placeholder-movie.mp4" autoplay muted loop></video> -->
 
     <div class="video-wrapper">
+
       <video #videoScreen
         id="my-video"
         class="video-js"
@@ -23,11 +23,8 @@
     </video>
   </div>
 
-
   <div class="text-wrapper">
-
-    <app-media-preview-text></app-media-preview-text>
-
+    <app-media-preview-text [headline]="headline" [discretion]="discretion"></app-media-preview-text>
   </div>
 
 </div>
