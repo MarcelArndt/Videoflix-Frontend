@@ -1,0 +1,109 @@
+@font-face {
+    font-display: swap;
+    font-family: 'Material Symbols Outlined';
+    font-style: normal;
+    font-weight: 400;
+    src: url('../../../../public/assets/fonts/material-symbols-outlined-v213-latin-regular.woff2') format('woff2');
+}
+
+.show-is-scrollable{
+    --color:rgb(188, 188, 188);
+    --dot-height: 24px;
+    --background-color:rgba(11, 11, 11, 0.45);
+    --touchthumb-color:rgba(57, 57, 57, 0.33);
+    --max-height: 245px;
+    --animation-duration: 1.25s;
+    opacity: 0;
+    width: 36px;
+    height: 100vh;
+    max-height: var(--max-height);
+    background-color: var(--background-color);
+    position: fixed;
+    top: 50%;
+    right: 32px;
+    transform: translateY(-50%);
+    border-radius: 24px;
+    backdrop-filter: blur(3px);
+    border: 1px solid var(--color);
+  
+    &::before{
+        content: '';
+        position: absolute;
+        top: 0px;
+        left: 0px;
+        z-index: -1;
+        width: 36px;
+        height: 100vh;
+        max-height: var(--max-height);
+        box-shadow: 0px 0px 10px var(--background-color);
+        border-radius: 24px;
+    }
+
+    &::after{
+        color: var(--color);
+        font-family: 'Material Symbols Outlined';
+        font-size: 2rem;
+        content: 'fingerprint';
+        vertical-align: middle;
+        text-align: center;
+        position: absolute;
+        left: 50%;
+        transform: translateX(-50%);
+        border-radius: 64px;
+        width: var(--dot-height);
+        height: var(--dot-height);
+        flex-shrink: 0;
+        background-color: var(--touchthumb-color);
+        display: flex;
+        align-items: end;
+        justify-content: center;
+    }
+}
+
+.animation{
+    opacity: 1;
+    transition: opacity 0.25s ease-in-out;
+    &::after{
+        animation: blink var(--animation-duration) ease-in-out infinite;
+    }
+}
+
+.display-off{
+    opacity: 0;
+    transition: opacity 0.25s ease-in-out;
+    display: none;
+}
+
+@keyframes blink {
+    0%{
+        opacity: 0;
+        top: 4%; 
+        height: var(--dot-height);
+    }
+
+    5%{
+        height: var(--dot-height);
+    }
+
+    25%{
+        opacity: 1;
+    }
+
+    40%{
+        height: calc(var(--dot-height) * 5);
+    }
+
+    75%{
+        opacity: 1;
+    }
+
+    95%{
+        height: var(--dot-height);
+    }
+
+    100%{
+
+        opacity: 0;
+        top: calc(98% - var(--dot-height)); 
+    }
+}

@@ -1,5 +1,5 @@
 import { Component, ElementRef, QueryList, ViewChildren, HostListener} from '@angular/core';
-import { MediaCategoryService } from '../media-category.service';
+import { MediaCategoryService } from '../../service/media-category.service';
 import { CommonModule } from '@angular/common';
 import { Category, canObjectScroll } from '../../../interface/interface';
 import { IconComponent } from '../../../share/icon/icon.component';

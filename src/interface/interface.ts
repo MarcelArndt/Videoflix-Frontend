@@ -9,6 +9,7 @@ export interface Category {
 }
 
 export interface CategoryItem {
+  id:number;
   name: string;
   url: string;
   placeholder:string,
@@ -18,6 +19,26 @@ export interface CategoryItem {
 
 export interface canObjectScroll
   { [category: string]: boolean }
+
+
+
+export interface watchedVideo {
+  id:number;
+  latestTime:Date;
+}
+
+
+export interface User{
+    id:string;
+    username:string;
+    profilPictureUrl:string;
+    watchedVideos:string[];
+    volume:number;
+}
+
+export interface SignUpUser{
+   username:string;
+}
 
 
 

@@ -17,6 +17,8 @@
     --glass: rgba(28, 28, 28, 0.75);
     --darken: rgba(28, 28, 28, 0.9);
     --max-resolution: 3440px;
+    --disabled: #2c2c36;
+    --disabled-hover: #4c4a51;
 }
 
 a{
@@ -78,6 +80,21 @@ button{
     icon{
         margin-left: 8px;
     }
+}
+
+.scrollbar::-webkit-scrollbar{
+    display: none;
+}
+
+button:disabled{
+    background-color: var(--disabled);
+    color: rgba(255, 255, 255, 0.5);
+
+    &:hover{
+        cursor: not-allowed;
+        background-color: var(--disabled-hover);
+        color: rgba(255, 255, 255, 0.7);
+    }   
 }
 
 ul{
@@ -211,6 +228,12 @@ input{
     &:hover, &:focus, &:active {
         border-color: var(--blue);
     }
+}
+
+.errorBox{
+    width: 100%;
+    color: var(--error);
+    text-align: center;
 }
 
 section{

@@ -1,11 +1,21 @@
 form{
     width: 100%;
     display: flex;
-    margin-top: 16px;
-    display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
+    max-height: 50vh;
+    overflow-y: hidden;
+    box-sizing: border-box;
+}
+
+.scrollbar{
+    box-sizing: border-box;
+    overflow-y: auto;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 input{
@@ -19,10 +29,10 @@ input{
 }
 
 button{
-    margin: 24px 0px;
+    margin: 16px 0px;
 }
 
-h1{
+h2{
     text-align: center;
 }
 
@@ -53,4 +63,11 @@ h1{
         border-color: var(--blue-hover);
         color: var(--blue-hover);
     }  
+}
+
+.invalid-border{
+    border-color: var(--error);
+    icon{ 
+        color: var(--error);
+    }
 }
