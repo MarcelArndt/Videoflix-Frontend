@@ -1,6 +1,6 @@
 import { Component, ViewChild ,ElementRef} from '@angular/core';
 import { MediaPreviewTextComponent } from '../media-preview-text/media-preview-text.component';
-import { MediaCategoryService } from '../../service/media-category.service';
+import { MediaCategoryService } from '../../../service/media-category.service';
 import { BehaviorSubject } from 'rxjs';
 import { CategoryItem } from '../../../interface/interface';
 import { CommonModule } from '@angular/common';

@@ -11,10 +11,14 @@ import { ForgotPasswordCheckMailComponent } from './forgot-password/forgot-passw
 import { ForgotPasswordResetComponent } from './forgot-password/forgot-password-reset/forgot-password-reset.component';
 import { ResetPasswordValidComponent } from './forgot-password/reset-password-valid/reset-password-valid.component';
 import { MediaCenterComponent } from './media-center/media-center.component';
+import { ImpressumComponent } from './impressum/impressum.component';
+import { DatenschutzComponent } from './datenschutz/datenschutz.component';
 
 export const routes: Routes = [
     { path: '', component: HomescreenComponent },
     { path: 'sign_in', component: SignInComponent },
+    { path: 'impressum', component: ImpressumComponent},
+    { path: 'data-protection', component:  DatenschutzComponent},
     { path: 'sign_up', component:  SignUpComponent, children: [
         { path: '', redirectTo: 'form', pathMatch: 'full' },
         { path: 'form', component: SignUpFormComponent },

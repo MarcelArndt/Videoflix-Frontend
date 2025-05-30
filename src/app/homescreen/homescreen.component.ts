@@ -1,15 +1,32 @@
 import { Component } from '@angular/core';
 import { IconComponent } from '../../share/icon/icon.component';
-import { RouterLink } from '@angular/router';
+import { Router} from '@angular/router';
 import { FooterNavigationComponent } from '../footer-navigation/footer-navigation.component';
+import { FormBuilder, FormGroup, Validators, ReactiveFormsModule} from '@angular/forms';
+import { ValidationHelperClass } from '../../service/ValidationHelperClass';
+import { CommonModule } from '@angular/common';
 
 
 @Component({
   selector: 'app-homescreen',
-  imports: [IconComponent, RouterLink, FooterNavigationComponent],
+  imports: [IconComponent, FooterNavigationComponent, CommonModule, ReactiveFormsModule],
   templateUrl: './homescreen.component.html',
   styleUrl: './homescreen.component.scss'
 })
 export class HomescreenComponent {
+
+  validation!: ValidationHelperClass;
+  emailForm!: FormGroup;
+  constructor( private form: FormBuilder, private router: Router){
+      this.emailForm = this.form.nonNullable.group({
+        email: ['', [Validators.required, Validators.pattern(/^[^@\s]+@[^@\s]+\.[^@\s]+$/)]],
+      });
+  
+      this.validation = new ValidationHelperClass(this.emailForm, {})
+    }
+
+    routerToSignUp(){
+      this.router.navigate(['./sign_up/form'], { queryParams: { email: this.emailForm.value.email } });
+    }
 
 }

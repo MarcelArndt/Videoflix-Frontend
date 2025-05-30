@@ -27,6 +27,19 @@ form{
     margin-top: 16px;
 }
 
+.invalid-border{
+    border-color: var(--error);
+    icon{ 
+        color: var(--error);
+    }
+}
+
+button{
+    display: flex;
+    flex-wrap: nowrap;
+    white-space: nowrap;
+}
+
 @media screen and (max-width:1180px) {
     form{
         width: 100%;

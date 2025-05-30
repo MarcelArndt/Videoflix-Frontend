@@ -45,7 +45,6 @@ checkError(): string | null {
 
   const formError = this.getFormError('passwordMismatch');
   if (formError) return formError.message;
-
   return null;
 }
 

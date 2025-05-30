@@ -5,20 +5,24 @@
     <div class="black-glass-background">
         <div class="flex">
         <h2>Log in</h2>
-         <form>
+         <form [formGroup]="signInForm">
+
+            <div class="errorBox">
+                <p *ngIf="validation.checkError() as error">{{ error }}</p>
+            </div>
 
             <div class="input-field">
                 <icon>mail</icon>
-                <input placeholder="Email Address">
+                <input formControlName="email" autocomplete="email" placeholder="Email Address">
             </div>
 
             <div class="input-field">
                 <icon>password</icon>
-                <input  [type]="fieldTypeIsPassword ? 'password' : 'text'" placeholder="Password">
+                <input autocomplete="current-password" formControlName="password" [type]="fieldTypeIsPassword ? 'password' : 'text'" placeholder="Password">
                 <icon (click)="changePasswordFieldType()" class="show-password-icon">{{fieldTypeIsPassword ? 'visibility' : 'visibility_off' }}</icon>
             </div>
 
-             <button routerLink="/media">Log in</button>
+             <button routerLink="/media" [disabled]="signInForm.invalid">Log in</button>
              <a routerLink="/forgot_pw">Forgot password?</a>
              <p>New to Videoflix? <a class="bold" routerLink="/sign_up">Sign Up now</a></p>
 

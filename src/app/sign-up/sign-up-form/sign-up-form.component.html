@@ -11,27 +11,25 @@
 
             <div class="input-field" [ngClass]="{'invalid-border': validation.getError('username')?.hasError}">
                 <icon>person</icon>
-               <input formControlName="username" type="text" placeholder="Username"/>
+               <input formControlName="username" autocomplete="username" type="text" placeholder="Username"/>
             </div>
 
             <div class="input-field" [ngClass]="{'invalid-border': validation.getError('email')?.hasError}">
                 <icon>mail</icon>
-                <input formControlName="email" type="email" placeholder="Email Address"/>
+                <input formControlName="email" autocomplete="email" type="email" placeholder="Email Address"/>
             </div>
 
             <div class="input-field" [ngClass]="{'invalid-border': validation.getError('password')?.hasError || validation.getFormError('passwordMismatch').hasError}">
                 <icon>password</icon>
-                <input formControlName="password" [type]="fieldTypeIsPassword ? 'password' : 'text'" placeholder="Enter a password">
+                <input formControlName="password" autocomplete="new-password" [type]="fieldTypeIsPassword ? 'password' : 'text'" placeholder="Enter a password">
                 <icon (click)="changePasswordFieldType()" class="show-password-icon">{{fieldTypeIsPassword ? 'visibility' : 'visibility_off' }}</icon>
             </div>
 
             <div class="input-field" [ngClass]="{'invalid-border': validation.getError('password')?.hasError || validation.getFormError('passwordMismatch').hasError} ">
                 <icon>password</icon>
-                <input formControlName="repeatedPassword" [type]="fieldTypeIsPassword ? 'password' : 'text'" placeholder="Confirm password">
+                <input formControlName="repeatedPassword" autocomplete="current-password" [type]="fieldTypeIsPassword ? 'password' : 'text'" placeholder="Confirm password">
                 <icon (click)="changePasswordFieldType()" class="show-password-icon">{{fieldTypeIsPassword ? 'visibility' : 'visibility_off' }}</icon>
             </div>
-
-
 
              <button [disabled]="signUpForm.invalid" routerLink="/sign_up/confirm">Get Started</button>
            </div>

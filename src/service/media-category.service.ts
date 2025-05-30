@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import { CategoryWrapper } from '../../interface/interface';
-import { CategoryItem } from '../../interface/interface';
+import { CategoryWrapper } from '../interface/interface';
+import { CategoryItem } from '../interface/interface';
 import { BehaviorSubject } from 'rxjs';
 
 @Injectable({

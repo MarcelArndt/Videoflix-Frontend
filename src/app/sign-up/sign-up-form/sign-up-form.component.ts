@@ -1,10 +1,10 @@
 import { Component,ViewChild,ElementRef, HostListener } from '@angular/core';
 import { IconComponent } from '../../../share/icon/icon.component';
-import { RouterLink } from '@angular/router';
+import { RouterLink, ActivatedRoute} from '@angular/router';
 import { enableIsScrollAbleAnimtion } from './scrollbar';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule} from '@angular/forms';
-import { CommonModule } from '@angular/common';
-import { ValidationHelperClass } from '../../service/ValidationHelperClass';
+import { CommonModule, Location} from '@angular/common';
+import { ValidationHelperClass } from '../../../service/ValidationHelperClass';
 import { passwordsMatchValidator } from '../../custom-validators/password-missmatch';
 
 @Component({
@@ -17,8 +17,10 @@ export class SignUpFormComponent {
 
   readonly MIN_PASSWORD_LENGTH = 8;
   validation!: ValidationHelperClass;
+  signUpForm!: FormGroup;
+  fieldTypeIsPassword:boolean = true
 
-  constructor( private form: FormBuilder){
+  constructor( private form: FormBuilder, private route: ActivatedRoute, private location: Location){
     this.signUpForm = this.form.nonNullable.group({
       username: ['', [Validators.required, Validators.pattern(/^[a-zA-Z0-9_-]+$/)]],
       email: ['', [Validators.required, Validators.pattern(/^[^@\s]+@[^@\s]+\.[^@\s]+$/)]],
@@ -33,8 +35,18 @@ export class SignUpFormComponent {
 
   @ViewChild('scrollbar')scrollbar!:ElementRef;
   @ViewChild('scrollAnimtion')scrollAnimtion!:ElementRef;
-  fieldTypeIsPassword:boolean = true
-  signUpForm!: FormGroup;
+  @HostListener('window:resize', ['$event'])
+  onWindowResize(event: Event) {
+    this.checkScrollbar()
+  }
+
+  checkForUrlParams(){
+    this.route.queryParams.subscribe(params => {
+      const email = params['email'] || '';
+      this.signUpForm.patchValue({ email });
+      this.location.replaceState('/sign_up');
+    });
+  }
 
   passwordsMatchValidator(form: FormGroup) {
     const password = form.get('password')?.value;
@@ -46,11 +58,6 @@ export class SignUpFormComponent {
     this.fieldTypeIsPassword = !this.fieldTypeIsPassword
   }
 
-  @HostListener('window:resize', ['$event'])
-  onWindowResize(event: Event) {
-    this.checkScrollbar()
-  }
-
   checkScrollbar(){
     const barHeight = this.scrollbar.nativeElement.offsetHeight;
     const refHeight= document.documentElement.clientHeight;
@@ -60,9 +67,11 @@ export class SignUpFormComponent {
     }
   }
 
-
   ngAfterViewInit(){
     this.checkScrollbar()
   }
 
+  ngOnInit(){
+    this.checkForUrlParams()
+  }
 }
