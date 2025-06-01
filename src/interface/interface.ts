@@ -10,9 +10,9 @@ export interface Category {
 
 export interface CategoryItem {
   id:number;
-  name: string;
+  title: string;
   url: string;
-  placeholder:string,
+  thumbnail:string,
   headline:string,
   discretion:string,
 }
@@ -38,6 +38,28 @@ export interface User{
 
 export interface SignUpUser{
    username:string;
+}
+
+export interface Login {
+  email:string,
+  password:string
+}
+
+export interface Registration {
+  email:string,
+  username:string,
+  password:string,
+  repeated_password:string
+}
+
+export interface Header {
+  Authorization:string
+}
+
+export interface Response {
+  ok:boolean,
+  status:number,
+  data:any
 }
 
 

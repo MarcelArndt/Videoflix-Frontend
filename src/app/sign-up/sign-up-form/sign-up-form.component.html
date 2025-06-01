@@ -7,6 +7,7 @@
             <div class="scrollbar" #scrollbar>
 <div class="errorBox">
     <p *ngIf="validation.checkError() as error">{{ error }}</p>
+    <p *ngIf="!validation.checkError() && loginFailed">Login failed! Wrong Username or Password.</p>
 </div>
 
             <div class="input-field" [ngClass]="{'invalid-border': validation.getError('username')?.hasError}">
@@ -31,6 +32,6 @@
                 <icon (click)="changePasswordFieldType()" class="show-password-icon">{{fieldTypeIsPassword ? 'visibility' : 'visibility_off' }}</icon>
             </div>
 
-             <button [disabled]="signUpForm.invalid" routerLink="/sign_up/confirm">Get Started</button>
+             <button [disabled]="signUpForm.invalid" (click)="sendSignUp($event)" routerLink="/sign_up/confirm">Get Started</button>
            </div>
          </form>

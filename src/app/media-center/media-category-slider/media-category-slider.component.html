@@ -6,8 +6,8 @@
         <h3>{{service.dataquarry[category].title}}</h3>  
         <div class="scrollbar-wrapper" #scrollWrapper (scroll)="onScroll($event, category)">
             <div class="scrollbar-content">
-                <div *ngFor="let item of arrayWithAllKeysOfItems(category); let i = index" class="box" (click)="service.switchCurrentChoice(category, i)" [attr.data-text]="service.dataquarry[category].content[i].name">
-                    <img [src]="service.dataquarry[category].content[i].placeholder">
+                <div *ngFor="let item of arrayWithAllKeysOfItems(category); let i = index" class="box" (click)="service.switchCurrentChoice(category, i)" [attr.data-text]="service.dataquarry[category].content[i].title">
+                    <img [src]="service.dataquarry[category].content[i].thumbnail">
                 </div>
             </div>
         </div>

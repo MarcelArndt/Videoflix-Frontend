@@ -1,11 +1,12 @@
 import { Component,ViewChild,ElementRef, HostListener } from '@angular/core';
 import { IconComponent } from '../../../share/icon/icon.component';
-import { RouterLink, ActivatedRoute} from '@angular/router';
+import { RouterLink, ActivatedRoute, Router} from '@angular/router';
 import { enableIsScrollAbleAnimtion } from './scrollbar';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule} from '@angular/forms';
 import { CommonModule, Location} from '@angular/common';
 import { ValidationHelperClass } from '../../../service/ValidationHelperClass';
 import { passwordsMatchValidator } from '../../custom-validators/password-missmatch';
+import { ApiService } from '../../../service/api.service';
 
 @Component({
   selector: 'app-sign-up-form',
@@ -19,8 +20,9 @@ export class SignUpFormComponent {
   validation!: ValidationHelperClass;
   signUpForm!: FormGroup;
   fieldTypeIsPassword:boolean = true
+  loginFailed:boolean = false
 
-  constructor( private form: FormBuilder, private route: ActivatedRoute, private location: Location){
+  constructor( private form: FormBuilder, private route: ActivatedRoute, private location: Location, private api:ApiService, public router: Router){
     this.signUpForm = this.form.nonNullable.group({
       username: ['', [Validators.required, Validators.pattern(/^[a-zA-Z0-9_-]+$/)]],
       email: ['', [Validators.required, Validators.pattern(/^[^@\s]+@[^@\s]+\.[^@\s]+$/)]],
@@ -74,4 +76,29 @@ export class SignUpFormComponent {
   ngOnInit(){
     this.checkForUrlParams()
   }
+
+  async sendSignUp(event:Event){
+      event.preventDefault()
+      const signUpForm = JSON.parse(JSON.stringify(this.signUpForm.value))
+      const requestData = { 
+        email : signUpForm.email,
+        username : signUpForm.username,
+        password : signUpForm.password,
+        repeated_password : signUpForm.repeatedPassword
+      }
+      const response = await this.api.regist(requestData);
+      console.log(response)
+      if(response.ok){
+        this.routerToMedia()
+      } else {
+        this.loginFailed = true
+      }
+    }
+
+    
+    routerToMedia(){
+      this.router.navigate(['/media']);
+    }
+
+
 }

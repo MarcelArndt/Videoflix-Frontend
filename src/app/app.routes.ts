@@ -13,7 +13,8 @@ import { ResetPasswordValidComponent } from './forgot-password/reset-password-va
 import { MediaCenterComponent } from './media-center/media-center.component';
 import { ImpressumComponent } from './impressum/impressum.component';
 import { DatenschutzComponent } from './datenschutz/datenschutz.component';
-
+import { VideoplayerComponent } from './videoplayer/videoplayer.component';
+ 
 export const routes: Routes = [
     { path: '', component: HomescreenComponent },
     { path: 'sign_in', component: SignInComponent },
@@ -33,4 +34,5 @@ export const routes: Routes = [
         { path: 'validated', component: ResetPasswordValidComponent }
     ] },
     {path: 'media', component: MediaCenterComponent },
+    {path: 'video', component: VideoplayerComponent },
 ];

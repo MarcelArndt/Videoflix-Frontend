@@ -9,6 +9,7 @@
 
             <div class="errorBox">
                 <p *ngIf="validation.checkError() as error">{{ error }}</p>
+                <p *ngIf="!validation.checkError() && loginFailed">Login Failed! Wrong Username or Password.</p>
             </div>
 
             <div class="input-field">
@@ -22,7 +23,7 @@
                 <icon (click)="changePasswordFieldType()" class="show-password-icon">{{fieldTypeIsPassword ? 'visibility' : 'visibility_off' }}</icon>
             </div>
 
-             <button routerLink="/media" [disabled]="signInForm.invalid">Log in</button>
+             <button (click)="sendSignIn($event)" [disabled]="signInForm.invalid">Log in</button>
              <a routerLink="/forgot_pw">Forgot password?</a>
              <p>New to Videoflix? <a class="bold" routerLink="/sign_up">Sign Up now</a></p>
 
