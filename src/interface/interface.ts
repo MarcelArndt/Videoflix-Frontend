@@ -62,6 +62,13 @@ export interface Response {
   data:any
 }
 
+export interface ResetPassWordForm {
+  userId:string,
+  token:string,
+  password:string,
+  repeated_password:string
+}
+
 
 
 

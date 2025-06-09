@@ -1,16 +1,17 @@
 import { Component,ViewChild,ElementRef, HostListener } from '@angular/core';
 import { IconComponent } from '../../../share/icon/icon.component';
-import { RouterLink, ActivatedRoute, Router} from '@angular/router';
+import { ActivatedRoute, Router} from '@angular/router';
 import { enableIsScrollAbleAnimtion } from './scrollbar';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule} from '@angular/forms';
 import { CommonModule, Location} from '@angular/common';
 import { ValidationHelperClass } from '../../../service/ValidationHelperClass';
 import { passwordsMatchValidator } from '../../custom-validators/password-missmatch';
 import { ApiService } from '../../../service/api.service';
+import { MIN_PASSWORD_LENGHT } from '../../../service/config';
 
 @Component({
   selector: 'app-sign-up-form',
-  imports: [IconComponent,  RouterLink, CommonModule, ReactiveFormsModule ],
+  imports: [IconComponent, CommonModule, ReactiveFormsModule ],
   templateUrl: './sign-up-form.component.html',
   styleUrls: ['./sign-up-form.component.scss', './show-scroolable.scss']
 })
@@ -26,13 +27,13 @@ export class SignUpFormComponent {
     this.signUpForm = this.form.nonNullable.group({
       username: ['', [Validators.required, Validators.pattern(/^[a-zA-Z0-9_-]+$/)]],
       email: ['', [Validators.required, Validators.pattern(/^[^@\s]+@[^@\s]+\.[^@\s]+$/)]],
-      password: ['', [Validators.required, Validators.minLength(this.MIN_PASSWORD_LENGTH)]],
+      password: ['', [Validators.required, Validators.minLength(MIN_PASSWORD_LENGHT)]],
       repeatedPassword: ['', [Validators.required]]
     }, {
       validators: passwordsMatchValidator 
     });
 
-    this.validation = new ValidationHelperClass(this.signUpForm, {'MIN_PASSWORD_LENGTH':this.MIN_PASSWORD_LENGTH})
+    this.validation = new ValidationHelperClass(this.signUpForm, {'MIN_PASSWORD_LENGTH':MIN_PASSWORD_LENGHT})
   }
 
   @ViewChild('scrollbar')scrollbar!:ElementRef;

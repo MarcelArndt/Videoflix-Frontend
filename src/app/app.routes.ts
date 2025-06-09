@@ -30,9 +30,10 @@ export const routes: Routes = [
         { path: '', redirectTo: 'form', pathMatch: 'full' },
         { path: 'form', component: ForgotPasswordFormComponent },
         { path: 'confirm', component: ForgotPasswordCheckMailComponent },
-        { path: 'reset', component: ForgotPasswordResetComponent },
+        { path: 'reset-password', component: ForgotPasswordResetComponent },
         { path: 'validated', component: ResetPasswordValidComponent }
     ] },
     {path: 'media', component: MediaCenterComponent },
     {path: 'video', component: VideoplayerComponent },
+    { path: '**', redirectTo: '' }
 ];

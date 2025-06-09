@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import { BASE_URL, LOGIN_URL, MAIN_SERVICE_URL, REGISTRATION_URL } from './config';
-import { Login, Header, Registration, Response } from '../interface/interface';
+import { BASE_URL, LOGIN_URL, MAIN_SERVICE_URL,REGISTRATION_URL, FIND_USER_RESET_PASSWORD, RESET_PASSWORD  } from './config';
+import { Login, Header, Registration, Response, ResetPassWordForm } from '../interface/interface';
 
 @Injectable({
   providedIn: 'root'
@@ -29,7 +29,6 @@ export class ApiService {
       console.warn('No URL found for Post-Request');
       return false
     }
-
     if (!headers) {
       console.warn('No Header found for Post-Request');
       return false
@@ -43,18 +42,26 @@ export class ApiService {
     return await this.postJSON(LOGIN_URL, loginData)
   }
 
+
   async regist(registData: Registration): Promise<Response> {
     if (!registData)throw new Error('No registration data');
     return await this.postJSON(REGISTRATION_URL, registData);
   }
 
+
+  async findUserByEmail(emailData = {email:""}){
+      return await this.postJSON(FIND_USER_RESET_PASSWORD, emailData);
+  }
+
+    async resetPassword(resetData: ResetPassWordForm){
+      if (!resetData)throw new Error('No User or Token in data');
+      return await this.postJSON(RESET_PASSWORD, resetData);
+  }
+
+  
   async postJSON(url: string, data: any): Promise<Response> {
     const headers:Record<string, string> = this.createHeaders();
-    let promise = {
-        'ok' : false,
-        'status' : 400,
-        'data' : null
-    }
+    let promise = {'ok' : false, 'status' : 400, 'data' : null}
     if (!this.checkForURLandHEADER(url, headers)) return promise 
     try{
       const response = await fetch(url, {
@@ -62,16 +69,8 @@ export class ApiService {
         headers: headers,
         body: JSON.stringify(data)
       });
-
-      if (!response.ok) {
-        throw new Error('Network response was not ok');
-      } 
-
-      return {
-        'ok' : response.ok,
-        'status' : response.status,
-        'data' : await response.json()
-      }
+      if (!response.ok) { throw new Error('Network response was not ok');} 
+      return {'ok' : response.ok, 'status' : response.status, 'data' : await response.json()}
     } catch(error){
     }
     return promise
