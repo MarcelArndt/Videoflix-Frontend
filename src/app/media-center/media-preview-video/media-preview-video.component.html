@@ -2,7 +2,7 @@
 
     <div class="video-wrapper">
 
-      <video #videoScreen
+      <video *ngIf="this.api.isUserLoggedIn" #videoScreen
         id="my-video"
         class="video-js"
         autoplay 

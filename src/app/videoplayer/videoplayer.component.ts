@@ -1,6 +1,7 @@
 import { Component, viewChild, ViewChild, ElementRef } from '@angular/core';
 import { MediaCategoryService } from '../../service/media-category.service';
 import { CategoryItem } from '../../interface/interface';
+import { ApiService } from '../../service/api.service';
 
 @Component({
   selector: 'app-videoplayer',
@@ -10,7 +11,7 @@ import { CategoryItem } from '../../interface/interface';
 })
 export class VideoplayerComponent {
   @ViewChild('videoScreen')videoPlayer!:ElementRef;
-  constructor(public service:MediaCategoryService){}
+  constructor(public service:MediaCategoryService, private api:ApiService){}
 
     ngAfterViewInit(){
         this.service.selectedChoice$.subscribe((item: CategoryItem) => {
@@ -28,5 +29,8 @@ export class VideoplayerComponent {
       }
     });
     }
+  ngOnInit(){
+    this.api.isUserLoggedIn()
+  }
 
 }

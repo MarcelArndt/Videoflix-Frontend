@@ -5,7 +5,7 @@ import { FooterNavigationComponent } from '../footer-navigation/footer-navigatio
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule} from '@angular/forms';
 import { ValidationHelperClass } from '../../service/ValidationHelperClass';
 import { CommonModule } from '@angular/common';
-
+import { ApiService } from '../../service/api.service';
 
 @Component({
   selector: 'app-homescreen',
@@ -17,7 +17,7 @@ export class HomescreenComponent {
 
   validation!: ValidationHelperClass;
   emailForm!: FormGroup;
-  constructor( private form: FormBuilder, private router: Router){
+  constructor( private form: FormBuilder, private router: Router, private api:ApiService){
       this.emailForm = this.form.nonNullable.group({
         email: ['', [Validators.required, Validators.pattern(/^[^@\s]+@[^@\s]+\.[^@\s]+$/)]],
       });
@@ -27,6 +27,10 @@ export class HomescreenComponent {
 
     routerToSignUp(){
       this.router.navigate(['./sign_up/form'], { queryParams: { email: this.emailForm.value.email } });
+    }
+
+    ngOnInit(){
+      this.api.isUserAlreadyLoggedIn()
     }
 
 }

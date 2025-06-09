@@ -41,7 +41,6 @@ export class SignInComponent {
       'password' : JSON.parse(JSON.stringify(this.signInForm.value.password)) as string,
     };
   const response = await this.api.login(loginForm);
-      console.log(response)
       if(response.ok){
         this.routerToMedia()
       } else {
@@ -51,6 +50,10 @@ export class SignInComponent {
 
   routerToMedia(){
     this.router.navigate(['/media']);
+  }
+
+  ngOnInit(){
+    this.api.isUserAlreadyLoggedIn()
   }
 
 }

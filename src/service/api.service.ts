@@ -1,13 +1,17 @@
 import { Injectable } from '@angular/core';
 import { BASE_URL, LOGIN_URL, MAIN_SERVICE_URL,REGISTRATION_URL, FIND_USER_RESET_PASSWORD, RESET_PASSWORD  } from './config';
-import { Login, Header, Registration, Response, ResetPassWordForm } from '../interface/interface';
+import { Login, Header, Registration, Response, ResetPassWordForm, AuthData } from '../interface/interface';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ApiService {
 
-  constructor() { }
+  constructor(private router:Router) { }
+
+
+  userIsLogIn:boolean = false;
 
   createHeaders():Record<string, string> {
       const headers:Record<string, string>= {};
@@ -37,25 +41,63 @@ export class ApiService {
   }
   
 
-  async login(loginData:Login): Promise<Response>{
-    if (!loginData) throw new Error('No Login-Data set for Sign-In.');
-    return await this.postJSON(LOGIN_URL, loginData)
+  setAuthData(response:Response){
+    if (!response.ok && response.status != 200) return
+    localStorage.removeItem('currentUser');
+    localStorage.setItem('currentUser',JSON.stringify(response.data));
   }
 
+  provideAuthData() {
+    const response = localStorage.getItem('currentUser');
+    if (!response) return null;
+    return JSON.parse(response)
+  }
+
+  isUserLoggedIn():boolean{
+     const authData = this.provideAuthData()
+    if (!authData){
+      this.router.navigate([''])
+      this.userIsLogIn = false
+      return false
+    }
+    if(authData && !authData.email_is_confirmed){
+      localStorage.removeItem('currentUser');
+      this.router.navigate(['sign_up/confirm'])
+      this.userIsLogIn = false
+      return false
+    }
+    this.userIsLogIn = true
+    return true
+  }
+
+  isUserAlreadyLoggedIn(){
+    const authData = this.provideAuthData()
+    if (authData){
+      this.router.navigate(['/media'])
+    }
+  }
+
+
+
+  async login(loginData:Login): Promise<Response>{
+    if (!loginData) throw new Error('No Login-Data set for Sign-In.');
+    const response = await this.postJSON(LOGIN_URL, loginData)
+    if (response.ok) this.setAuthData(response)
+    return response
+  }
 
   async regist(registData: Registration): Promise<Response> {
     if (!registData)throw new Error('No registration data');
     return await this.postJSON(REGISTRATION_URL, registData);
   }
 
-
   async findUserByEmail(emailData = {email:""}){
       return await this.postJSON(FIND_USER_RESET_PASSWORD, emailData);
   }
 
-    async resetPassword(resetData: ResetPassWordForm){
-      if (!resetData)throw new Error('No User or Token in data');
-      return await this.postJSON(RESET_PASSWORD, resetData);
+  async resetPassword(resetData: ResetPassWordForm){
+    if (!resetData)throw new Error('No User or Token in data');
+    return await this.postJSON(RESET_PASSWORD, resetData);
   }
 
   

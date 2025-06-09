@@ -98,7 +98,7 @@ export class SignUpFormComponent {
 
     
     routerToMedia(){
-      this.router.navigate(['/media']);
+      this.router.navigate(['sign_up/confirm']);
     }
 
 

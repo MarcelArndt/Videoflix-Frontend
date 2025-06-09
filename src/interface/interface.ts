@@ -69,6 +69,16 @@ export interface ResetPassWordForm {
   repeated_password:string
 }
 
+export interface AuthData 
+  {
+    username: string
+    email: string
+    token: string
+    user_id: number
+    email_is_confirmed: boolean
+}
+
+
 
 
 
