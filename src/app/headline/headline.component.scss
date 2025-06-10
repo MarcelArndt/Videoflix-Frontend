@@ -12,6 +12,21 @@
     box-sizing: border-box;
 }
 
+icon{
+    margin-right: 12px;
+    font-size: 1.25rem;
+    margin-left: 0px;
+    margin-top: -1px;
+}
+
+.button-container{
+    align-items: center;
+}
+
+button{
+    padding-bottom: 10px;
+}
+
 .logo{
     width: 33%;
     max-width: 200px;

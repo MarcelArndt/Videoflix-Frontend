@@ -1,5 +1,5 @@
 import { Component, HostListener} from '@angular/core';
-import { RouterLink, Router, NavigationEnd} from '@angular/router';
+import { RouterLink, Router, NavigationStart} from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { filter } from 'rxjs/operators';
 import { IconComponent } from '../../share/icon/icon.component';
@@ -22,9 +22,11 @@ export class HeadlineComponent {
 
   @HostListener('window:resize', [])
   onResize() {
-    this.sourceOfLogo = this.checkUlrForLogo()
     if (window.innerWidth <= 650){
-      this.sourceOfLogo = './assets/logo-small.svg'
+       this.sourceOfLogo = './assets/logo-small.svg'
+    }
+    else {
+        this.sourceOfLogo = './assets/logo.svg'
     }
   }
 
@@ -32,29 +34,9 @@ export class HeadlineComponent {
     localStorage.removeItem('currentUser');
     this.api.isUserLoggedIn()
     this.router.navigate([''])
-
-  }
-
-
-  checkUlrForLogo(){
-    this.router.events
-    .pipe(filter(event => event instanceof NavigationEnd))
-    .subscribe((event: NavigationEnd) => {
-      console.log(this.sourceOfLogoDefault)
-        this.sourceOfLogoDefault = event.urlAfterRedirects == '/media' ? './assets/logo-small.svg' : './assets/logo.svg';
-      });
-      return this.sourceOfLogoDefault
   }
   
-  initLogoPath(url:string){
-    console.log(url)
-    this.sourceOfLogoDefault = url == '' ? './assets/logo.svg' : './assets/logo-small.svg';
-  }
-
   ngOnInit(){
-    this.initLogoPath(this.router.url)
-    this.checkUlrForLogo()
-    this.api.isUserLoggedIn()
     this.onResize()
   }
 }

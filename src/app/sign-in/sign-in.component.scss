@@ -60,6 +60,14 @@ button{
 }
 
 
+.scrollbar{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    overflow-y: auto;
+    max-height: 60vh;
+}
+
 .bold{
     font-weight: 600;
     margin-left: 8px;

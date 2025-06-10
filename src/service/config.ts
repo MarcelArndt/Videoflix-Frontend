@@ -6,3 +6,4 @@ export const LOGIN_URL = BASE_URL + 'login/';
 export const MAIN_SERVICE_URL = BASE_URL + "media/";
 export const FIND_USER_RESET_PASSWORD = BASE_URL + 'find-user/'
 export const RESET_PASSWORD = BASE_URL + 'password_reset/'
+export const RESEND_EMAIL = BASE_URL + 'resend-email/'

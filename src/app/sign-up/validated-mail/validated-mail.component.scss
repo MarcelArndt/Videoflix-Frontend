@@ -16,6 +16,13 @@ p{
 
 }
 
+.scrollbar{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    overflow-y: auto;
+    max-height: 60vh;
+}
 
 icon{
     display: flex;

@@ -1,9 +1,13 @@
 
 
+
+
 <section class="screen-wrapper sign-in">
 
     <div class="black-glass-background">
+        <div #scrollAnimtion animation-duration="1.5s" class="show-is-scrollable"></div>
         <div class="flex">
+        <div class="scrollbar" #scrollbar>
         <h2>Log in</h2>
          <form [formGroup]="signInForm">
 
@@ -29,6 +33,7 @@
 
          </form>
         </div>
+    </div>
     </div>
 
     <div class="curtain darken"></div>

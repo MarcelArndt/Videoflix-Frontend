@@ -1,5 +1,5 @@
 <section class="head-wrapper">
-    <div class="logo"><img [src]="sourceOfLogo" routerLink="/" alt="logo"></div>
+    <div class="logo"><img [src]="this.sourceOfLogo" routerLink="/" alt="logo"></div>
     <div *ngIf="!this.api.userIsLogIn" class="button-container"><button routerLink="/sign_in">Log-In</button></div>
     <div *ngIf="this.api.userIsLogIn" class="button-container"><button (click)="logUserOut()"><icon>logout</icon>Log Out</button></div>
 </section>

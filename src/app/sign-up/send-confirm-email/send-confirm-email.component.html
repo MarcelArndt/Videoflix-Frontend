@@ -1,6 +1,10 @@
-<div class="text-wrapper">
 
-    <icon>forward_to_inbox</icon>
+<div #scrollAnimtion animation-duration="1.5s" class="show-is-scrollable"></div>
+<div class="text-wrapper">
+    <div class="scrollbar" #scrollbar>
+    <div class="head-icon">
+        <icon>forward_to_inbox</icon>
+    </div>
 
     <h2> One More Step</h2>
     
@@ -11,7 +15,8 @@
     <p>One step before you can start to watch your film. Confirm your registration by using the email we sent to you.</p>
 
     <p>... A endless collection of movies are waiting for you.</p>
+    <div class="button-flow-box"> <button routerLink="">Back to Start</button> <button (click)="sendEmailAgain()" class="outline"><icon>forward_to_inbox</icon>Send Email again</button> </div>
 
-    <button routerLink="">Back to Start</button>
-
+   
+    </div>
 </div>

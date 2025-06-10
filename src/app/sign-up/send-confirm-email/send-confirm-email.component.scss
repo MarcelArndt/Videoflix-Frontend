@@ -6,6 +6,7 @@
     align-items: center;
     max-width: 575px;
     color: var(--reduce-white);
+    font-size: 1.25rem;
 }
 
 h1{
@@ -17,7 +18,7 @@ p{
 }
 
 
-icon{
+.head-icon{
     display: flex;
     align-items: center;
     justify-content: center;
@@ -37,5 +38,50 @@ span{
 }
 
 button{
-    margin: 16px 0px;
+
+    margin: 16px 8px;
+}
+
+
+.outline{
+    border: 3px solid var(--blue);
+    color: var(--reduce-white);
+    background-color: transparent;
+
+    &:hover{
+      border-color: var(--blue-hover);  
+      color: var(--white);
+    }
+
+    icon{
+        font-size: 1.5rem;
+        margin-right: 12px;
+        margin-left: 0px;
+    }
+}
+
+.button-flow-box{
+    display: flex;
+    justify-content: center;
+
+}
+
+.scrollbar{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    overflow-y: auto;
+    max-height: 60vh;
+}
+
+@media screen and (max-width:1056px) {
+        .button-flow-box{
+            flex-direction: column-reverse;
+            align-items: center;
+        }
+
+        .outline{
+            padding: 10px 24px;
+        }
+    
 }

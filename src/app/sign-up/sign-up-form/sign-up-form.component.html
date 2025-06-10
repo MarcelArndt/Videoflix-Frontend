@@ -7,7 +7,7 @@
             <div class="scrollbar" #scrollbar>
 <div class="errorBox">
     <p *ngIf="validation.checkError() as error">{{ error }}</p>
-    <p *ngIf="!validation.checkError() && loginFailed">Login failed! Wrong Username or Password.</p>
+    <p *ngIf="!validation.checkError() && registFailed">Ops... Username is already in use</p>
 </div>
 
             <div class="input-field" [ngClass]="{'invalid-border': validation.getError('username')?.hasError}">

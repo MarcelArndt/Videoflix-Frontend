@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import { BASE_URL, LOGIN_URL, MAIN_SERVICE_URL,REGISTRATION_URL, FIND_USER_RESET_PASSWORD, RESET_PASSWORD  } from './config';
-import { Login, Header, Registration, Response, ResetPassWordForm, AuthData } from '../interface/interface';
+import { BASE_URL, LOGIN_URL, MAIN_SERVICE_URL,REGISTRATION_URL, FIND_USER_RESET_PASSWORD, RESET_PASSWORD, RESEND_EMAIL  } from './config';
+import { Login, Header, Registration, Response, ResetPassWordForm, AuthData, SendEmail} from '../interface/interface';
 import { Router } from '@angular/router';
 
 @Injectable({
@@ -61,8 +61,9 @@ export class ApiService {
       return false
     }
     if(authData && !authData.email_is_confirmed){
+      const userdata = this.provideAuthData()
       localStorage.removeItem('currentUser');
-      this.router.navigate(['sign_up/confirm'])
+      this.router.navigate(['sign_up/confirm'], { queryParams: { userId: userdata.user_id}})
       this.userIsLogIn = false
       return false
     }
@@ -98,6 +99,11 @@ export class ApiService {
   async resetPassword(resetData: ResetPassWordForm){
     if (!resetData)throw new Error('No User or Token in data');
     return await this.postJSON(RESET_PASSWORD, resetData);
+  }
+
+  async resendEmail(emailData: SendEmail){
+    if (!emailData)throw new Error('No User or Token in data');
+    return await this.postJSON(RESEND_EMAIL, emailData);
   }
 
   

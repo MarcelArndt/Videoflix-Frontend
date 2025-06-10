@@ -21,7 +21,7 @@ export class SignUpFormComponent {
   validation!: ValidationHelperClass;
   signUpForm!: FormGroup;
   fieldTypeIsPassword:boolean = true
-  loginFailed:boolean = false
+  registFailed:boolean = false
 
   constructor( private form: FormBuilder, private route: ActivatedRoute, private location: Location, private api:ApiService, public router: Router){
     this.signUpForm = this.form.nonNullable.group({
@@ -65,7 +65,6 @@ export class SignUpFormComponent {
     const barHeight = this.scrollbar.nativeElement.offsetHeight;
     const refHeight= document.documentElement.clientHeight;
     if (refHeight / 2 < barHeight){
-      console.log('scroll')
       enableIsScrollAbleAnimtion(this.scrollAnimtion)
     }
   }
@@ -88,17 +87,16 @@ export class SignUpFormComponent {
         repeated_password : signUpForm.repeatedPassword
       }
       const response = await this.api.regist(requestData);
-      console.log(response)
       if(response.ok){
-        this.routerToMedia()
+        this.routerToMedia(response.data.token, response.data.user_id)
       } else {
-        this.loginFailed = true
+        this.registFailed = true
       }
     }
 
     
-    routerToMedia(){
-      this.router.navigate(['sign_up/confirm']);
+    routerToMedia(token:string, UserId:string){
+      this.router.navigate(['sign_up/confirm'], { queryParams: { userId: UserId}});
     }
 
 
