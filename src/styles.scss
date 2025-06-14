@@ -232,6 +232,47 @@ input{
     }
 }
 
+
+
+textarea{
+    font-family: 'dm-sans';
+    font-weight: 400;
+    color: var(--white);
+    background-color: var(--glass);
+    border: 1px solid var(--white);
+    outline: none;
+    box-sizing: border-box;
+    height: 224px;
+    min-width: 65%;
+    border-radius: 32px;
+    margin: 16px 16px;
+    padding: 0px 48px 0px 16px;
+    font-size: 1.125rem;
+    color: var(--white);
+    font-weight: 400;
+    resize: none;
+    &::placeholder{
+        color: var(--white);
+        font-size: 1.125rem;
+        font-weight: 400;
+    }
+
+    &:autofill{
+        background-color: var(--glass);
+    }
+
+    &:hover, &:focus, &:active {
+        border-color: var(--blue);
+    }  
+}
+
+
+textarea::-webkit-scrollbar{
+    display: none;
+}
+
+
+
 .errorBox{
     width: 100%;
     color: var(--error);

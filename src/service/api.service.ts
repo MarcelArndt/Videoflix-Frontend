@@ -1,14 +1,17 @@
 import { Injectable } from '@angular/core';
-import { BASE_URL, LOGIN_URL, MAIN_SERVICE_URL,REGISTRATION_URL, FIND_USER_RESET_PASSWORD, RESET_PASSWORD, RESEND_EMAIL  } from './config';
+import { BASE_URL, LOGIN_URL, MAIN_SERVICE_URL,REGISTRATION_URL, FIND_USER_RESET_PASSWORD, RESET_PASSWORD, RESEND_EMAIL, UPLOAD_VIDEO  } from './config';
 import { Login, Header, Registration, Response, ResetPassWordForm, AuthData, SendEmail} from '../interface/interface';
 import { Router } from '@angular/router';
+import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs';
+
 
 @Injectable({
   providedIn: 'root'
 })
 export class ApiService {
 
-  constructor(private router:Router) { }
+  constructor(private router:Router, private http:HttpClient) { }
 
 
   userIsLogIn:boolean = false;
@@ -124,6 +127,18 @@ export class ApiService {
     return promise
 }
 
+postVideo(videoObj: any): Observable<any> {
+    const formData = new FormData();
+    formData.append('headline', videoObj.title);
+    formData.append('description', videoObj.description);
+    formData.append('genre', videoObj.genre.toLowerCase());
+    formData.append('original_file', videoObj.original_file);
+
+      for (const [key, value] of formData.entries()) {
+      console.log(`${key}:`, value);
+    }
 
 
+    return this.http.post(UPLOAD_VIDEO, formData);
+  }
 }

@@ -69,12 +69,16 @@ export class SignInComponent {
   }
 
  checkScrollbar(){
-  console.log('start')
       const barHeight = this.scrollbar.nativeElement.offsetHeight;
       const refHeight= document.documentElement.clientHeight;
       if (refHeight / 2 < barHeight){
         enableIsScrollAbleAnimtion(this.scrollAnimtion)
     }
+  }
+
+  resetLoginFailed(){
+    if (!this.loginFailed) return
+     this.loginFailed = false
   }
 
 }

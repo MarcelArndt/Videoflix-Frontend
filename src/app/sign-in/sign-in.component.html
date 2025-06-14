@@ -18,12 +18,12 @@
 
             <div class="input-field">
                 <icon>mail</icon>
-                <input formControlName="email" autocomplete="email" placeholder="Email Address">
+                <input formControlName="email" autocomplete="email" placeholder="Email Address" (keydown)="resetLoginFailed()">
             </div>
 
             <div class="input-field">
                 <icon>password</icon>
-                <input autocomplete="current-password" formControlName="password" [type]="fieldTypeIsPassword ? 'password' : 'text'" placeholder="Password">
+                <input autocomplete="current-password" formControlName="password" [type]="fieldTypeIsPassword ? 'password' : 'text'" placeholder="Password" (keydown)="resetLoginFailed()">
                 <icon (click)="changePasswordFieldType()" class="show-password-icon">{{fieldTypeIsPassword ? 'visibility' : 'visibility_off' }}</icon>
             </div>
 

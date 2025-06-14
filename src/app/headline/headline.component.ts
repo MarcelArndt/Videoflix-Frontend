@@ -4,6 +4,9 @@ import { CommonModule } from '@angular/common';
 import { filter } from 'rxjs/operators';
 import { IconComponent } from '../../share/icon/icon.component';
 import { ApiService } from '../../service/api.service';
+import { PopupServiceService } from '../../share/popup-window/popup-service.service';
+import { AddVideoFormComponent } from '../add-video-form/add-video-form.component';
+
 
 @Component({
   selector: 'app-headline',
@@ -17,7 +20,7 @@ export class HeadlineComponent {
     sourceOfLogoDefault = ''
     
 
-  constructor(private router:Router, public api:ApiService){}
+  constructor(private router:Router, public api:ApiService, private popUpService: PopupServiceService){}
 
 
   @HostListener('window:resize', [])
@@ -32,11 +35,15 @@ export class HeadlineComponent {
 
   logUserOut(){
     localStorage.removeItem('currentUser');
-    this.api.isUserLoggedIn()
-    this.router.navigate([''])
+    this.api.isUserLoggedIn();
+    this.router.navigate(['']);
   }
   
   ngOnInit(){
-    this.onResize()
+    this.onResize();
+  }
+
+  openPopUpWindow(){
+    this.popUpService.openPopUp(AddVideoFormComponent);
   }
 }

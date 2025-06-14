@@ -1,0 +1,41 @@
+<div class="form-wrapper" (click)="closeSelectInput()">
+<div class="scrollbar" #scrollbar>
+    <div #scrollAnimtion animation-duration="1.5s" class="show-is-scrollable"></div>
+    <h1>
+        Add Video
+    </h1>
+    <p>Use this simple form to upload a new Video to Videoflix.</p>
+    <div class="flex">
+
+            <form [formGroup]="uploadForm">
+
+                <div class="errorBox">
+                    <p *ngIf="!uploadForm.get('file')?.errors?.['maxFileSize'] && validation.checkError() as error">{{ error }}</p>
+                    <p *ngIf="uploadForm.get('file')?.errors?.['genre'] && !validation.checkError() as error">Upload is too big. Max. allowed size is {{ maxSizeMB }} MB.</p>
+                    <p *ngIf="uploadForm.get('file')?.errors?.['maxFileSize']"> Upload is too big. Max. allowed size is {{ maxSizeMB }} MB.</p>
+                </div>
+
+                    <div class="fileupload-input">
+                        <div class="fileUpload-button">
+                            <label for="fileUpload"><icon>add</icon>Add Video</label>
+                        </div>
+                        <p>{{uploadTitle}}</p>
+                        <input #fileupload type="file" (change)="onFileSelected($event)" id="fileUpload" accept="video/*">
+                    </div>
+
+                    <app-select-genre></app-select-genre>
+                
+                    <div class="input-field" [ngClass]="{'invalid-border': validation.getError('title')?.hasError}">
+                        <input formControlName="title" type="text" placeholder="Title">
+                    </div>
+
+                    <div class="input-field" [ngClass]="{'invalid-border': validation.getError('description')?.hasError}">
+                        <textarea formControlName="description" placeholder="Description"></textarea>
+                    </div>
+
+                    <button [disabled]="uploadForm.invalid" (click)="postVideo($event)">Upload Video</button>
+
+            </form>
+        </div>
+    </div>
+</div>

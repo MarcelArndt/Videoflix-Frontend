@@ -28,12 +28,15 @@ export class ValidationHelperClass {
       case 'email': return 'E-Mail';
       case 'password': return 'Password';
       case 'repeatedPassword': return 'Confirm Password';
+      case 'title': return 'Title';
+      case 'description': return 'Description';
+      case 'genre': return 'Genre';
       default: return field;
     }
   }
 
 
-checkError(): string | null {
+checkError(maxUploadSize:number=0): string | null {
   const controls = this.form.controls;
 
   for (const fieldName in controls) {
@@ -45,6 +48,7 @@ checkError(): string | null {
 
   const formError = this.getFormError('passwordMismatch');
   if (formError) return formError.message;
+
   return null;
 }
 
@@ -73,6 +77,7 @@ checkError(): string | null {
     if (errorKey === 'passwordMismatch' && errors['passwordMismatch']) {
       return {message:"Passwords do not match.", hasError:true};
     }
+    
     return {message:"", hasError:false};
   }
 

@@ -10,6 +10,7 @@
     align-items: center;
     padding: 0px 64px;
     box-sizing: border-box;
+    transition: padding 0.5s ease-in-out;
 }
 
 icon{
@@ -25,6 +26,13 @@ icon{
 
 button{
     padding-bottom: 10px;
+}
+
+.head-button-wrapper{
+    display: flex;
+    flex-wrap: nowrap;
+    gap: 48px;
+    transition: gap 0.5s ease-in-out;
 }
 
 .logo{
@@ -55,13 +63,40 @@ button{
     }
 }
 
+@media only screen and (max-width: 850px) {
+    button{
+
+        padding: 12px 14px;
+
+
+        span{
+            display: none;
+        }
+
+        icon{
+            font-size: 1.5rem;
+            margin-right: 0px;
+        }
+    
+    }
+
+    .head-button-wrapper{
+        gap: 16px;
+        transition: gap 0.5s ease-in-out;
+    }
+    
+}
+
+
 @media only screen and (max-width: 650px) {
     .head-wrapper{
     padding: 0px 24px;
+    transition: padding 0.5s ease-in-out;
     }
 
     .logo{
         width: 32px;
+
     }
     
 }

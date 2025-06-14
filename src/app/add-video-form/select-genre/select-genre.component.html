@@ -1,0 +1,14 @@
+
+<div class="select-field" (click)="preventChoiceklick($event)">
+    <div class="select-field" (click)="service.toggleMenu()">
+        <p>{{service.displayChoice}}</p> <icon [ngClass]="{'rotateArrowUpwards' : service.isMenuOpen && !service.isFirstTime, 'rotateArrowDownwards' : !service.isMenuOpen && !service.isFirstTime}">keyboard_arrow_down</icon>
+    </div>
+    <div class="choice-field" [ngClass]="{'openHeight' : service.isMenuOpen && !service.isFirstTime}">
+        <ul (click)="preventChoiceklick($event)" >
+            @for(choice of service.choices; track choice){
+                <li (click)="service.selectChoice(choice)">{{choice}}</li>
+            }
+        </ul>
+    </div>
+</div>
+

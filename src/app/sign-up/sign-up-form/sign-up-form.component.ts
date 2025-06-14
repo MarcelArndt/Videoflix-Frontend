@@ -62,9 +62,17 @@ export class SignUpFormComponent {
   }
 
   checkScrollbar(){
-    const barHeight = this.scrollbar.nativeElement.offsetHeight;
-    const refHeight= document.documentElement.clientHeight;
-    if (refHeight / 2 < barHeight){
+    const element = this.scrollbar.nativeElement;
+    const parentElement = this.scrollbar.nativeElement.parentElement
+    let parentElementHeight = 0
+    let elementInnerHeight = 0
+    if (parentElement && element) {
+      parentElementHeight = parentElement.getBoundingClientRect().height;
+      elementInnerHeight = element.getBoundingClientRect().height;
+    }
+    const elementouterHight = this.scrollbar.nativeElement.clientHeight;
+    const refHeight = document.documentElement.clientHeight;
+    if (refHeight / 2 < elementouterHight || parentElementHeight < elementInnerHeight){
       enableIsScrollAbleAnimtion(this.scrollAnimtion)
     }
   }
