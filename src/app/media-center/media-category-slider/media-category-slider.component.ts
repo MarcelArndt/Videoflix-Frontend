@@ -24,12 +24,13 @@ canScrollRight:canObjectScroll = {};
     this.checkAllScrollPositions();
   }
 
-  ngOnInit(){
+  async ngOnInit(){
+  await this.service.pullAllData();
   this.allCategoryKey = Object.keys(this.service.dataquarry);
   }
 
   ngAfterViewInit() {
-    setTimeout(() => {this.checkAllScrollPositions()});
+    setTimeout(() => {this.checkAllScrollPositions()}, 500);
   }
 
   arrayWithAllKeysOfItems(category: string): string[] {
@@ -62,5 +63,4 @@ canScrollRight:canObjectScroll = {};
       setTimeout(() => this.updateScrollButtons(element, category), 300);
     }
   }
-
 }

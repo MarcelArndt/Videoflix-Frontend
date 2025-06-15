@@ -10,11 +10,10 @@ export interface Category {
 
 export interface CategoryItem {
   id:number;
-  title: string;
   url: string;
   thumbnail:string,
   headline:string,
-  discretion:string,
+  description:string,
 }
 
 export interface canObjectScroll

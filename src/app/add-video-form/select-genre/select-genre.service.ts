@@ -37,5 +37,11 @@ export class SelectGenreService {
     this.closeMenu()
   }
 
+  resetChoice(){
+    this.currentChoice.next('');
+    this.displayChoice = 'select Genre';
+    this.closeMenu();
+  }
+
 
 }

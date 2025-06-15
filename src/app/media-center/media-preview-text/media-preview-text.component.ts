@@ -10,5 +10,5 @@ import { RouterLink } from '@angular/router';
 })
 export class MediaPreviewTextComponent {
   @Input() headline:string = '';
-  @Input() discretion:string = '';
+  @Input() description:string = '';
 }

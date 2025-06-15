@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { BASE_URL, LOGIN_URL, MAIN_SERVICE_URL,REGISTRATION_URL, FIND_USER_RESET_PASSWORD, RESET_PASSWORD, RESEND_EMAIL, UPLOAD_VIDEO  } from './config';
 import { Login, Header, Registration, Response, ResetPassWordForm, AuthData, SendEmail} from '../interface/interface';
 import { Router } from '@angular/router';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpRequest } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
 
@@ -12,7 +12,6 @@ import { Observable } from 'rxjs';
 export class ApiService {
 
   constructor(private router:Router, private http:HttpClient) { }
-
 
   userIsLogIn:boolean = false;
 
@@ -81,8 +80,6 @@ export class ApiService {
     }
   }
 
-
-
   async login(loginData:Login): Promise<Response>{
     if (!loginData) throw new Error('No Login-Data set for Sign-In.');
     const response = await this.postJSON(LOGIN_URL, loginData)
@@ -121,24 +118,36 @@ export class ApiService {
         body: JSON.stringify(data)
       });
       if (!response.ok) { throw new Error('Network response was not ok');} 
-      return {'ok' : response.ok, 'status' : response.status, 'data' : await response.json()}
+      return {'ok': response.ok, 'status': response.status, 'data': await response.json()}
     } catch(error){
     }
     return promise
 }
 
-postVideo(videoObj: any): Observable<any> {
-    const formData = new FormData();
-    formData.append('headline', videoObj.title);
-    formData.append('description', videoObj.description);
-    formData.append('genre', videoObj.genre.toLowerCase());
-    formData.append('original_file', videoObj.original_file);
-
-      for (const [key, value] of formData.entries()) {
-      console.log(`${key}:`, value);
+async GetJSON(url:string): Promise<Response>{
+  const headers:Record<string, string> = this.createHeaders();
+  let promise = {'ok' : false, 'status' : 400, 'data' : null}
+  if (!this.checkForURLandHEADER(url, headers)) return promise
+  try{
+      const response = await fetch(url, {
+        method: 'GET',
+        headers: headers,
+      });
+      if (!response.ok) { throw new Error('Network response was not ok');} 
+      return {'ok': response.ok, 'status': response.status, 'data': await response.json()}
+    } catch(error){
     }
+  return promise
+}
 
-
-    return this.http.post(UPLOAD_VIDEO, formData);
-  }
+  postVideo(videoObj: any): Observable<any> {
+      const formData = new FormData();
+      console.log(videoObj)
+      formData.append('headline', videoObj.title);
+      formData.append('description', videoObj.description);
+      formData.append('genre', videoObj.genre.toLowerCase());
+      formData.append('url', videoObj.original_file);
+      const response = new HttpRequest('POST', UPLOAD_VIDEO, formData, { reportProgress: true});
+      return this.http.request(response);
+    }
 }

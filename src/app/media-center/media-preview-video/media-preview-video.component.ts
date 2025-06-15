@@ -17,7 +17,7 @@ export class MediaPreviewVideoComponent {
   @ViewChild('videoScreen') videoPlayer!:ElementRef;
 
   headline:string='';
-  discretion:string='';
+  description:string='';
 
 
   ngAfterViewInit(){

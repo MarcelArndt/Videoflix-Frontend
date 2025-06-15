@@ -3,6 +3,7 @@ import { MediaPreviewVideoComponent } from './media-preview-video/media-preview-
 import { MediaCategorySliderComponent } from './media-category-slider/media-category-slider.component';
 import { ApiService } from '../../service/api.service';
 import { PopupWindowComponent } from '../../share/popup-window/popup-window.component';
+import { MediaCategoryService } from '../../service/media-category.service';
 
 @Component({
   selector: 'app-media-center',
@@ -11,10 +12,10 @@ import { PopupWindowComponent } from '../../share/popup-window/popup-window.comp
   styleUrl: './media-center.component.scss'
 })
 export class MediaCenterComponent {
-  constructor(private api:ApiService){
+  constructor(private api:ApiService, private service: MediaCategoryService){
   }
   ngOnInit(){
-     this.api.isUserLoggedIn()
+     this.api.isUserLoggedIn();
   }
 
 

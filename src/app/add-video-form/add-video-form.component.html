@@ -36,6 +36,7 @@
                     <button [disabled]="uploadForm.invalid" (click)="postVideo($event)">Upload Video</button>
 
             </form>
+            <app-videoupload-loading-screen *ngIf="this.uploadIsInProcess" [uploadProcess]="this.uploadProcess"></app-videoupload-loading-screen>
         </div>
     </div>
 </div>

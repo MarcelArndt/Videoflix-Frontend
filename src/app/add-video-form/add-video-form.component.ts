@@ -1,4 +1,4 @@
-import { Component, ViewChild, ElementRef, HostListener } from '@angular/core';
+import { Component, ViewChild, ElementRef, HostListener, Output, EventEmitter } from '@angular/core';
 import { enableIsScrollAbleAnimtion } from '../sign-up/sign-up-form/scrollbar';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule, ValidatorFn, AbstractControl, ValidationErrors,  } from '@angular/forms';
 import { IconComponent } from '../../share/icon/icon.component';
@@ -7,20 +7,33 @@ import { CommonModule } from '@angular/common';
 import { SelectGenreComponent } from './select-genre/select-genre.component';
 import { SelectGenreService } from './select-genre/select-genre.service';
 import { ApiService } from '../../service/api.service';
+import { HttpEventType } from '@angular/common/http';
+import { VideouploadLoadingScreenComponent } from './videoupload-loading-screen/videoupload-loading-screen.component';
 
 @Component({
   selector: 'app-add-video-form',
-  imports: [ ReactiveFormsModule, IconComponent, CommonModule, SelectGenreComponent],
+  imports: [ ReactiveFormsModule, IconComponent, CommonModule, SelectGenreComponent, VideouploadLoadingScreenComponent],
   templateUrl: './add-video-form.component.html',
   styleUrl: './add-video-form.component.scss'
 })
 export class AddVideoFormComponent {
 
+  @Output() uploadComplete = new EventEmitter<void>();
+  @Output()isLoading = new EventEmitter<boolean>();
+  @ViewChild('scrollbar')scrollbar!:ElementRef;
+  @ViewChild('scrollAnimtion')scrollAnimtion!:ElementRef;
+  @ViewChild('fileupload')fileupload!:ElementRef;
+  @HostListener('window:resize', ['$event'])
 
+  onWindowResize(event: Event) {
+    this.checkScrollbar()
+  }
   uploadForm!: FormGroup;
   uploadTitle:string = 'No video upload';
   maxSizeMB:number = 20;
   validation!:ValidationHelperClass;
+  uploadProcess:number = 0
+  uploadIsInProcess:boolean = false
 
   constructor(private form: FormBuilder, private selectService:SelectGenreService, private api: ApiService){
       this.uploadForm = this.form.nonNullable.group({
@@ -46,15 +59,6 @@ export class AddVideoFormComponent {
     return null;
   };
 }
-
-  @ViewChild('scrollbar')scrollbar!:ElementRef;
-  @ViewChild('scrollAnimtion')scrollAnimtion!:ElementRef;
-  @ViewChild('fileupload')fileupload!:ElementRef;
-  @HostListener('window:resize', ['$event'])
-
-  onWindowResize(event: Event) {
-    this.checkScrollbar()
-  }
 
   checkScrollbar(){
     const element = this.scrollbar.nativeElement;
@@ -105,28 +109,53 @@ export class AddVideoFormComponent {
   }
 
   makeVideoObj(){
-    console.log('file:', this.uploadForm.value.file);
-    console.log('ist File ein File?', this.uploadForm.value.file instanceof File);
-
     return {
       title: this.uploadForm.value.title,
       description : this.uploadForm.value.description,
       genre : this.uploadForm.value.genre,
-      original_file : this.uploadForm.value.file
+      original_file: this.uploadForm.value.file
     }
+  }
+  
+
+  fakeProcess(){
+    if(this.uploadProcess <= 100){
+      setTimeout(()=>{
+        const randomInt = Math.floor(Math.random() * 4)
+        this.uploadProcess = this.uploadProcess + randomInt;
+        if(this.uploadProcess > 100){
+          this.uploadProcess = 100;
+        }
+        if (this.uploadProcess < 100){
+          this.fakeProcess()
+        }
+      }, 350);
+    }
+  }
+
+
+  resetAll(){
+    this.uploadProcess = 0;
+    this.uploadTitle = 'No video upload';
+    this.uploadForm.patchValue({});
+    this.uploadForm.reset();
+    this.selectService.resetChoice();
   }
 
   postVideo(event:Event){
     event.preventDefault();
-    const videoObj = this.makeVideoObj()
-    this.api.postVideo(videoObj).subscribe({
-  next: (response) => {
-    console.log('Upload erfolgreich', response);
-    },
-    error: (error) => {
-      console.error('Fehler beim Upload', error);
-    }
-  });
+    this.isLoading.emit(true);
+    this.uploadIsInProcess = true
+    const videoObj = this.makeVideoObj();
+    this.resetAll();
+    this.api.postVideo(videoObj).subscribe(event => {
+      if (event.type === HttpEventType.UploadProgress) {
+        this.fakeProcess()
+      } else if (event.type === HttpEventType.Response) {
+        this.isLoading.emit(false);
+        this.uploadIsInProcess = false
+        this.uploadComplete.emit();
+      }
+    });
   }
-
 }

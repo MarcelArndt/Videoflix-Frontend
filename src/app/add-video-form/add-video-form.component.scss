@@ -85,6 +85,7 @@ button{
     align-items: center;
     overflow-y: auto;
     max-height: 60vh;
+    position: relative;
 }
 
 .bold{
@@ -179,14 +180,6 @@ app-select-genre{
         border-color: var(--blue-hover);
     }
 
-    &:hover>icon {
-        color: var(--blue-hover);
-    }
-
-    p{
-        width: 100%;
-    }
-
 }
 
 .invalid-border{
@@ -202,3 +195,5 @@ app-select-genre{
         flex-direction: column;
     }
 }
+
+

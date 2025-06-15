@@ -1,8 +1,15 @@
-import { Component, Type, ViewChild, ViewContainerRef, ComponentRef, ElementRef} from '@angular/core';
+import { Component, Type, ViewChild, ViewContainerRef, ComponentRef, ElementRef, EventEmitter} from '@angular/core';
 import { PopupServiceService } from './popup-service.service';
 import { CommonModule } from '@angular/common';
 import { Subscription } from 'rxjs';
 import { Input } from '@angular/core';
+
+interface PopUpCommunication {
+  closePopUp?: EventEmitter<void>;
+  changeContent?: EventEmitter<Type<any>>;
+  showError?: EventEmitter<string>;
+  isLoading?: EventEmitter<boolean>;
+}
 
 @Component({
   selector: 'popup-window',
@@ -11,6 +18,9 @@ import { Input } from '@angular/core';
   styleUrl: './popup-window.component.scss'
 })
 export class PopupWindowComponent {
+
+  currentInstance:any;
+  isLoading = false;
   
   constructor(public popUpService: PopupServiceService ){
     this.componentSubcribtion = this.popUpService.nextComponent$.subscribe( (comp) => {
@@ -44,6 +54,22 @@ export class PopupWindowComponent {
     if(!this.contentContainer) return;
     this.contentContainer.clear();
     this.currentComponentRef = this.contentContainer.createComponent(component);
+
+    this.currentInstance = this.currentComponentRef.instance as PopUpCommunication;
+
+    //OUTPUT-EVENTS
+    this.currentInstance.isLoading?.subscribe((state:boolean) => this.isLoading = state);
+
+    this.currentInstance.changeContent?.subscribe((newComponent: Type<any>) => {
+    this.loadComponent(newComponent);
+    });
+
+    this.currentInstance.showError?.subscribe((errorMessage: string) => {
+    console.error('Fehler:', errorMessage);
+    });
+
+    this.currentInstance.closePopUp?.subscribe(() => this.closePopUp());
+
   }
 
   clearComponent(){
@@ -60,8 +86,10 @@ export class PopupWindowComponent {
   }
 
   closePopUp(){
-   this.clearComponent()
-    this.popUpService.closePopUp()
+    if (!this.isLoading){
+      this.clearComponent()
+      this.popUpService.closePopUp()
+    }
   }
 
 
