@@ -4,10 +4,11 @@ import { MediaCategorySliderComponent } from './media-category-slider/media-cate
 import { ApiService } from '../../service/api.service';
 import { PopupWindowComponent } from '../../share/popup-window/popup-window.component';
 import { MediaCategoryService } from '../../service/media-category.service';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-media-center',
-  imports: [MediaPreviewVideoComponent, MediaCategorySliderComponent, PopupWindowComponent ],
+  imports: [MediaPreviewVideoComponent, MediaCategorySliderComponent, PopupWindowComponent, CommonModule ],
   templateUrl: './media-center.component.html',
   styleUrl: './media-center.component.scss'
 })
@@ -16,6 +17,10 @@ export class MediaCenterComponent {
   }
   ngOnInit(){
      this.api.isUserLoggedIn();
+  }
+
+  get serviceState():boolean{
+    return this.service.toRefreshData
   }
 
 

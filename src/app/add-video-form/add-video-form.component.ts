@@ -9,7 +9,7 @@ import { SelectGenreService } from './select-genre/select-genre.service';
 import { ApiService } from '../../service/api.service';
 import { HttpEventType } from '@angular/common/http';
 import { VideouploadLoadingScreenComponent } from './videoupload-loading-screen/videoupload-loading-screen.component';
-
+import { MediaCategoryService } from '../../service/media-category.service';
 @Component({
   selector: 'app-add-video-form',
   imports: [ ReactiveFormsModule, IconComponent, CommonModule, SelectGenreComponent, VideouploadLoadingScreenComponent],
@@ -35,7 +35,7 @@ export class AddVideoFormComponent {
   uploadProcess:number = 0
   uploadIsInProcess:boolean = false
 
-  constructor(private form: FormBuilder, private selectService:SelectGenreService, private api: ApiService){
+  constructor(private form: FormBuilder, private selectService:SelectGenreService, private api: ApiService, private service: MediaCategoryService){
       this.uploadForm = this.form.nonNullable.group({
       title: ['', [Validators.required]],
       description: ['', [Validators.required]],
@@ -154,6 +154,7 @@ export class AddVideoFormComponent {
       } else if (event.type === HttpEventType.Response) {
         this.isLoading.emit(false);
         this.uploadIsInProcess = false
+        this.service.setRefreshData();
         this.uploadComplete.emit();
       }
     });

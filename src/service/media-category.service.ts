@@ -12,12 +12,14 @@ export class MediaCategoryService {
 
   constructor(private api: ApiService) { }
 
+  toRefreshData = false;
+
   private selectedChoiceSubject = new BehaviorSubject<CategoryItem>({
     id:0,
-    url: './assets/placeholder/videos/adventure/852364-hd_1280_720_24fps.mp4',
-    thumbnail: './assets/placeholder/thumbnails/Frame 167.jpg',
-    headline: 'Headline_0',
-    description:'Test-description'
+    url: '',
+    thumbnail: '',
+    headline: '',
+    description:''
   });
    selectedChoice$ = this.selectedChoiceSubject.asObservable();
 
@@ -26,10 +28,26 @@ export class MediaCategoryService {
      this.selectedChoiceSubject.next({ ...newItem });
   }
 
+  async takeNewestVideoAsChoice(){
+    const newItem = await JSON.parse(JSON.stringify(this.dataquarry['newOnVideoflix'].content[0]));
+    console.log(newItem )
+    this.selectedChoiceSubject.next({ ...newItem });
+
+  }
+
   async pullAllData(){
     const response = await this.api.GetJSON(MAIN_SERVICE_URL);
     this.dataquarry = await response.data
+    await this.takeNewestVideoAsChoice()
     console.log(this.dataquarry)
+  }
+
+  setRefreshData(){
+    this.toRefreshData = true;
+    setTimeout(()=>{
+    this.toRefreshData = false;
+    },100);
+
   }
 
   dataquarry: CategoryWrapper  = {}

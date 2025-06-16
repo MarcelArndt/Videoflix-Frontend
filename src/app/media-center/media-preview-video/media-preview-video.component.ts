@@ -20,8 +20,11 @@ export class MediaPreviewVideoComponent {
   description:string='';
 
 
+
+
   ngAfterViewInit(){
     if(!this.api.isUserLoggedIn) return
+      this.service.takeNewestVideoAsChoice();
       this.service.selectedChoice$.subscribe((item: CategoryItem) => {
       const videoHTMLElement = this.videoPlayer.nativeElement;
       const sourceElement =  videoHTMLElement.querySelector('source');
