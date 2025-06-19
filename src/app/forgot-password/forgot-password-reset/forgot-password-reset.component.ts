@@ -7,6 +7,7 @@ import { FormBuilder, FormGroup, Validators, ReactiveFormsModule} from '@angular
 import { CommonModule, Location} from '@angular/common';
 import { passwordsMatchValidator } from '../../custom-validators/password-missmatch';
 import { ApiService } from '../../../service/api.service';
+import { AlertsService } from '../../../share/alerts/alerts.service';
 
 @Component({
   selector: 'app-forgot-password-reset',
@@ -17,7 +18,7 @@ import { ApiService } from '../../../service/api.service';
 export class ForgotPasswordResetComponent {
   validation!: ValidationHelperClass;
   resetPasswordForm!: FormGroup;
-  constructor( private form: FormBuilder, private activeRouter: ActivatedRoute, private api:ApiService, private router: Router){
+  constructor( private form: FormBuilder, private activeRouter: ActivatedRoute, private api:ApiService, private router: Router, private alert: AlertsService){
       this.resetPasswordForm = this.form.nonNullable.group({
       password: ['', [Validators.required, Validators.minLength(MIN_PASSWORD_LENGHT)]],
       repeatedPassword: ['', [Validators.required]]
@@ -55,6 +56,7 @@ export class ForgotPasswordResetComponent {
       }
       const response = await this.api.resetPassword(requestData);
       if(response.ok){
+        this.alert.setAlert('Password successfully recovered', false)
         this.routerToMedia()
       } else {
         this.setPasswordFailed = true

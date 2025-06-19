@@ -1,7 +1,7 @@
 import { Component, ViewChild, ElementRef, HostListener } from '@angular/core';
 import { IconComponent } from '../../../share/icon/icon.component';
 import { RouterLink } from '@angular/router';
-import { enableIsScrollAbleAnimtion } from '../sign-up-form/scrollbar';
+import { checkScrollbar } from '../../../service/scrollbar';
 
 @Component({
   selector: 'app-validated-mail',
@@ -15,19 +15,11 @@ export class ValidatedMailComponent {
   @ViewChild('scrollAnimtion')scrollAnimtion!:ElementRef;
   @HostListener('window:resize', ['$event'])
   onWindowResize(event: Event) {
-    this.checkScrollbar()
+   checkScrollbar(this.scrollbar, this.scrollAnimtion)
   }
 
   ngAfterViewInit(){
-    this.checkScrollbar()
-  }
-
- checkScrollbar(){
-      const barHeight = this.scrollbar.nativeElement.offsetHeight;
-      const refHeight= document.documentElement.clientHeight;
-      if (refHeight / 2 < barHeight){
-        enableIsScrollAbleAnimtion(this.scrollAnimtion)
-    }
+    checkScrollbar(this.scrollbar, this.scrollAnimtion)
   }
 
 }

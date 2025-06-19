@@ -9,6 +9,13 @@ video{
     height: calc(100vh - 226px);
     max-height: min-content;
 
+    video{
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        object-position: center center;
+    }
+
         &::before{
         content: '';
         z-index: 10;

@@ -1,10 +1,11 @@
 import { Component } from '@angular/core';
 import { HeadlineComponent } from '../headline/headline.component';
 import { RouterOutlet } from '@angular/router';
+import { AlertsComponent } from '../../share/alerts/alerts.component';
 
 @Component({
   selector: 'app-main-content',
-  imports: [HeadlineComponent, RouterOutlet ],
+  imports: [HeadlineComponent, RouterOutlet, AlertsComponent ],
   templateUrl: './main-content.component.html',
   styleUrl: './main-content.component.scss'
 })

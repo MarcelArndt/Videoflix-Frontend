@@ -54,22 +54,19 @@ export class PopupWindowComponent {
     if(!this.contentContainer) return;
     this.contentContainer.clear();
     this.currentComponentRef = this.contentContainer.createComponent(component);
-
     this.currentInstance = this.currentComponentRef.instance as PopUpCommunication;
+    this.setOutPuts();
+  }
 
-    //OUTPUT-EVENTS
+  setOutPuts(){
     this.currentInstance.isLoading?.subscribe((state:boolean) => this.isLoading = state);
-
     this.currentInstance.changeContent?.subscribe((newComponent: Type<any>) => {
     this.loadComponent(newComponent);
     });
-
     this.currentInstance.showError?.subscribe((errorMessage: string) => {
     console.error('Fehler:', errorMessage);
     });
-
     this.currentInstance.closePopUp?.subscribe(() => this.closePopUp());
-
   }
 
   clearComponent(){

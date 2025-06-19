@@ -15,8 +15,9 @@ import { CommonModule } from '@angular/common';
 export class MediaCenterComponent {
   constructor(private api:ApiService, private service: MediaCategoryService){
   }
-  ngOnInit(){
-     this.api.isUserLoggedIn();
+  async ngOnInit(){
+    this.api.isUserLoggedIn();
+    await this.service.pullAllData();
   }
 
   get serviceState():boolean{

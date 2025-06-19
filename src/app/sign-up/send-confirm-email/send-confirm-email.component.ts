@@ -1,7 +1,7 @@
 import { Component, ViewChild, ElementRef, HostListener } from '@angular/core';
 import { IconComponent } from '../../../share/icon/icon.component';
 import { RouterLink, ActivatedRoute } from '@angular/router';
-import { enableIsScrollAbleAnimtion } from '../sign-up-form/scrollbar';
+import { checkScrollbar } from '../../../service/scrollbar';
 import { Location } from '@angular/common';
 import { ApiService } from '../../../service/api.service';
 import { SendEmail } from '../../../interface/interface';
@@ -20,21 +20,13 @@ export class SendConfirmEmailComponent {
   @ViewChild('scrollAnimtion')scrollAnimtion!:ElementRef;
   @HostListener('window:resize', ['$event'])
   onWindowResize(event: Event) {
-    this.checkScrollbar()
+    checkScrollbar(this.scrollbar, this.scrollAnimtion)
   }
 
   ngAfterViewInit(){
-    this.checkScrollbar()
+    checkScrollbar(this.scrollbar, this.scrollAnimtion)
   }
 
- checkScrollbar(){
-  console.log('start')
-      const barHeight = this.scrollbar.nativeElement.offsetHeight;
-      const refHeight= document.documentElement.clientHeight;
-      if (refHeight / 2 < barHeight){
-        enableIsScrollAbleAnimtion(this.scrollAnimtion)
-    }
-  }
 
   ngOnInit(){
     this.checkForUrlParams()

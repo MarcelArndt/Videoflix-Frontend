@@ -5,6 +5,7 @@ import { FormBuilder, FormGroup, Validators, ReactiveFormsModule} from '@angular
 import { ValidationHelperClass } from '../../../service/ValidationHelperClass';
 import { CommonModule } from '@angular/common';
 import { ApiService } from '../../../service/api.service';
+import { AlertsService } from '../../../share/alerts/alerts.service';
 
 
 
@@ -18,7 +19,7 @@ export class ForgotPasswordFormComponent {
 
   validation!: ValidationHelperClass;
   forgotPwForm!: FormGroup;
-  constructor( private form: FormBuilder, private api: ApiService, private router: Router){
+  constructor( private form: FormBuilder, private api: ApiService, private router: Router, private alert:AlertsService){
       this.forgotPwForm = this.form.nonNullable.group({
         email: ['', [Validators.required, Validators.pattern(/^[^@\s]+@[^@\s]+\.[^@\s]+$/)]],
       });
@@ -35,8 +36,8 @@ export class ForgotPasswordFormComponent {
       email : forgotPwForm.email,
     }
     const response = await this.api.findUserByEmail(requestData);
-    console.log(response)
     if(response.ok){
+      this.alert.setAlert('Mail sent to reset password', false);
       this.routerToCheckMail()
     } else {
       this.resetPasswordFailed = true

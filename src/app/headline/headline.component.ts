@@ -1,11 +1,11 @@
 import { Component, HostListener} from '@angular/core';
 import { RouterLink, Router, NavigationStart} from '@angular/router';
 import { CommonModule } from '@angular/common';
-import { filter } from 'rxjs/operators';
 import { IconComponent } from '../../share/icon/icon.component';
 import { ApiService } from '../../service/api.service';
 import { PopupServiceService } from '../../share/popup-window/popup-service.service';
 import { AddVideoFormComponent } from '../add-video-form/add-video-form.component';
+
 
 
 @Component({

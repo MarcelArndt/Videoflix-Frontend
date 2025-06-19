@@ -4,6 +4,7 @@ import { Login, Header, Registration, Response, ResetPassWordForm, AuthData, Sen
 import { Router } from '@angular/router';
 import { HttpClient, HttpRequest } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { AlertsService } from '../share/alerts/alerts.service';
 
 
 @Injectable({
@@ -11,9 +12,10 @@ import { Observable } from 'rxjs';
 })
 export class ApiService {
 
-  constructor(private router:Router, private http:HttpClient) { }
+  constructor(private router:Router, private http:HttpClient, private alert:AlertsService) { }
 
   userIsLogIn:boolean = false;
+  isImpressum:boolean = false;
 
   createHeaders():Record<string, string> {
       const headers:Record<string, string>= {};
@@ -27,6 +29,10 @@ export class ApiService {
 
   getAuthToken():string{
     return ''
+  }
+
+  switchIsImpressum(isImpressum:boolean){
+    this.isImpressum = isImpressum
   }
 
 
@@ -59,6 +65,7 @@ export class ApiService {
      const authData = this.provideAuthData()
     if (!authData){
       this.router.navigate([''])
+      this.alert.setAlert('Sussessfully Log-Out', false);
       this.userIsLogIn = false
       return false
     }
@@ -66,6 +73,7 @@ export class ApiService {
       const userdata = this.provideAuthData()
       localStorage.removeItem('currentUser');
       this.router.navigate(['sign_up/confirm'], { queryParams: { userId: userdata.user_id}})
+      this.alert.setAlert('You have to confirm your email first.');
       this.userIsLogIn = false
       return false
     }
@@ -142,7 +150,6 @@ async GetJSON(url:string): Promise<Response>{
 
   postVideo(videoObj: any): Observable<any> {
       const formData = new FormData();
-      console.log(videoObj)
       formData.append('headline', videoObj.title);
       formData.append('description', videoObj.description);
       formData.append('genre', videoObj.genre.toLowerCase());

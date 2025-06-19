@@ -6,7 +6,8 @@ import { ValidationHelperClass } from '../../service/ValidationHelperClass';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule} from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { ApiService } from '../../service/api.service';
-import { enableIsScrollAbleAnimtion } from '../sign-up/sign-up-form/scrollbar';
+import { checkScrollbar } from '../../service/scrollbar';
+import { AlertsService } from '../../share/alerts/alerts.service';
 
 @Component({
   selector: 'app-sign-in',
@@ -20,7 +21,7 @@ export class SignInComponent {
   @ViewChild('scrollAnimtion')scrollAnimtion!:ElementRef;
   @HostListener('window:resize', ['$event'])
   onWindowResize(event: Event) {
-    this.checkScrollbar()
+    checkScrollbar(this.scrollbar, this.scrollAnimtion)
   }
 
   fieldTypeIsPassword:boolean = true
@@ -29,7 +30,7 @@ export class SignInComponent {
   signInForm!: FormGroup;
   loginFailed:boolean = false
 
-  constructor( private form: FormBuilder, private api: ApiService, private router:Router){
+  constructor( private form: FormBuilder, private api: ApiService, private router:Router, private alert:AlertsService){
     this.signInForm = this.form.nonNullable.group({
       email: ['', [Validators.required, Validators.pattern(/^[^@\s]+@[^@\s]+\.[^@\s]+$/)]],
       password: ['', [Validators.required, Validators.minLength(this.MIN_PASSWORD_LENGTH)]],
@@ -50,7 +51,11 @@ export class SignInComponent {
     };
   const response = await this.api.login(loginForm);
       if(response.ok){
-        this.routerToMedia(response.data.token, response.data.user_id)
+        this.alert.setAlert('Login successfully', false);
+        setTimeout(()=>{
+           this.routerToMedia(response.data.token, response.data.user_id)
+        },1500)
+
       } else {
         this.loginFailed = true
       }
@@ -65,15 +70,7 @@ export class SignInComponent {
   }
 
   ngAfterViewInit(){
-    this.checkScrollbar()
-  }
-
- checkScrollbar(){
-      const barHeight = this.scrollbar.nativeElement.offsetHeight;
-      const refHeight= document.documentElement.clientHeight;
-      if (refHeight / 2 < barHeight){
-        enableIsScrollAbleAnimtion(this.scrollAnimtion)
-    }
+    checkScrollbar(this.scrollbar, this.scrollAnimtion)
   }
 
   resetLoginFailed(){

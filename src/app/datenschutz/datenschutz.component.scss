@@ -38,6 +38,7 @@ h3{
 
 .back-to-button{
     position: absolute;
+    z-index: 999;
     right: 5%;
     top: 6px;
     transition: color 0.25s ease-in-out;

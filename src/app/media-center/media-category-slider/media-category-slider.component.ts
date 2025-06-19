@@ -25,8 +25,9 @@ canScrollRight:canObjectScroll = {};
   }
 
   async ngOnInit(){
-  await this.service.pullAllData();
-  this.allCategoryKey = Object.keys(this.service.dataquarry);
+  this.service.waitForData(()=> {
+    this.allCategoryKey = Object.keys(this.service.dataquarry);
+  })
   }
 
   ngAfterViewInit() {

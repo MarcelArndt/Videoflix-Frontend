@@ -1,13 +1,14 @@
 import { Component,ViewChild,ElementRef, HostListener } from '@angular/core';
 import { IconComponent } from '../../../share/icon/icon.component';
 import { ActivatedRoute, Router} from '@angular/router';
-import { enableIsScrollAbleAnimtion } from './scrollbar';
+import { checkScrollbar } from '../../../service/scrollbar';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule} from '@angular/forms';
 import { CommonModule, Location} from '@angular/common';
 import { ValidationHelperClass } from '../../../service/ValidationHelperClass';
 import { passwordsMatchValidator } from '../../custom-validators/password-missmatch';
 import { ApiService } from '../../../service/api.service';
 import { MIN_PASSWORD_LENGHT } from '../../../service/config';
+import { AlertsService } from '../../../share/alerts/alerts.service';
 
 @Component({
   selector: 'app-sign-up-form',
@@ -23,7 +24,7 @@ export class SignUpFormComponent {
   fieldTypeIsPassword:boolean = true
   registFailed:boolean = false
 
-  constructor( private form: FormBuilder, private route: ActivatedRoute, private location: Location, private api:ApiService, public router: Router){
+  constructor( private form: FormBuilder, private route: ActivatedRoute, private location: Location, private api:ApiService, public router: Router, private alert:AlertsService){
     this.signUpForm = this.form.nonNullable.group({
       username: ['', [Validators.required, Validators.pattern(/^[a-zA-Z0-9_-]+$/)]],
       email: ['', [Validators.required, Validators.pattern(/^[^@\s]+@[^@\s]+\.[^@\s]+$/)]],
@@ -40,7 +41,7 @@ export class SignUpFormComponent {
   @ViewChild('scrollAnimtion')scrollAnimtion!:ElementRef;
   @HostListener('window:resize', ['$event'])
   onWindowResize(event: Event) {
-    this.checkScrollbar()
+    checkScrollbar(this.scrollbar, this.scrollAnimtion)
   }
 
   checkForUrlParams(){
@@ -58,36 +59,21 @@ export class SignUpFormComponent {
   }
 
   changePasswordFieldType(){
-    this.fieldTypeIsPassword = !this.fieldTypeIsPassword
+    this.fieldTypeIsPassword = !this.fieldTypeIsPassword;
   }
 
-  checkScrollbar(){
-    const element = this.scrollbar.nativeElement;
-    const parentElement = this.scrollbar.nativeElement.parentElement
-    let parentElementHeight = 0
-    let elementInnerHeight = 0
-    if (parentElement && element) {
-      parentElementHeight = parentElement.getBoundingClientRect().height;
-      elementInnerHeight = element.getBoundingClientRect().height;
-    }
-    const elementouterHight = this.scrollbar.nativeElement.clientHeight;
-    const refHeight = document.documentElement.clientHeight;
-    if (refHeight / 2 < elementouterHight || parentElementHeight < elementInnerHeight){
-      enableIsScrollAbleAnimtion(this.scrollAnimtion)
-    }
-  }
 
   ngAfterViewInit(){
-    this.checkScrollbar()
+    checkScrollbar(this.scrollbar, this.scrollAnimtion);
   }
 
   ngOnInit(){
-    this.checkForUrlParams()
+    this.checkForUrlParams();
   }
 
   async sendSignUp(event:Event){
-      event.preventDefault()
-      const signUpForm = JSON.parse(JSON.stringify(this.signUpForm.value))
+      event.preventDefault();
+      const signUpForm = JSON.parse(JSON.stringify(this.signUpForm.value));
       const requestData = { 
         email : signUpForm.email,
         username : signUpForm.username,
@@ -96,9 +82,10 @@ export class SignUpFormComponent {
       }
       const response = await this.api.regist(requestData);
       if(response.ok){
-        this.routerToMedia(response.data.token, response.data.user_id)
+        this.alert.setAlert('Account successfully created');
+        this.routerToMedia(response.data.token, response.data.user_id);
       } else {
-        this.registFailed = true
+        this.registFailed = true;
       }
     }
 

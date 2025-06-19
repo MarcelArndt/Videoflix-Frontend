@@ -1,0 +1,9 @@
+<section #alert class="alters-wrapper active" [class.active]="isOpen" [ngStyle]="{'--type-color': (service.MessageIsError$ | async) ? '#ff002e' : '#60dd1c'}">
+    <div class="alters-content-wrapper">
+        <icon>{{ (service.MessageIsError$ | async) ? 'exclamation' : 'info_i' }}</icon>
+        <p>{{service.message$ | async }}</p>
+        <hr>
+        
+        <button (click)="close($event)"><icon>close_small</icon></button>
+    </div>
+</section>

@@ -1,5 +1,5 @@
 import { Component, ViewChild, ElementRef, HostListener, Output, EventEmitter } from '@angular/core';
-import { enableIsScrollAbleAnimtion } from '../sign-up/sign-up-form/scrollbar';
+import { checkScrollbar } from '../../service/scrollbar';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule, ValidatorFn, AbstractControl, ValidationErrors,  } from '@angular/forms';
 import { IconComponent } from '../../share/icon/icon.component';
 import { ValidationHelperClass } from '../../service/ValidationHelperClass';
@@ -10,6 +10,8 @@ import { ApiService } from '../../service/api.service';
 import { HttpEventType } from '@angular/common/http';
 import { VideouploadLoadingScreenComponent } from './videoupload-loading-screen/videoupload-loading-screen.component';
 import { MediaCategoryService } from '../../service/media-category.service';
+import { AlertsService } from '../../share/alerts/alerts.service';
+
 @Component({
   selector: 'app-add-video-form',
   imports: [ ReactiveFormsModule, IconComponent, CommonModule, SelectGenreComponent, VideouploadLoadingScreenComponent],
@@ -26,7 +28,7 @@ export class AddVideoFormComponent {
   @HostListener('window:resize', ['$event'])
 
   onWindowResize(event: Event) {
-    this.checkScrollbar()
+    checkScrollbar(this.scrollbar, this.scrollAnimtion)
   }
   uploadForm!: FormGroup;
   uploadTitle:string = 'No video upload';
@@ -35,7 +37,7 @@ export class AddVideoFormComponent {
   uploadProcess:number = 0
   uploadIsInProcess:boolean = false
 
-  constructor(private form: FormBuilder, private selectService:SelectGenreService, private api: ApiService, private service: MediaCategoryService){
+  constructor(private form: FormBuilder, private selectService:SelectGenreService, private api: ApiService, private service: MediaCategoryService, private alert:AlertsService){
       this.uploadForm = this.form.nonNullable.group({
       title: ['', [Validators.required]],
       description: ['', [Validators.required]],
@@ -60,24 +62,9 @@ export class AddVideoFormComponent {
   };
 }
 
-  checkScrollbar(){
-    const element = this.scrollbar.nativeElement;
-    const parentElement = this.scrollbar.nativeElement.parentElement
-    let parentElementHeight = 0
-    let elementInnerHeight = 0
-    if (parentElement && element) {
-      parentElementHeight = parentElement.getBoundingClientRect().height;
-      elementInnerHeight = element.scrollHeight;
-    }
-    const elementouterHight = this.scrollbar.nativeElement.clientHeight;
-    const refHeight = document.documentElement.clientHeight;
-    if (refHeight / 2 < elementouterHight || parentElementHeight < elementInnerHeight){
-      enableIsScrollAbleAnimtion(this.scrollAnimtion)
-    }
-  }
 
   ngAfterViewInit(){
-    this.checkScrollbar()
+    checkScrollbar(this.scrollbar, this.scrollAnimtion)
   }
 
   ngOnInit(){
@@ -154,6 +141,7 @@ export class AddVideoFormComponent {
       } else if (event.type === HttpEventType.Response) {
         this.isLoading.emit(false);
         this.uploadIsInProcess = false
+        this.alert.setAlert('Upload was successfully.', false)
         this.service.setRefreshData();
         this.uploadComplete.emit();
       }

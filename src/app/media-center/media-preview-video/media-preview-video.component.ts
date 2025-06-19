@@ -24,6 +24,7 @@ export class MediaPreviewVideoComponent {
 
   ngAfterViewInit(){
     if(!this.api.isUserLoggedIn) return
+    this.service.waitForData(() => {
       this.service.takeNewestVideoAsChoice();
       this.service.selectedChoice$.subscribe((item: CategoryItem) => {
       const videoHTMLElement = this.videoPlayer.nativeElement;
@@ -36,8 +37,10 @@ export class MediaPreviewVideoComponent {
         videoHTMLElement.play().catch((error:any) => {
           console.warn("Can't start to play the Video", error);
         });
-      }, 500);
-    }
-  });
+          }, 500);
+        }
+      });
+    });
+      
   }
 }
