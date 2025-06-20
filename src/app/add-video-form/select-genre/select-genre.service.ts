@@ -8,7 +8,7 @@ export class SelectGenreService {
 
   constructor() { }
 
-  choices = ['Crime','Romance','Drama','Comedy','Horror','Documentation','Adventure'];
+  choices = ['Crime','Romance','Drama','Comedy','Horror','Documentation','Fantasy','Western','Thriller','Science-Fiction','Adventure','Anime/Cartoon','Trailer'];
 
   isMenuOpen:boolean = false
   isFirstTime:boolean = true

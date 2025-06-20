@@ -1,5 +1,5 @@
-<div class="text-preview-wrapper">
-    <h1>{{headline}}</h1>
-    <p>{{description}}</p>
-    <button routerLink="/video"><icon>arrow_right</icon>Play</button>
+<div class="text-preview-wrapper" *ngIf="isData">
+    <h1>{{isData ? headline  : 'No Video Found'}}</h1>
+    <p class="description">{{isData ? description  : 'Please upload at least one Video to show this Conten'}}</p>
+    <button *ngIf="isData" routerLink="/video"><icon>arrow_right</icon>Play</button>
 </div>  

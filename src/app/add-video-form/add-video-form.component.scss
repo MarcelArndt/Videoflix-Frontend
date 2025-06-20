@@ -1,11 +1,14 @@
 :host {
   display: block;
   width: 90%;
+  height: 100%;
 }
 
 .form-wrapper{
     max-width: calc(100% - 24px);
     width: 100%;
+    height: 100%;
+
 }
 
 .flex{
@@ -14,6 +17,7 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
+    height: 100%;
 }
 
 h1{
@@ -33,6 +37,7 @@ form{
     flex-direction: column;
     align-items: center;
     justify-content: center;
+    height: 100%;
 }
 
 .darken{
@@ -147,7 +152,6 @@ button{
     icon{
         color: var(--blue);
         font-size: 1.75rem;
-
     }
 
     &:hover, &:hover>icon, &:focus, &:focus>icon, &:focus-within, &:focus-within>icon{
@@ -155,6 +159,15 @@ button{
         color: var(--blue-hover);
     }
   
+}
+
+.errorBox{
+    margin-top: -16px;
+    margin-bottom: 8px;
+}
+
+.popUp-wrapper{
+    max-height: none;
 }
 
 
@@ -193,6 +206,12 @@ app-select-genre{
     .fileupload-input{
         display: flex;
         flex-direction: column;
+    }
+}
+
+@media screen and (max-width:650px) {
+    .scrollbar{
+        max-height: calc(80vh - 24px);
     }
 }
 

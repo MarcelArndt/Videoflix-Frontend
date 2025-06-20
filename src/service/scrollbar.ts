@@ -22,9 +22,9 @@ export function checkScrollbar(boxElement:ElementRef, scrollElement:ElementRef,)
       parentElementHeight = parentElement.getBoundingClientRect().height;
       elementInnerHeight = element.getBoundingClientRect().height;
     }
-    const elementouterHight = boxElement.nativeElement.clientHeight;
+    const elementOuterHight = boxElement.nativeElement.clientHeight;
     const refHeight = document.documentElement.clientHeight;
-    if (refHeight / 2 < elementouterHight || parentElementHeight < elementInnerHeight){
+    if (parentElementHeight + 100 < elementInnerHeight){
       enableIsScrollAbleAnimtion(scrollElement)
     }
   }

@@ -21,15 +21,26 @@ export class MediaCategoryService {
     headline: '',
     description:''
   });
-   selectedChoice$ = this.selectedChoiceSubject.asObservable();
+  selectedChoice$ = this.selectedChoiceSubject.asObservable();
+  dataquarry: CategoryWrapper  = {}
 
   async switchCurrentChoice(category:string, index:number){
-    const newItem = await JSON.parse(JSON.stringify(this.dataquarry[category].content[index]));
-     this.selectedChoiceSubject.next({ ...newItem });
+    if (!this.dataquarry) return
+    let newItem = null
+    if (this.dataquarry[category].content[index]){
+      newItem = await JSON.parse(JSON.stringify(this.dataquarry[category].content[index]));
+    }
+    if(!newItem) return
+    this.selectedChoiceSubject.next({ ...newItem });
   }
 
   async takeNewestVideoAsChoice(){
-    const newItem = await JSON.parse(JSON.stringify(this.dataquarry['newOnVideoflix'].content[0]));
+    if (!this.dataquarry) return
+    let newItem = null
+    if(this.dataquarry['newOnVideoflix'].content[0]){
+          newItem = await JSON.parse(JSON.stringify(this.dataquarry['newOnVideoflix'].content[0]));
+    }
+    if(!newItem) return
     this.selectedChoiceSubject.next({ ...newItem });
   }
 
@@ -59,5 +70,9 @@ export class MediaCategoryService {
     }, 100);
   }
 
-  dataquarry: CategoryWrapper  = {}
+  checkForEmpty():boolean{
+    if(this.dataquarry)return true
+    return false
+  }
+
 }

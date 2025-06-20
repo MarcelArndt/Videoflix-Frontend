@@ -4,6 +4,7 @@ import { CommonModule } from '@angular/common';
 import { Category, canObjectScroll } from '../../../interface/interface';
 import { IconComponent } from '../../../share/icon/icon.component';
 
+
 @Component({
   selector: 'app-media-category-slider',
   imports: [ CommonModule, IconComponent ],
@@ -18,6 +19,7 @@ constructor(public service: MediaCategoryService){}
 allCategoryKey:string[] = []
 canScrollLeft: canObjectScroll = {};
 canScrollRight:canObjectScroll = {};
+isData:boolean = false
 
 @HostListener('window:resize', ['$event'])
   onResize(event: Event) {
@@ -27,7 +29,8 @@ canScrollRight:canObjectScroll = {};
   async ngOnInit(){
   this.service.waitForData(()=> {
     this.allCategoryKey = Object.keys(this.service.dataquarry);
-  })
+  });
+  this.isData = this.service.checkForEmpty()
   }
 
   ngAfterViewInit() {

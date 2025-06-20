@@ -82,7 +82,7 @@ export class SignUpFormComponent {
       }
       const response = await this.api.regist(requestData);
       if(response.ok){
-        this.alert.setAlert('Account successfully created');
+        this.alert.setAlert('Account successfully created', false);
         this.routerToMedia(response.data.token, response.data.user_id);
       } else {
         this.registFailed = true;

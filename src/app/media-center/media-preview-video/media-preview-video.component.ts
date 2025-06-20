@@ -1,46 +1,60 @@
 import { Component, ViewChild ,ElementRef} from '@angular/core';
 import { MediaPreviewTextComponent } from '../media-preview-text/media-preview-text.component';
 import { MediaCategoryService } from '../../../service/media-category.service';
-import { BehaviorSubject } from 'rxjs';
-import { CategoryItem } from '../../../interface/interface';
 import { CommonModule } from '@angular/common';
 import { ApiService } from '../../../service/api.service';
+import videojs from 'video.js'
+import { Subscription } from 'rxjs';
+
 
 @Component({
   selector: 'app-media-preview-video',
   imports: [MediaPreviewTextComponent, CommonModule ],
   templateUrl: './media-preview-video.component.html',
-  styleUrl: './media-preview-video.component.scss'
+  styleUrls: ['./media-preview-video.component.scss']
 })
 export class MediaPreviewVideoComponent {
   constructor(public service: MediaCategoryService, public api: ApiService){}
   @ViewChild('videoScreen') videoPlayer!:ElementRef;
 
+  player: any;
+
   headline:string='';
   description:string='';
+  isData = true;
+  subscription!: Subscription;
 
-
-
-
-  ngAfterViewInit(){
+ ngAfterViewInit(){
     if(!this.api.isUserLoggedIn) return
     this.service.waitForData(() => {
       this.service.takeNewestVideoAsChoice();
-      this.service.selectedChoice$.subscribe((item: CategoryItem) => {
-      const videoHTMLElement = this.videoPlayer.nativeElement;
-      const sourceElement =  videoHTMLElement.querySelector('source');
-     if (sourceElement) {
-      sourceElement.setAttribute('src', item.url);
-      videoHTMLElement.muted = true;
-      videoHTMLElement.load();
-      setTimeout(() => {
-        videoHTMLElement.play().catch((error:any) => {
-          console.warn("Can't start to play the Video", error);
-        });
-          }, 500);
-        }
+      this.subscription = this.service.selectedChoice$.subscribe((item)=>{
+        this.setupPlayer(item.url);
       });
+
     });
-      
   }
+
+  setupPlayer(url:string){
+    if (!url || !this.videoPlayer || !this.videoPlayer.nativeElement) return;
+    const videoElement = this.videoPlayer.nativeElement;
+    if (this.player) {
+      this.player.src({ src: url, type: 'application/x-mpegURL' });
+      this.player.load();
+      this.player.play();
+    } else {
+      this.player = videojs(videoElement, {}, () => {
+      this.player.src({ src: url, type: 'application/x-mpegURL' });
+      this.player.play();
+      });
+    }
+  }
+
+  ngOnDestroy() {
+    if (this.player) {
+      this.player.dispose();
+    }
+    this.subscription?.unsubscribe();
+  }
+
 }

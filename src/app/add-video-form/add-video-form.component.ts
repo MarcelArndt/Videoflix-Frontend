@@ -11,6 +11,7 @@ import { HttpEventType } from '@angular/common/http';
 import { VideouploadLoadingScreenComponent } from './videoupload-loading-screen/videoupload-loading-screen.component';
 import { MediaCategoryService } from '../../service/media-category.service';
 import { AlertsService } from '../../share/alerts/alerts.service';
+import { MAX_VIDEO_UPLOAD_SIZE_IN_MB } from '../../service/config';
 
 @Component({
   selector: 'app-add-video-form',
@@ -32,7 +33,7 @@ export class AddVideoFormComponent {
   }
   uploadForm!: FormGroup;
   uploadTitle:string = 'No video upload';
-  maxSizeMB:number = 20;
+  maxSizeMB:number = MAX_VIDEO_UPLOAD_SIZE_IN_MB ;
   validation!:ValidationHelperClass;
   uploadProcess:number = 0
   uploadIsInProcess:boolean = false

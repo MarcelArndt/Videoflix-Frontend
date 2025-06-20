@@ -1,26 +1,16 @@
 <div class="preview-wrapper">
 
-    <div class="video-wrapper">
-
+  <div class="video-wrapper">
       <video *ngIf="this.api.isUserLoggedIn" #videoScreen
         id="my-video"
-        class="video-js"
+        class="video-js homescreen-video"
         autoplay 
-        muted 
+        muted="true"
         loop
         preload="auto"
         data-setup="{}">
-
-        <source [src]="" type="video/mp4" />
-
-        <p class="vjs-no-js">
-          To view this video please enable JavaScript, and consider upgrading to a
-          web browser that
-          <a href="https://videojs.com/html5-video-support/" target="_blank"
-            >supports HTML5 video</a
-          >
-        </p>
-    </video>
+       
+      </video>
   </div>
 
   <div class="text-wrapper">
