@@ -5,6 +5,9 @@ import { IconComponent } from '../../share/icon/icon.component';
 import { ApiService } from '../../service/api.service';
 import { PopupServiceService } from '../../share/popup-window/popup-service.service';
 import { AddVideoFormComponent } from '../add-video-form/add-video-form.component';
+import { VideoPlayerManagerService } from '../videoplayer/video-player-manager.service';
+import { Subscription } from 'rxjs';
+
 
 
 
@@ -18,14 +21,16 @@ export class HeadlineComponent {
 
     sourceOfLogo:string=''
     sourceOfLogoDefault = ''
+    isVideoMode = false;
+    subscription!:Subscription;
     
 
-  constructor(private router:Router, public api:ApiService, private popUpService: PopupServiceService){}
+  constructor(private router:Router, public api:ApiService, private popUpService: PopupServiceService, public video: VideoPlayerManagerService){}
 
 
   @HostListener('window:resize', [])
   onResize() {
-    if (window.innerWidth <= 650){
+    if (window.innerWidth <= 650 || this.isVideoMode){
        this.sourceOfLogo = './assets/logo-small.svg'
     }
     else {
@@ -40,7 +45,18 @@ export class HeadlineComponent {
   }
   
   ngOnInit(){
+    this.subscription = this.video.isVideoMode$.subscribe((boolean)=>{
+      this.isVideoMode = boolean
+      if(boolean){
+        this.sourceOfLogo = './assets/logo-small.svg';
+      } else {
+        this.onResize()
+      }
+    });
     this.onResize();
+  }
+  ngOnDestroy(){
+    this.subscription.unsubscribe()
   }
 
   openPopUpWindow(){

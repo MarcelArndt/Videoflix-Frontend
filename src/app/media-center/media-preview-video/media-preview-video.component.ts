@@ -5,6 +5,7 @@ import { CommonModule } from '@angular/common';
 import { ApiService } from '../../../service/api.service';
 import videojs from 'video.js'
 import { Subscription } from 'rxjs';
+import { Router } from '@angular/router';
 
 
 @Component({
@@ -14,7 +15,7 @@ import { Subscription } from 'rxjs';
   styleUrls: ['./media-preview-video.component.scss']
 })
 export class MediaPreviewVideoComponent {
-  constructor(public service: MediaCategoryService, public api: ApiService){}
+  constructor(public service: MediaCategoryService, public api: ApiService, private router:Router){}
   @ViewChild('videoScreen') videoPlayer!:ElementRef;
 
   player: any;

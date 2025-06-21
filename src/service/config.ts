@@ -12,4 +12,4 @@ export const UPLOAD_VIDEO = BASE_URL + 'media/'
 
 
 //Settings
-export const MAX_VIDEO_UPLOAD_SIZE_IN_MB = 40
+export const MAX_VIDEO_UPLOAD_SIZE_IN_MB = 200

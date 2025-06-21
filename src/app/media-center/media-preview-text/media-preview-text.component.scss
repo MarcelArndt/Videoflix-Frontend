@@ -55,21 +55,6 @@ icon{
 
 @media screen and (max-width:1180px) {
 
-    .text-wrapper{
-        position: static;
-        transform: translateY(0px);
-        height: 50dvh;
-        display: flex;
-        flex-direction: column;
-        justify-content: space-around;
-        box-sizing: border-box;
-        padding: 5% 5%;
-        max-width: none;
-        width:50% !important;
-        left: 0px;
-        padding: 0px 16px;
-    }
-
     .text-preview-wrapper{
         width:100%;
         max-width: none;

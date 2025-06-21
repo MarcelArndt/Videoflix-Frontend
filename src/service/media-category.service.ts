@@ -34,6 +34,10 @@ export class MediaCategoryService {
     this.selectedChoiceSubject.next({ ...newItem });
   }
 
+  setNewSelectedChoice(video:any){
+    this.selectedChoiceSubject.next(video);
+  }
+
   async takeNewestVideoAsChoice(){
     if (!this.dataquarry) return
     let newItem = null

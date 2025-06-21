@@ -5,7 +5,7 @@ import { ApiService } from '../../service/api.service';
 import { PopupWindowComponent } from '../../share/popup-window/popup-window.component';
 import { MediaCategoryService } from '../../service/media-category.service';
 import { CommonModule } from '@angular/common';
-
+import { VideoPlayerManagerService } from '../videoplayer/video-player-manager.service';
 @Component({
   selector: 'app-media-center',
   imports: [MediaPreviewVideoComponent, MediaCategorySliderComponent, PopupWindowComponent, CommonModule ],
@@ -13,11 +13,12 @@ import { CommonModule } from '@angular/common';
   styleUrl: './media-center.component.scss'
 })
 export class MediaCenterComponent {
-  constructor(private api:ApiService, private service: MediaCategoryService){
+  constructor(private api:ApiService, private service: MediaCategoryService, private video:VideoPlayerManagerService){
   }
   async ngOnInit(){
     this.api.isUserLoggedIn();
     await this.service.pullAllData();
+    this.video.disableVideoMode();
   }
 
   get serviceState():boolean{
