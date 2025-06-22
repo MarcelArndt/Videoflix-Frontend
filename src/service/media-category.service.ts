@@ -4,13 +4,15 @@ import { CategoryItem } from '../interface/interface';
 import { BehaviorSubject } from 'rxjs';
 import { ApiService } from './api.service';
 import { MAIN_SERVICE_URL } from './config';
+import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class MediaCategoryService {
 
-  constructor(private api: ApiService) { }
+  constructor(private api: ApiService, private http:HttpClient) { }
   public toRefreshData: boolean = false;
   public dataReady: boolean = false;
 
@@ -48,21 +50,21 @@ export class MediaCategoryService {
     this.selectedChoiceSubject.next({ ...newItem });
   }
 
-  async pullAllData(){
-    const response = await this.api.GetJSON(MAIN_SERVICE_URL);
-    this.dataquarry = await response.data
-    if(this.dataquarry){
-      this.dataReady = true;
-    }
-    await this.takeNewestVideoAsChoice()
+
+  sendRequest(): Observable<object> {
+    return this.http.get(MAIN_SERVICE_URL, { withCredentials: true });
   }
 
-  async setRefreshData(){
-    await this.pullAllData()
-    this.toRefreshData = true;
-    setTimeout(()=>{
-    this.toRefreshData = false;
-    },100);
+  pullAllData()  {
+    const request = this.sendRequest();
+    request.subscribe({next:(res)=>{
+      this.dataquarry = res as CategoryWrapper
+      this.dataReady = true
+    }, 
+    error: (error)=>{
+      console.log(error);
+    }
+    });
   }
 
   waitForData(dataReadyCallback: () => void) {

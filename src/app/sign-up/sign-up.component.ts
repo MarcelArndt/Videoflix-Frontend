@@ -13,6 +13,6 @@ export class SignUpComponent {
   constructor(private api:ApiService){}
 
   ngOnInit(){
-      this.api.isUserAlreadyLoggedIn()
+
   }
 }

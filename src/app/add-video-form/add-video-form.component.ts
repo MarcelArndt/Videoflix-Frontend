@@ -143,7 +143,6 @@ export class AddVideoFormComponent {
         this.isLoading.emit(false);
         this.uploadIsInProcess = false
         this.alert.setAlert('Upload was successfully.', false)
-        this.service.setRefreshData();
         this.uploadComplete.emit();
       }
     });

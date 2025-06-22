@@ -26,7 +26,6 @@ export class MediaPreviewVideoComponent {
   subscription!: Subscription;
 
  ngAfterViewInit(){
-    if(!this.api.isUserLoggedIn) return
     this.service.waitForData(() => {
       this.service.takeNewestVideoAsChoice();
       this.subscription = this.service.selectedChoice$.subscribe((item)=>{

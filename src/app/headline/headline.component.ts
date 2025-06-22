@@ -39,8 +39,6 @@ export class HeadlineComponent {
   }
 
   logUserOut(){
-    localStorage.removeItem('currentUser');
-    this.api.isUserLoggedIn();
     this.router.navigate(['']);
   }
   

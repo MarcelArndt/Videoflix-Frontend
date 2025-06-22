@@ -9,7 +9,11 @@
         class="video-js homescreen-video"
         preload="auto"
         controls
-        data-setup="{}">
+        data-setup="{}"        
+        (timeupdate)="onTimeUpdate()"
+        (ended)="isVideoEnded()"
+        >
+
 
        
       </video>

@@ -1,9 +1,9 @@
 <section class="head-wrapper">
     <div class="logo"><img [src]="this.sourceOfLogo" routerLink="/" alt="logo"></div>
     <div *ngIf="!this.api.isImpressum" >
-    <div *ngIf="!this.api.userIsLogIn && !isVideoMode" class="button-container"><button routerLink="/sign_in">Log-In</button></div>
+    <div *ngIf="!isVideoMode" class="button-container"><button routerLink="/sign_in">Log-In</button></div>
 
-      <div class="head-button-wrapper" *ngIf="api.userIsLogIn && !isVideoMode">
+      <div class="head-button-wrapper" *ngIf="!isVideoMode">
         <div class="button-container"><button (click)="openPopUpWindow()"><icon>add</icon><span>Add Video</span></button></div>
         <div class="button-container"><button (click)="logUserOut()"><icon>logout</icon><span>Log Out</span></button></div>
       </div>

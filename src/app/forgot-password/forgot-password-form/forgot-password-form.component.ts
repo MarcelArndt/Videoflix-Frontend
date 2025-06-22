@@ -18,6 +18,7 @@ import { AlertsService } from '../../../share/alerts/alerts.service';
 export class ForgotPasswordFormComponent {
 
   validation!: ValidationHelperClass;
+  sendEmailFail:boolean = false;
   forgotPwForm!: FormGroup;
   constructor( private form: FormBuilder, private api: ApiService, private router: Router, private alert:AlertsService){
       this.forgotPwForm = this.form.nonNullable.group({
@@ -40,6 +41,7 @@ export class ForgotPasswordFormComponent {
       this.alert.setAlert('Mail sent to reset password', false);
       this.routerToCheckMail()
     } else {
+      this.sendEmailFail = true;
       this.resetPasswordFailed = true
     }
   }

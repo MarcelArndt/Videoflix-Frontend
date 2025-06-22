@@ -11,9 +11,4 @@ import { ApiService } from '../../service/api.service';
 })
 export class ForgotPasswordComponent {
   constructor(private api:ApiService){}
-  ngOnInit(){
-        this.api.isUserAlreadyLoggedIn()
-  }
-
-  
 }

@@ -8,6 +8,8 @@ import { CommonModule } from '@angular/common';
 import { ApiService } from '../../service/api.service';
 import { checkScrollbar } from '../../service/scrollbar';
 import { AlertsService } from '../../share/alerts/alerts.service';
+import { AuthService } from '../../service/auth.service';
+import { Subscription, Observable } from 'rxjs';
 
 @Component({
   selector: 'app-sign-in',
@@ -30,7 +32,7 @@ export class SignInComponent {
   signInForm!: FormGroup;
   loginFailed:boolean = false
 
-  constructor( private form: FormBuilder, private api: ApiService, private router:Router, private alert:AlertsService){
+  constructor( private form: FormBuilder, private api: ApiService, private router:Router, private alert:AlertsService, private auth:AuthService){
     this.signInForm = this.form.nonNullable.group({
       email: ['', [Validators.required, Validators.pattern(/^[^@\s]+@[^@\s]+\.[^@\s]+$/)]],
       password: ['', [Validators.required, Validators.minLength(this.MIN_PASSWORD_LENGTH)]],
@@ -45,28 +47,27 @@ export class SignInComponent {
 
   async sendSignIn(event:Event){
     event.preventDefault();
-    const loginForm = {
+    const loginObject = {
       'email': JSON.parse(JSON.stringify(this.signInForm.value.email)) as string,
       'password' : JSON.parse(JSON.stringify(this.signInForm.value.password)) as string,
     };
-  const response = await this.api.login(loginForm);
-      if(response.ok){
-        this.alert.setAlert('Login successfully', false);
-        setTimeout(()=>{
-           this.routerToMedia(response.data.token, response.data.user_id)
-        },1500)
-
-      } else {
-        this.loginFailed = true
+    this.auth.login(loginObject).subscribe({
+      next: (res) => {
+        console.log('Login erfolgreich', res);
+        this.routerToMedia();
+      },
+      error: (err) => {
+        console.log('Fehler beim Login', err);
       }
+    });
   }
 
-  routerToMedia(token:string, userId:string){
+  routerToMedia(){
     this.router.navigate(['/media']);
   }
 
   ngOnInit(){
-    this.api.isUserAlreadyLoggedIn()
+    
   }
 
   ngAfterViewInit(){

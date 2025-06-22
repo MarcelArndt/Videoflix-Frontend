@@ -30,7 +30,7 @@ export class HomescreenComponent {
     }
 
     ngOnInit(){
-      this.api.isUserAlreadyLoggedIn()
+      
     }
 
 }

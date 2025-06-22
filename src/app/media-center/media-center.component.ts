@@ -6,6 +6,9 @@ import { PopupWindowComponent } from '../../share/popup-window/popup-window.comp
 import { MediaCategoryService } from '../../service/media-category.service';
 import { CommonModule } from '@angular/common';
 import { VideoPlayerManagerService } from '../videoplayer/video-player-manager.service';
+import { AuthService } from '../../service/auth.service';
+import { Subscription } from 'rxjs';
+import { Router } from '@angular/router';
 @Component({
   selector: 'app-media-center',
   imports: [MediaPreviewVideoComponent, MediaCategorySliderComponent, PopupWindowComponent, CommonModule ],
@@ -13,12 +16,24 @@ import { VideoPlayerManagerService } from '../videoplayer/video-player-manager.s
   styleUrl: './media-center.component.scss'
 })
 export class MediaCenterComponent {
-  constructor(private api:ApiService, private service: MediaCategoryService, private video:VideoPlayerManagerService){
+  constructor(private api:ApiService, private service: MediaCategoryService, private video:VideoPlayerManagerService, private auth:AuthService, private router: Router){
   }
+  authSubscription!:Subscription;
+
+
   async ngOnInit(){
-    this.api.isUserLoggedIn();
-    await this.service.pullAllData();
+    await this.auth.isAuthenticated();
+    this.userfallback()
+    this.service.pullAllData();
     this.video.disableVideoMode();
+  }
+
+  userfallback(){
+    this.authSubscription = this.auth.authStatus$.subscribe(((auth:boolean) =>{
+      if(!auth) {
+        this.router.navigate(["./"]);
+      }
+    }));
   }
 
   get serviceState():boolean{
