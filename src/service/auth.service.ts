@@ -5,7 +5,10 @@ import { Router } from '@angular/router';
 import { AlertsService } from '../share/alerts/alerts.service';
 import { HttpClient } from '@angular/common/http';
 import { LOGIN_URL, REFRESH_URL, LOGOUT_URL, IS_AUTHENTICATED_URL } from './config';
-import { Observable, firstValueFrom, BehaviorSubject } from 'rxjs';
+import { Observable, firstValueFrom, BehaviorSubject,switchMap, throwError, catchError } from 'rxjs';
+import { HttpRequest, HttpHandler, HttpEvent } from '@angular/common/http';
+
+export interface AuthResponse {ok:boolean};
 
 @Injectable({
   providedIn: 'root'
@@ -19,12 +22,25 @@ private authStatusSubject = new BehaviorSubject<boolean>(false);
 authStatus$ = this.authStatusSubject.asObservable();
 
 
-login(loginObject: Login): Observable<object> {
+sendRequestForLogin(loginObject: Login): Observable<object> {
   return this.http.post(LOGIN_URL, loginObject, { withCredentials: true });
 }
 
-refreshToken() {
+
+async login(loginObject: Login):Promise<boolean>{
+  const resLogin:AuthResponse = await firstValueFrom(this.sendRequestForLogin(loginObject)) as AuthResponse;
+  if (resLogin.ok){
+    return true
+  }
+  return false
+}
+
+sendRequestForRefreshToken() {
   return this.http.post(REFRESH_URL, {}, { withCredentials: true });
+}
+
+async reshToken(){
+  const res = await firstValueFrom(this.sendRequestForRefreshToken());
 }
 
 sendRequestForIsAuthenticated():Observable<{ email_confirmed: boolean }> {
@@ -38,18 +54,17 @@ async isAuthenticated() {
     this.emailConfirme = res.email_confirmed;
     this.authStatusSubject.next(true)
   } catch (error) {
-    console.log(error);
     this.authStatusSubject.next(false)
   }
 }
 
-
-
-logout() {
+sendRequestForLogout(){
   return this.http.post(LOGOUT_URL, {}, { withCredentials: true });
 }
 
-
-
-    
+async logout() {
+  const res = await firstValueFrom(this.sendRequestForLogout());
 }
+
+}
+

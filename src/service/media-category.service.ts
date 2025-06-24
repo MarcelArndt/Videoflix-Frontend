@@ -15,6 +15,7 @@ export class MediaCategoryService {
   constructor(private api: ApiService, private http:HttpClient) { }
   public toRefreshData: boolean = false;
   public dataReady: boolean = false;
+  public refreshData = false;
 
   private selectedChoiceSubject = new BehaviorSubject<CategoryItem>({
     id:0,
@@ -67,7 +68,18 @@ export class MediaCategoryService {
     });
   }
 
-  waitForData(dataReadyCallback: () => void) {
+  async refreshAllData(){
+    this.refreshData = true
+    this.dataReady = false;
+    this.pullAllData();
+    await this.takeNewestVideoAsChoice()
+    this.waitForData(()=>{
+       this.refreshData = false;
+     })
+
+  }
+
+ waitForData(dataReadyCallback: () => void) {
     const timer = setInterval(() => {
       if (this.dataReady) {
         clearInterval(timer);

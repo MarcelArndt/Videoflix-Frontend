@@ -6,6 +6,7 @@ import { FormBuilder, FormGroup, Validators, ReactiveFormsModule} from '@angular
 import { ValidationHelperClass } from '../../service/ValidationHelperClass';
 import { CommonModule } from '@angular/common';
 import { ApiService } from '../../service/api.service';
+import { AuthService } from '../../service/auth.service';
 
 @Component({
   selector: 'app-homescreen',
@@ -17,7 +18,7 @@ export class HomescreenComponent {
 
   validation!: ValidationHelperClass;
   emailForm!: FormGroup;
-  constructor( private form: FormBuilder, private router: Router, private api:ApiService){
+  constructor( private form: FormBuilder, private router: Router, private api:ApiService, private auth:AuthService){
       this.emailForm = this.form.nonNullable.group({
         email: ['', [Validators.required, Validators.pattern(/^[^@\s]+@[^@\s]+\.[^@\s]+$/)]],
       });
@@ -29,8 +30,10 @@ export class HomescreenComponent {
       this.router.navigate(['./sign_up/form'], { queryParams: { email: this.emailForm.value.email } });
     }
 
-    ngOnInit(){
-      
+   async ngOnInit(){
+      this.auth.authStatus$.subscribe((status)=>{
+        if (status) this.router.navigate(['./media']);
+      });
     }
 
 }

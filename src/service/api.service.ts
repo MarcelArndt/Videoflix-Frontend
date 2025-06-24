@@ -75,7 +75,7 @@ async GetJSON(url:string): Promise<Response>{
       formData.append('description', videoObj.description);
       formData.append('genre', videoObj.genre.toLowerCase());
       formData.append('url', videoObj.original_file);
-      const response = new HttpRequest('POST', UPLOAD_VIDEO, formData, { reportProgress: true});
+        const response = new HttpRequest( 'POST', UPLOAD_VIDEO, formData, { reportProgress: true, withCredentials: true });
       return this.http.request(response);
     }
 }

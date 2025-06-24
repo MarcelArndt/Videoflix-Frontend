@@ -11,6 +11,7 @@ import { AlertsService } from '../../share/alerts/alerts.service';
 import { AuthService } from '../../service/auth.service';
 import { Subscription, Observable } from 'rxjs';
 
+
 @Component({
   selector: 'app-sign-in',
   imports: [IconComponent, RouterLink, FooterNavigationComponent, CommonModule, ReactiveFormsModule],
@@ -30,7 +31,7 @@ export class SignInComponent {
   validation!: ValidationHelperClass;
   readonly MIN_PASSWORD_LENGTH = 8;
   signInForm!: FormGroup;
-  loginFailed:boolean = false
+  loginFailed:boolean = false;
 
   constructor( private form: FormBuilder, private api: ApiService, private router:Router, private alert:AlertsService, private auth:AuthService){
     this.signInForm = this.form.nonNullable.group({
@@ -51,15 +52,10 @@ export class SignInComponent {
       'email': JSON.parse(JSON.stringify(this.signInForm.value.email)) as string,
       'password' : JSON.parse(JSON.stringify(this.signInForm.value.password)) as string,
     };
-    this.auth.login(loginObject).subscribe({
-      next: (res) => {
-        console.log('Login erfolgreich', res);
-        this.routerToMedia();
-      },
-      error: (err) => {
-        console.log('Fehler beim Login', err);
-      }
-    });
+    const res = await this.auth.login(loginObject);
+    if(res){
+      this.routerToMedia()
+    }
   }
 
   routerToMedia(){
@@ -67,7 +63,6 @@ export class SignInComponent {
   }
 
   ngOnInit(){
-    
   }
 
   ngAfterViewInit(){

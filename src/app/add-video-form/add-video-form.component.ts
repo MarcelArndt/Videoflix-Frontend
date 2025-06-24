@@ -13,6 +13,7 @@ import { MediaCategoryService } from '../../service/media-category.service';
 import { AlertsService } from '../../share/alerts/alerts.service';
 import { MAX_VIDEO_UPLOAD_SIZE_IN_MB } from '../../service/config';
 
+
 @Component({
   selector: 'app-add-video-form',
   imports: [ ReactiveFormsModule, IconComponent, CommonModule, SelectGenreComponent, VideouploadLoadingScreenComponent],
@@ -130,7 +131,7 @@ export class AddVideoFormComponent {
     this.selectService.resetChoice();
   }
 
-  postVideo(event:Event){
+  async postVideo(event:Event){
     event.preventDefault();
     this.isLoading.emit(true);
     this.uploadIsInProcess = true
@@ -146,5 +147,7 @@ export class AddVideoFormComponent {
         this.uploadComplete.emit();
       }
     });
+    await this.service.refreshAllData();
   }
+
 }

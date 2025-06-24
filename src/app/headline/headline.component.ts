@@ -7,6 +7,7 @@ import { PopupServiceService } from '../../share/popup-window/popup-service.serv
 import { AddVideoFormComponent } from '../add-video-form/add-video-form.component';
 import { VideoPlayerManagerService } from '../videoplayer/video-player-manager.service';
 import { Subscription } from 'rxjs';
+import { AuthService } from '../../service/auth.service';
 
 
 
@@ -25,7 +26,7 @@ export class HeadlineComponent {
     subscription!:Subscription;
     
 
-  constructor(private router:Router, public api:ApiService, private popUpService: PopupServiceService, public video: VideoPlayerManagerService){}
+  constructor(private router:Router, public api:ApiService, private popUpService: PopupServiceService, public video: VideoPlayerManagerService, public auth: AuthService){}
 
 
   @HostListener('window:resize', [])
@@ -38,7 +39,8 @@ export class HeadlineComponent {
     }
   }
 
-  logUserOut(){
+  async logUserOut(){
+    await this.auth.logout();
     this.router.navigate(['']);
   }
   
