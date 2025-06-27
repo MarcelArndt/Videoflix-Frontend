@@ -55,6 +55,8 @@ export class SignInComponent {
     const res = await this.auth.login(loginObject);
     if(res){
       this.routerToMedia()
+    } else {
+      this.loginFailed = true
     }
   }
 

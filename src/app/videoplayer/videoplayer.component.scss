@@ -13,6 +13,13 @@ video{
     width:100%;
 }
 
+.history-back{
+    z-index: 99999;
+    position: fixed;
+    top: 0px;
+    right:  0px;
+}
+
 .video-wrapper{
     width: 100%;
     height: 100%;

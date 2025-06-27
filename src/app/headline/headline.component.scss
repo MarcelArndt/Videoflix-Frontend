@@ -35,6 +35,27 @@ button{
     transition: gap 0.5s ease-in-out;
 }
 
+.button-history-back{
+    background-color: transparent;
+    padding: 0px 0px 0px 0px;
+    border: none;
+    icon{
+        font-size: 2.75rem;
+        scale: (1);
+        transition: scale 0.25s ease-in-out;
+    }
+
+    &:hover{
+        background-color: transparent;
+
+        icon{
+            scale: (1.25);
+            transition: scale 0.25s ease-in-out;
+        }
+
+    }
+}
+
 .logo{
     width: 33%;
     max-width: 200px;

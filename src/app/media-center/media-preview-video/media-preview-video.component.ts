@@ -25,14 +25,13 @@ export class MediaPreviewVideoComponent {
   isData = true;
   subscription!: Subscription;
 
- ngAfterViewInit(){
-    this.service.waitForData(() => {
-      this.service.takeNewestVideoAsChoice();
+async ngOnInit(){
+      await this.service.pullAllData();
+      await this.service.takeNewestVideoAsChoice();
       this.subscription = this.service.selectedChoice$.subscribe((item)=>{
-        this.setupPlayer(item.url);
+          this.setupPlayer(item.url);
       });
 
-    });
   }
 
   setupPlayer(url:string){

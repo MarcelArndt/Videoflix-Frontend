@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { CategoryWrapper } from '../interface/interface';
 import { CategoryItem } from '../interface/interface';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, firstValueFrom } from 'rxjs';
 import { ApiService } from './api.service';
 import { MAIN_SERVICE_URL } from './config';
 import { HttpClient } from '@angular/common/http';
@@ -16,6 +16,7 @@ export class MediaCategoryService {
   public toRefreshData: boolean = false;
   public dataReady: boolean = false;
   public refreshData = false;
+  public siteLoadet = false;
 
   private selectedChoiceSubject = new BehaviorSubject<CategoryItem>({
     id:0,
@@ -51,21 +52,16 @@ export class MediaCategoryService {
     this.selectedChoiceSubject.next({ ...newItem });
   }
 
-
   sendRequest(): Observable<object> {
     return this.http.get(MAIN_SERVICE_URL, { withCredentials: true });
   }
 
-  pullAllData()  {
-    const request = this.sendRequest();
-    request.subscribe({next:(res)=>{
+  async pullAllData()  {
+    const res =  await firstValueFrom(this.sendRequest());
+    if(res){
       this.dataquarry = res as CategoryWrapper
       this.dataReady = true
-    }, 
-    error: (error)=>{
-      console.log(error);
     }
-    });
   }
 
   async refreshAllData(){

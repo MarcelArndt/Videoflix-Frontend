@@ -8,6 +8,7 @@ import { AddVideoFormComponent } from '../add-video-form/add-video-form.componen
 import { VideoPlayerManagerService } from '../videoplayer/video-player-manager.service';
 import { Subscription } from 'rxjs';
 import { AuthService } from '../../service/auth.service';
+import { MediaCategoryService } from '../../service/media-category.service';
 
 
 
@@ -26,7 +27,7 @@ export class HeadlineComponent {
     subscription!:Subscription;
     
 
-  constructor(private router:Router, public api:ApiService, private popUpService: PopupServiceService, public video: VideoPlayerManagerService, public auth: AuthService){}
+  constructor(private router:Router, public api:ApiService, private popUpService: PopupServiceService, public video: VideoPlayerManagerService, public auth: AuthService, private service:MediaCategoryService){}
 
 
   @HostListener('window:resize', [])
@@ -43,20 +44,38 @@ export class HeadlineComponent {
     await this.auth.logout();
     this.router.navigate(['']);
   }
+
+  buttonBackwards(){
+    this.video.disableVideoMode();
+    this.service.refreshAllData();
+    history.back();
+  }
   
-  ngOnInit(){
-    this.subscription = this.video.isVideoMode$.subscribe((boolean)=>{
-      this.isVideoMode = boolean
-      if(boolean){
-        this.sourceOfLogo = './assets/logo-small.svg';
-      } else {
-        this.onResize()
-      }
-    });
+  async ngOnInit(){
+    await this.checkIsAuth()
+    this.getSmallLogo()
     this.onResize();
   }
   ngOnDestroy(){
     this.subscription.unsubscribe()
+  }
+
+  async checkIsAuth(){
+    await this.auth.isAuthenticated()
+      this.auth.authStatus$.subscribe((status)=>{
+        if (!status) this.router.navigate([' ']);
+      });
+  }
+
+  getSmallLogo(){
+  this.subscription = this.video.isVideoMode$.subscribe((boolean)=>{
+        this.isVideoMode = boolean
+        if(boolean){
+          this.sourceOfLogo = './assets/logo-small.svg';
+        } else {
+          this.onResize()
+        }
+      });
   }
 
   openPopUpWindow(){

@@ -1,5 +1,7 @@
 <div class="text-preview-wrapper" *ngIf="isData">
-    <h1>{{isData ? headline  : 'No Video Found'}}</h1>
-    <p class="description">{{isData ? description  : 'Please upload at least one Video to show this Conten'}}</p>
+    <ng-container *ngIf="this.service.selectedChoice$ | async as video">
+    <h1>{{video.headline}}</h1>
+    <p class="description">{{video.description}}</p>
     <button *ngIf="isData" (click)="openVideoPlayer($event)"><icon>arrow_right</icon>Play</button>
+    </ng-container>
 </div>  

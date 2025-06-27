@@ -9,6 +9,9 @@ import { VideoPlayerManagerService } from '../videoplayer/video-player-manager.s
 import { AuthService } from '../../service/auth.service';
 import { Subscription } from 'rxjs';
 import { Router } from '@angular/router';
+
+
+
 @Component({
   selector: 'app-media-center',
   imports: [MediaPreviewVideoComponent, MediaCategorySliderComponent, PopupWindowComponent, CommonModule ],
@@ -24,8 +27,8 @@ export class MediaCenterComponent {
   async ngOnInit(){
     await this.auth.isAuthenticated();
     this.userfallback()
-    this.service.pullAllData();
     this.video.disableVideoMode();
+    this.service.siteLoadet = true;
   }
 
   userfallback(){

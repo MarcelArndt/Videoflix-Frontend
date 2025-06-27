@@ -7,6 +7,7 @@ import { ValidationHelperClass } from '../../service/ValidationHelperClass';
 import { CommonModule } from '@angular/common';
 import { ApiService } from '../../service/api.service';
 import { AuthService } from '../../service/auth.service';
+import { VideoPlayerManagerService } from '../videoplayer/video-player-manager.service';
 
 @Component({
   selector: 'app-homescreen',
@@ -18,7 +19,7 @@ export class HomescreenComponent {
 
   validation!: ValidationHelperClass;
   emailForm!: FormGroup;
-  constructor( private form: FormBuilder, private router: Router, private api:ApiService, private auth:AuthService){
+  constructor( private form: FormBuilder, private router: Router, private api:ApiService, private auth:AuthService, private video: VideoPlayerManagerService){
       this.emailForm = this.form.nonNullable.group({
         email: ['', [Validators.required, Validators.pattern(/^[^@\s]+@[^@\s]+\.[^@\s]+$/)]],
       });
@@ -31,6 +32,8 @@ export class HomescreenComponent {
     }
 
    async ngOnInit(){
+      this.video.disableVideoMode();
+      await this.auth.isAuthenticated()
       this.auth.authStatus$.subscribe((status)=>{
         if (status) this.router.navigate(['./media']);
       });

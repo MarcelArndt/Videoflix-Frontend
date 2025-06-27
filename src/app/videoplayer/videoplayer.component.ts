@@ -47,6 +47,7 @@ async getVideo(){
     const url = UPLOAD_VIDEO + `${this.currentVideoId}/`
     let response = await this.api.GetJSON(url);
     const data = await response.data;
+    console.log(data);
     this.service.setNewSelectedChoice(data);
   } catch (error) {
     console.error('Fehler beim Laden des Videos:', error);
@@ -110,6 +111,7 @@ ngOnInit() {
     this.currentVideoId = params['videoId'] || '';
     if (this.currentVideoId) {
       await this.getVideo();
+      console.log()
     }
   });
 

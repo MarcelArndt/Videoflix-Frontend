@@ -7,6 +7,9 @@
         <div class="button-container"><button (click)="openPopUpWindow()"><icon>add</icon><span>Add Video</span></button></div>
         <div class="button-container"><button (click)="logUserOut()"><icon>logout</icon><span>Log Out</span></button></div>
         </ng-container>
+        <ng-container *ngIf="isVideoMode && signIn">
+          <button class="button-history-back" (click)="buttonBackwards()"><icon>arrow_back</icon></button>
+        </ng-container>
       </div>
     </div>
 </section>

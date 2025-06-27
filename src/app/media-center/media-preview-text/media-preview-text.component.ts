@@ -7,6 +7,7 @@ import { VideoPlayerManagerService } from '../../videoplayer/video-player-manage
 import { Subscription} from 'rxjs';
 import { Router } from '@angular/router';
 
+
 @Component({
   selector: 'app-media-preview-text',
   imports: [IconComponent, CommonModule  ],
@@ -14,9 +15,9 @@ import { Router } from '@angular/router';
   styleUrl: './media-preview-text.component.scss'
 })
 export class MediaPreviewTextComponent {
-  constructor(private service: MediaCategoryService, private alert: AlertsService , private video:VideoPlayerManagerService, private router: Router){}
-  @Input() headline:string = '';
-  @Input() description:string = '';
+  constructor(public service: MediaCategoryService, private alert: AlertsService , private video:VideoPlayerManagerService, private router: Router){}
+  headline:string = '';
+  description:string = '';
   isData:boolean = false;
   currenVideotId!:number;
   subscription!:Subscription;
@@ -26,13 +27,14 @@ export class MediaPreviewTextComponent {
   if(!this.isData) this.alert.setAlert('No Video Found. Please Upload at least One Video!');
   this.subscription = this.service.selectedChoice$.subscribe((item)=>{
     this.currenVideotId = item.id
+    this.description = item.description
+    this.headline = item.headline
   });
   }
 
   openVideoPlayer(event:Event){
     event.preventDefault();
     this.router.navigate(['/video'], { queryParams: {videoId: this.currenVideotId} });
-   
   }
 
 }

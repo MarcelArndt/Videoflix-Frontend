@@ -28,9 +28,12 @@ sendRequestForLogin(loginObject: Login): Observable<object> {
 
 
 async login(loginObject: Login):Promise<boolean>{
-  const resLogin:AuthResponse = await firstValueFrom(this.sendRequestForLogin(loginObject)) as AuthResponse;
-  if (resLogin.ok){
-    return true
+  try{
+    const resLogin:AuthResponse = await firstValueFrom(this.sendRequestForLogin(loginObject)) as AuthResponse;
+    if (resLogin.ok) return true
+  }
+  catch(error){
+    return false
   }
   return false
 }
