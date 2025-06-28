@@ -67,11 +67,11 @@ export class MediaCategoryService {
   async refreshAllData(){
     this.refreshData = true
     this.dataReady = false;
-    this.pullAllData();
-    await this.takeNewestVideoAsChoice()
+    await this.pullAllData();
+    await this.takeNewestVideoAsChoice();
     this.waitForData(()=>{
        this.refreshData = false;
-     })
+     });
 
   }
 

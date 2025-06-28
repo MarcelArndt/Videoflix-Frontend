@@ -2,6 +2,9 @@
     <ng-container *ngIf="this.service.selectedChoice$ | async as video">
     <h1>{{video.headline}}</h1>
     <p class="description">{{video.description}}</p>
+    <div class="flex">
     <button *ngIf="isData" (click)="openVideoPlayer($event)"><icon>arrow_right</icon>Play</button>
+    <button class="delete-button" *ngIf="isData" (click)="deleteVideo($event)"><icon>delete</icon><span>Delete</span></button>
+    </div>
     </ng-container>
 </div>  

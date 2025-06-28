@@ -55,7 +55,7 @@ isData:boolean = false
 
   updateScrollButtons(element: HTMLElement, category: string) {
   this.canScrollLeft[category] = element.scrollLeft > 0;
-  this.canScrollRight[category] = element.scrollLeft + element.clientWidth < element.scrollWidth;
+  this.canScrollRight[category] = element.scrollLeft + element.clientWidth < (element.scrollWidth - 15) ;
   }
 
   scrollTo(category: string, direction:string = ""){

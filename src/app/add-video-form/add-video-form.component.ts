@@ -12,6 +12,7 @@ import { VideouploadLoadingScreenComponent } from './videoupload-loading-screen/
 import { MediaCategoryService } from '../../service/media-category.service';
 import { AlertsService } from '../../share/alerts/alerts.service';
 import { MAX_VIDEO_UPLOAD_SIZE_IN_MB } from '../../service/config';
+import { Router } from '@angular/router';
 
 
 @Component({
@@ -39,7 +40,7 @@ export class AddVideoFormComponent {
   uploadProcess:number = 0
   uploadIsInProcess:boolean = false
 
-  constructor(private form: FormBuilder, private selectService:SelectGenreService, private api: ApiService, private service: MediaCategoryService, private alert:AlertsService){
+  constructor(private form: FormBuilder, private selectService:SelectGenreService, private api: ApiService, private service: MediaCategoryService, private alert:AlertsService, private router: Router){
       this.uploadForm = this.form.nonNullable.group({
       title: ['', [Validators.required]],
       description: ['', [Validators.required]],
@@ -110,7 +111,7 @@ export class AddVideoFormComponent {
   fakeProcess(){
     if(this.uploadProcess <= 100){
       setTimeout(()=>{
-        const randomInt = Math.floor(Math.random() * 4)
+        const randomInt = Math.floor(Math.random() * 3)
         this.uploadProcess = this.uploadProcess + randomInt;
         if(this.uploadProcess > 100){
           this.uploadProcess = 100;
@@ -118,7 +119,7 @@ export class AddVideoFormComponent {
         if (this.uploadProcess < 100){
           this.fakeProcess()
         }
-      }, 350);
+      }, 2250);
     }
   }
 
@@ -139,15 +140,17 @@ export class AddVideoFormComponent {
     this.resetAll();
     this.api.postVideo(videoObj).subscribe(event => {
       if (event.type === HttpEventType.UploadProgress) {
-        this.fakeProcess()
+        this.fakeProcess();
       } else if (event.type === HttpEventType.Response) {
         this.isLoading.emit(false);
-        this.uploadIsInProcess = false
-        this.alert.setAlert('Upload was successfully.', false)
+        this.uploadIsInProcess = false;
+        this.alert.setAlert('Upload was successfully.', false);
         this.uploadComplete.emit();
+        this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
+          this.router.navigate(['/media']);
+        });
       }
     });
-    await this.service.refreshAllData();
   }
 
 }

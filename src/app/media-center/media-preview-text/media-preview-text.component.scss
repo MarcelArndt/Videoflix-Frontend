@@ -11,6 +11,46 @@ p{
     padding-bottom: 16px;
 }
 
+.flex{
+    display: flex;
+    flex-wrap: nowrap;
+}
+
+.delete-button{
+    margin-left: 16px;
+    background-color: var(--grey);
+    padding-right: 16px;
+    color: var(--light-grey);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    span{
+        padding-left: 6px;
+    }
+
+    icon{
+        height: 100%;
+        font-size: 1.75rem;
+        margin-left: 12px;
+        color: var(--light-grey);
+        transition: color 0.125s ease-in-out;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    &:hover {
+        background-color: var(--red-hover);
+        color: var(--white); 
+    }
+
+    &:hover icon{
+        color: var(--white); 
+        transition: color 0.125s ease-in-out;
+    }
+}
+
 .description{
     max-width: min(33vw, 500px);
     display: -webkit-box;

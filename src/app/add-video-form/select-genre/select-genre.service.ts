@@ -38,8 +38,10 @@ export class SelectGenreService {
   }
 
   resetChoice(){
+    this.isfieldDirty.next(false);
     this.currentChoice.next('');
     this.displayChoice = 'select Genre';
+    this.isFirstTime = true;
     this.closeMenu();
   }
 
