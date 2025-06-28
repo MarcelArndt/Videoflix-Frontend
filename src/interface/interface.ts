@@ -69,15 +69,22 @@ export interface ResetPassWordForm {
 }
 
 export interface AuthData {
-    username: string
-    email: string
-    token: string
-    user_id: number
+    username: string,
+    email: string,
+    token: string,
+    user_id: number,
     email_is_confirmed: boolean
 }
 
 export interface SendEmail {
     user_id: string
+}
+
+export interface videoProgress {
+  current_time:number,
+  is_finished:boolean,
+  updated_at:string,
+  id:number
 }
 
 

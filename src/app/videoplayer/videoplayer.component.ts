@@ -7,7 +7,9 @@ import videojs from 'video.js'
 import { ActivatedRoute } from '@angular/router';
 import { UPLOAD_VIDEO } from '../../service/config';
 import { HttpClient} from '@angular/common/http';
-import { UPDATE_INTERVAL_PROGRESS, VIDEO_PROGRESS } from '../../service/config';
+import { UPDATE_INTERVAL_PROGRESS_IN_SEC, VIDEO_PROGRESS_URL } from '../../service/config';
+import { AuthService } from '../../service/auth.service';
+import { videoProgress } from '../../interface/interface';
 
 
 @Component({
@@ -17,7 +19,7 @@ import { UPDATE_INTERVAL_PROGRESS, VIDEO_PROGRESS } from '../../service/config';
   styleUrl: './videoplayer.component.scss'
 })
 export class VideoplayerComponent {
-  constructor(public service:MediaCategoryService, private api:ApiService, private video:VideoPlayerManagerService, private route: ActivatedRoute, private http:HttpClient){}
+  constructor(public service:MediaCategoryService, private api:ApiService, private video:VideoPlayerManagerService, private route: ActivatedRoute, private http:HttpClient, private auth:AuthService ){}
 
   @ViewChild('videoScreen') videoPlayer!:ElementRef;
   subscription!:Subscription;
@@ -29,12 +31,13 @@ export class VideoplayerComponent {
   bufferedVideoUrl: string | null = null;
   videoProgressId!:number;
   videoBufferTimer!:number;
-  updateInterval:number = UPDATE_INTERVAL_PROGRESS;
+  updateInterval:number = UPDATE_INTERVAL_PROGRESS_IN_SEC;
   lastSavedTime!:number;
+  latestProgressId!:number
 
 
 checkForUrlParams(){
- this.paramSubscription = this.route.queryParams.subscribe(async params => {
+  this.paramSubscription = this.route.queryParams.subscribe(async (params) => {
     this.currentVideoId = params['videoId'] || '';
     if (this.currentVideoId) {
       await this.getVideo();
@@ -47,13 +50,23 @@ async getVideo(){
     const url = UPLOAD_VIDEO + `${this.currentVideoId}/`
     let response = await this.api.GetJSON(url);
     const data = await response.data;
-    console.log(data);
     this.service.setNewSelectedChoice(data);
   } catch (error) {
     console.error('Fehler beim Laden des Videos:', error);
   }
 }
 
+
+initPlayer(){
+    this.subscription = this.service.selectedChoice$.subscribe((item) => {
+    if (!item?.url) return;
+    if (this.playerReady) {
+      this.setupPlayer(item.url);
+    } else {
+      this.bufferedVideoUrl = item.url;
+    }
+  });
+}
 
 
 setupPlayer(url:string){
@@ -69,17 +82,24 @@ setupPlayer(url:string){
   }
 }
 
-isVideoEnded(){
- this.saveProgress(this.videoPlayer.nativeElement.duration, true);
+async isVideoEnded(){
+ await this.saveProgress(this.videoPlayer.nativeElement.duration, true);
 }
 
-onTimeUpdate(){
+
+async onTimeUpdate(){
   const currentTime = this.videoPlayer.nativeElement.currentTime;
-  if (!this.lastSavedTime) return
   if (Math.abs(currentTime - this.lastSavedTime) >= this.updateInterval) {
       this.lastSavedTime = currentTime;
-      this.saveProgress(currentTime, false);
+     await this.saveProgress(currentTime, false);
     }
+}
+
+
+async updateOnSeek(){
+  const currentTime = this.videoPlayer.nativeElement.currentTime;
+  this.lastSavedTime = currentTime;
+  await this.saveProgress(currentTime, false);
 }
 
 
@@ -97,41 +117,37 @@ ngAfterViewInit() {
 }
 
 
-ngOnInit() {
-  this.subscription = this.service.selectedChoice$.subscribe((item) => {
-    if (!item?.url) return;
-    if (this.playerReady) {
-      this.setupPlayer(item.url);
-    } else {
-      this.bufferedVideoUrl = item.url;
-    }
-  });
-
-  this.paramSubscription = this.route.queryParams.subscribe(async (params) => {
-    this.currentVideoId = params['videoId'] || '';
-    if (this.currentVideoId) {
-      await this.getVideo();
-      console.log()
-    }
-  });
-
+async askForLatestTime(){
+  const params = {'videoId': this.currentVideoId}
+  const res:videoProgress[] = await this.api.get(VIDEO_PROGRESS_URL, params) as videoProgress[];
+  if (res.length <= 0){
+    const body = {'video': this.currentVideoId};
+    await this.api.post(VIDEO_PROGRESS_URL, body);
+    await this.askForLatestTime();
+  } else {
+    this.lastSavedTime = res[0].current_time
+    this.videoPlayer.nativeElement.currentTime = res[0].current_time
+    this.latestProgressId = res[0].id
+  }
 }
 
-saveProgress(currentTime: number, isFinished: boolean) {
+
+async ngOnInit() {
+  this.initPlayer();
+  this.checkForUrlParams();
+  await this.askForLatestTime();
+}
+
+
+async saveProgress(currentTime: number, isFinished: boolean) {
     const body = {
-      video: this.currentVideoId,
-      current_time: currentTime,
-      is_finished: isFinished
+      'current_time': currentTime,
+      'is_finished': isFinished,
+      'video': this.currentVideoId
     };
 
-    if (this.videoProgressId) {
-      const url = VIDEO_PROGRESS + `/${this.videoProgressId}`
-      this.http.put(url, body).subscribe();
-    } else {
-      this.http.post(VIDEO_PROGRESS, body).subscribe((response: any) => {
-        this.videoProgressId = response.id;
-      });
-    }
+    const url = VIDEO_PROGRESS_URL + `${this.latestProgressId}`
+    await this.api.patch(url,body)
   }
 
 

@@ -179,6 +179,7 @@ h1{
     margin-inline-start: 0px;
     margin-inline-end: 0px;
     margin: 16px 0px;
+    text-wrap: balance;
 }
 
 h2{
@@ -189,6 +190,7 @@ h2{
     margin-inline-start: 0px;
     margin-inline-end: 0px;
     margin: 16px 0px;
+    text-wrap: balance;
 }
 
 h4{
@@ -202,6 +204,7 @@ h4{
     margin-inline-end: 0px;
     font-weight: 500;
     unicode-bidi: isolate;
+    text-wrap: balance;
 }
 
 input{

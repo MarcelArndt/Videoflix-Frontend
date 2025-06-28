@@ -50,7 +50,6 @@ sendRequestForIsAuthenticated():Observable<{ email_confirmed: boolean }> {
   return this.http.post<{ email_confirmed: boolean }>(IS_AUTHENTICATED_URL, {}, { withCredentials: true });
 }
 
-
 async isAuthenticated() {
   try {
     const res = await firstValueFrom(this.sendRequestForIsAuthenticated());
