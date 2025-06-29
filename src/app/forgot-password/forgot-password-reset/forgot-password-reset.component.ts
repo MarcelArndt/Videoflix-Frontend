@@ -8,6 +8,7 @@ import { CommonModule, Location} from '@angular/common';
 import { passwordsMatchValidator } from '../../custom-validators/password-missmatch';
 import { ApiService } from '../../../service/api.service';
 import { AlertsService } from '../../../share/alerts/alerts.service';
+import { RESET_PASSWORD } from '../../../service/config';
 
 @Component({
   selector: 'app-forgot-password-reset',
@@ -54,8 +55,8 @@ export class ForgotPasswordResetComponent {
         password : resetPasswordForm.password,
         repeated_password : resetPasswordForm.repeatedPassword
       }
-      const response = await this.api.resetPassword(requestData);
-      if(response.ok){
+      const response = await this.api.post(RESET_PASSWORD,requestData);
+      if(response){
         this.alert.setAlert('Password successfully recovered', false)
         this.routerToMedia()
       } else {

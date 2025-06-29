@@ -9,6 +9,7 @@ import { ApiService } from '../../service/api.service';
 import { AuthService } from '../../service/auth.service';
 import { VideoPlayerManagerService } from '../videoplayer/video-player-manager.service';
 
+
 @Component({
   selector: 'app-homescreen',
   imports: [IconComponent, FooterNavigationComponent, CommonModule, ReactiveFormsModule],
@@ -35,7 +36,7 @@ export class HomescreenComponent {
       this.video.disableVideoMode();
       await this.auth.isAuthenticated()
       this.auth.authStatus$.subscribe((status)=>{
-        if (status) this.router.navigate(['./media']);
+        if (status) this.router.navigate(['/media']);
       });
     }
 

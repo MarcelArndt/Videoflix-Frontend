@@ -11,8 +11,6 @@ import { AuthService } from '../../service/auth.service';
 import { MediaCategoryService } from '../../service/media-category.service';
 
 
-
-
 @Component({
   selector: 'app-headline',
   imports: [CommonModule, RouterLink, IconComponent],
@@ -23,7 +21,6 @@ export class HeadlineComponent {
 
     sourceOfLogo:string=''
     sourceOfLogoDefault = ''
-    isVideoMode = false;
     subscription!:Subscription;
     
 
@@ -32,7 +29,7 @@ export class HeadlineComponent {
 
   @HostListener('window:resize', [])
   onResize() {
-    if (window.innerWidth <= 650 || this.isVideoMode){
+    if (window.innerWidth <= 650 || this.api.isVideoMode){
        this.sourceOfLogo = './assets/logo-small.svg'
     }
     else {
@@ -52,7 +49,7 @@ export class HeadlineComponent {
   }
   
   async ngOnInit(){
-    await this.checkIsAuth()
+
     this.getSmallLogo()
     this.onResize();
   }
@@ -60,16 +57,10 @@ export class HeadlineComponent {
     this.subscription.unsubscribe()
   }
 
-  async checkIsAuth(){
-    await this.auth.isAuthenticated()
-      this.auth.authStatus$.subscribe((status)=>{
-        if (!status) this.router.navigate([' ']);
-      });
-  }
 
   getSmallLogo(){
   this.subscription = this.video.isVideoMode$.subscribe((boolean)=>{
-        this.isVideoMode = boolean
+        this.api.isVideoMode = boolean
         if(boolean){
           this.sourceOfLogo = './assets/logo-small.svg';
         } else {

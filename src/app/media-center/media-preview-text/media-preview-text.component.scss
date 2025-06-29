@@ -1,5 +1,6 @@
 h1{
     text-align: left;
+    margin-top: 0px;
 }
 
 button{
@@ -18,21 +19,31 @@ p{
 
 .delete-button{
     margin-left: 16px;
-    background-color: var(--grey);
-    padding-right: 16px;
+    background-color: transparent;
+    width: 156px;
     color: var(--light-grey);
     display: flex;
     justify-content: center;
     align-items: center;
+    border: 1px solid var(--blue-hover);
+    padding: 10px 26px 10px 52px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 16px;
+
+
 
     span{
-        padding-left: 6px;
+        width: max-content;
+        display: block;
     }
 
     icon{
+        margin-left: 18px;
+        width: max-content;
         height: 100%;
-        font-size: 1.75rem;
-        margin-left: 12px;
+        font-size: 1.7rem;
         color: var(--light-grey);
         transition: color 0.125s ease-in-out;
         display: flex;
@@ -41,7 +52,7 @@ p{
     }
 
     &:hover {
-        background-color: var(--red-hover);
+        border-color: var(--red-hover);
         color: var(--white); 
     }
 
@@ -61,10 +72,6 @@ p{
     text-overflow: ellipsis;
     padding-bottom: 0px;
     text-wrap: balance;
-}
-
-h1{
-    margin-top: 0px;
 }
 
 
@@ -103,6 +110,19 @@ icon{
     .description{
         width:100%;
         max-width: none;
+        line-clamp:4;
+        -webkit-line-clamp: 4;
     }
+
+    h1{
+        line-clamp:2;
+        -webkit-line-clamp: 2;
+         display: -webkit-box;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+        text-overflow: ellipsis; 
+        line-height: 105%;  
+    }
+
     
 }

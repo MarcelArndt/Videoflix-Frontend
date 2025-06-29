@@ -5,10 +5,35 @@
     object-position: center center;
 }
 
+.placeholder{
+  position: relative;
+  width: 100%;
+  height: calc(100vh - 250px);
+  overflow: hidden;
+  user-select: none;
+  
+  img{
+    width: 100%;
+    object-fit: cover; 
+  }
+
+  &::before{
+    content: '';
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    height: 100%;
+    width: 100%;
+    background-color: rgba(0, 15, 30, 0.82);
+  }
+}
+
 .video-wrapper {
   position: relative;
   width: 100%;
-  height: calc(100vh - 250px); 
+  height: calc(100vh - 250px);
+
+
 
   &::before, &::after {
     content: '';
@@ -17,6 +42,7 @@
     height: 33%;
     left: 0;
     z-index: 10;
+    overflow: hidden;
   }
 
   &::before {
@@ -80,6 +106,13 @@
         padding: 0px 40px;
         left: 0px;
         padding: 0px 16px;
+    }
+
+    .placeholder{
+      height: 50vh;
+      &::after{
+        bottom: calc(50% - 50%);
+      }
     }
 
 

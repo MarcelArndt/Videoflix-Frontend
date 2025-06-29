@@ -6,17 +6,20 @@ import { ApiService } from './api.service';
 import { MAIN_SERVICE_URL } from './config';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { AuthService } from './auth.service';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root'
 })
 export class MediaCategoryService {
 
-  constructor(private api: ApiService, private http:HttpClient) { }
+  constructor(private api: ApiService, private http:HttpClient, private auth:AuthService, private router: Router) { }
   public toRefreshData: boolean = false;
   public dataReady: boolean = false;
   public refreshData = false;
   public siteLoadet = false;
+  public lenghtOfData:number = 0;
 
   private selectedChoiceSubject = new BehaviorSubject<CategoryItem>({
     id:0,
@@ -43,7 +46,7 @@ export class MediaCategoryService {
   }
 
   async takeNewestVideoAsChoice(){
-    if (!this.dataquarry) return
+    if (!this.dataquarry || this.lenghtOfData <= 0) return
     let newItem = null
     if(this.dataquarry['newOnVideoflix'].content[0]){
           newItem = await JSON.parse(JSON.stringify(this.dataquarry['newOnVideoflix'].content[0]));
@@ -57,9 +60,12 @@ export class MediaCategoryService {
   }
 
   async pullAllData()  {
+    const auth = await this.auth.isAuth()
+    if (!auth) return
     const res =  await firstValueFrom(this.sendRequest());
     if(res){
       this.dataquarry = res as CategoryWrapper
+      this.lenghtOfData = Object.keys(this.dataquarry).length
       this.dataReady = true
     }
   }

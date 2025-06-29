@@ -6,6 +6,7 @@ import { ValidationHelperClass } from '../../../service/ValidationHelperClass';
 import { CommonModule } from '@angular/common';
 import { ApiService } from '../../../service/api.service';
 import { AlertsService } from '../../../share/alerts/alerts.service';
+import { FIND_USER_RESET_PASSWORD } from '../../../service/config';
 
 
 
@@ -36,8 +37,9 @@ export class ForgotPasswordFormComponent {
     const requestData = { 
       email : forgotPwForm.email,
     }
-    const response = await this.api.findUserByEmail(requestData);
-    if(response.ok){
+    const response = await this.api.post(FIND_USER_RESET_PASSWORD,requestData);
+    console.log(response)
+    if(response){
       this.alert.setAlert('Mail sent to reset password', false);
       this.routerToCheckMail()
     } else {

@@ -5,6 +5,8 @@ import { checkScrollbar } from '../../../service/scrollbar';
 import { Location } from '@angular/common';
 import { ApiService } from '../../../service/api.service';
 import { SendEmail } from '../../../interface/interface';
+import { RESEND_EMAIL } from '../../../service/config';
+import { AlertsService } from '../../../share/alerts/alerts.service';
 @Component({
   selector: 'app-send-confirm-email',
   imports: [IconComponent, RouterLink ],
@@ -12,7 +14,7 @@ import { SendEmail } from '../../../interface/interface';
   styleUrls: ['./send-confirm-email.component.scss', "./../sign-up-form/show-scroolable.scss"]
 })
 export class SendConfirmEmailComponent {
-  constructor(private route: ActivatedRoute, private location: Location, private api:ApiService){}
+  constructor(private route: ActivatedRoute, private location: Location, private api:ApiService, private alert: AlertsService ){}
 
   private userId:string = ""
 
@@ -37,13 +39,15 @@ export class SendConfirmEmailComponent {
       this.userId = params['userId'] || '';
       this.location.replaceState('/confirm');
     });
+    
   }
 
-  sendEmailAgain(){
+  async sendEmailAgain(){
     const email_object:SendEmail = {
       "user_id": this.userId,
     }
-    this.api.resendEmail(email_object)
+    const response = await this.api.post(RESEND_EMAIL,email_object);
+    if (response) this.alert.setAlert('E-Mail was sent',false);
   }
 
 

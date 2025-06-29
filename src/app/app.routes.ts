@@ -17,6 +17,7 @@ import { VideoplayerComponent } from './videoplayer/videoplayer.component';
  
 export const routes: Routes = [
     { path: '', component: HomescreenComponent },
+    { path: 'home', component: HomescreenComponent },
     { path: 'sign_in', component: SignInComponent },
     { path: 'impressum', component: ImpressumComponent},
     { path: 'data-protection', component:  DatenschutzComponent},
@@ -35,5 +36,6 @@ export const routes: Routes = [
     ] },
     {path: 'media', component: MediaCenterComponent },
     {path: 'video', component: VideoplayerComponent },
-    { path: '**', redirectTo: '' }
+    { path: '**', redirectTo: 'home' }
+
 ];

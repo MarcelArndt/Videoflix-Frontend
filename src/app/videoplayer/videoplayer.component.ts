@@ -10,6 +10,7 @@ import { HttpClient} from '@angular/common/http';
 import { UPDATE_INTERVAL_PROGRESS_IN_SEC, VIDEO_PROGRESS_URL } from '../../service/config';
 import { AuthService } from '../../service/auth.service';
 import { videoProgress } from '../../interface/interface';
+import { Router } from '@angular/router';
 
 
 @Component({
@@ -19,7 +20,7 @@ import { videoProgress } from '../../interface/interface';
   styleUrl: './videoplayer.component.scss'
 })
 export class VideoplayerComponent {
-  constructor(public service:MediaCategoryService, private api:ApiService, private video:VideoPlayerManagerService, private route: ActivatedRoute, private http:HttpClient, private auth:AuthService ){}
+  constructor(public service:MediaCategoryService, private api:ApiService, private video:VideoPlayerManagerService, private route: ActivatedRoute, private http:HttpClient, private auth:AuthService, private router:Router ){}
 
   @ViewChild('videoScreen') videoPlayer!:ElementRef;
   subscription!:Subscription;
@@ -48,9 +49,8 @@ checkForUrlParams(){
 async getVideo(){
   try {
     const url = UPLOAD_VIDEO + `${this.currentVideoId}/`
-    let response = await this.api.GetJSON(url);
-    const data = await response.data;
-    this.service.setNewSelectedChoice(data);
+    let response = await this.api.get(url);
+    this.service.setNewSelectedChoice(response);
   } catch (error) {
     console.error('Fehler beim Laden des Videos:', error);
   }
@@ -131,11 +131,12 @@ async askForLatestTime(){
   }
 }
 
-
 async ngOnInit() {
+  await this.auth.isAuth()
   this.initPlayer();
   this.checkForUrlParams();
   await this.askForLatestTime();
+  this.api.isVideoMode = true;
 }
 
 

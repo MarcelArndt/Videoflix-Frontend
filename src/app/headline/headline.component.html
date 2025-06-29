@@ -1,13 +1,13 @@
 <section class="head-wrapper" >
     <div class="logo"><img [src]="this.sourceOfLogo" routerLink="/" alt="logo"></div>
     <div *ngIf="!this.api.isImpressum" >
-      <div *ngIf="!(auth.authStatus$ | async) && !isVideoMode" class="button-container"><button routerLink="/sign_in">Log-In</button></div>
+      <div *ngIf="!(auth.authStatus$ | async) && !api.isVideoMode" class="button-container"><button routerLink="/sign_in">Log-In</button></div>
       <div class="head-button-wrapper" *ngIf="auth.authStatus$ | async as signIn">
-        <ng-container *ngIf="!isVideoMode && signIn">
+        <ng-container *ngIf="!api.isVideoMode && signIn">
         <div class="button-container"><button (click)="openPopUpWindow()"><icon>add</icon><span>Add Video</span></button></div>
         <div class="button-container"><button (click)="logUserOut()"><icon>logout</icon><span>Log Out</span></button></div>
         </ng-container>
-        <ng-container *ngIf="isVideoMode && signIn">
+        <ng-container *ngIf="api.isVideoMode">
           <button class="button-history-back" (click)="buttonBackwards()"><icon>arrow_back</icon></button>
         </ng-container>
       </div>

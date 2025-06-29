@@ -19,7 +19,7 @@ import { Router } from '@angular/router';
   styleUrl: './media-center.component.scss'
 })
 export class MediaCenterComponent {
-  constructor(private api:ApiService, private service: MediaCategoryService, private video:VideoPlayerManagerService, private auth:AuthService, private router: Router){
+  constructor(private api:ApiService, public service: MediaCategoryService, private video:VideoPlayerManagerService, private auth:AuthService, private router: Router){
   }
   authSubscription!:Subscription;
 
@@ -29,12 +29,13 @@ export class MediaCenterComponent {
     this.userfallback()
     this.video.disableVideoMode();
     this.service.siteLoadet = true;
+    this.api.isVideoMode = false;
   }
 
   userfallback(){
     this.authSubscription = this.auth.authStatus$.subscribe(((auth:boolean) =>{
       if(!auth) {
-        this.router.navigate(["./"]);
+        this.router.navigate(["/home"]);
       }
     }));
   }

@@ -39,11 +39,11 @@ export class SignInComponent {
       password: ['', [Validators.required, Validators.minLength(this.MIN_PASSWORD_LENGTH)]],
     });
 
-    this.validation = new ValidationHelperClass(this.signInForm, {'MIN_PASSWORD_LENGTH':this.MIN_PASSWORD_LENGTH})
+    this.validation = new ValidationHelperClass(this.signInForm, {'MIN_PASSWORD_LENGTH':this.MIN_PASSWORD_LENGTH});
   }
 
   changePasswordFieldType(){
-    this.fieldTypeIsPassword = !this.fieldTypeIsPassword
+    this.fieldTypeIsPassword = !this.fieldTypeIsPassword;
   }
 
   async sendSignIn(event:Event){
@@ -54,9 +54,13 @@ export class SignInComponent {
     };
     const res = await this.auth.login(loginObject);
     if(res){
-      this.routerToMedia()
+      this.alert.setAlert('Sign-In was successful', false);
+      setTimeout(()=>{
+        this.routerToMedia();
+      },1750);
+
     } else {
-      this.loginFailed = true
+      this.loginFailed = true;
     }
   }
 
@@ -68,12 +72,12 @@ export class SignInComponent {
   }
 
   ngAfterViewInit(){
-    checkScrollbar(this.scrollbar, this.scrollAnimtion)
+    checkScrollbar(this.scrollbar, this.scrollAnimtion);
   }
 
   resetLoginFailed(){
     if (!this.loginFailed) return
-     this.loginFailed = false
+     this.loginFailed = false;
   }
 
 }

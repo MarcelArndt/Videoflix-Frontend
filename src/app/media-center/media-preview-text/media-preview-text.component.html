@@ -1,5 +1,5 @@
-<div class="text-preview-wrapper" *ngIf="isData">
-    <ng-container *ngIf="this.service.selectedChoice$ | async as video">
+<div class="text-preview-wrapper" *ngIf="isData && service.lenghtOfData > 0">
+    <ng-container *ngIf="service.selectedChoice$ | async as video">
     <h1>{{video.headline}}</h1>
     <p class="description">{{video.description}}</p>
     <div class="flex">
@@ -7,4 +7,8 @@
     <button class="delete-button" *ngIf="isData" (click)="deleteVideo($event)"><icon>delete</icon><span>Delete</span></button>
     </div>
     </ng-container>
-</div>  
+</div> 
+<div class="background-filler" *ngIf="isData && service.lenghtOfData <= 0">
+    <h1>No Video Found</h1>
+    <p class="description">Please add at least one Video.</p>
+</div>

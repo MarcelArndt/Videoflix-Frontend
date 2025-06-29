@@ -55,11 +55,7 @@ export interface Header {
   Authorization:string
 }
 
-export interface Response {
-  ok:boolean,
-  status:number,
-  data:any
-}
+export type Response = Record<string, any>;
 
 export interface ResetPassWordForm {
   userId:string,

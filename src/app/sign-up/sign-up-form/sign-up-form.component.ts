@@ -9,6 +9,9 @@ import { passwordsMatchValidator } from '../../custom-validators/password-missma
 import { ApiService } from '../../../service/api.service';
 import { MIN_PASSWORD_LENGHT } from '../../../service/config';
 import { AlertsService } from '../../../share/alerts/alerts.service';
+import { REGISTRATION_URL } from '../../../service/config';
+import { Response } from '../../../interface/interface';
+import { AuthService } from '../../../service/auth.service';
 
 @Component({
   selector: 'app-sign-up-form',
@@ -24,7 +27,7 @@ export class SignUpFormComponent {
   fieldTypeIsPassword:boolean = true
   registFailed:boolean = false
 
-  constructor( private form: FormBuilder, private route: ActivatedRoute, private location: Location, private api:ApiService, public router: Router, private alert:AlertsService){
+  constructor( private form: FormBuilder, private route: ActivatedRoute, private location: Location, private api:ApiService, public router: Router, private alert:AlertsService, private auth:AuthService){
     this.signUpForm = this.form.nonNullable.group({
       username: ['', [Validators.required, Validators.pattern(/^[a-zA-Z0-9_-]+$/)]],
       email: ['', [Validators.required, Validators.pattern(/^[^@\s]+@[^@\s]+\.[^@\s]+$/)]],
@@ -71,6 +74,7 @@ export class SignUpFormComponent {
     this.checkForUrlParams();
   }
 
+
   async sendSignUp(event:Event){
       event.preventDefault();
       const signUpForm = JSON.parse(JSON.stringify(this.signUpForm.value));
@@ -80,19 +84,24 @@ export class SignUpFormComponent {
         password : signUpForm.password,
         repeated_password : signUpForm.repeatedPassword
       }
-      const response = await this.api.regist(requestData);
-      if(response.ok){
+      const response = await this.api.post(REGISTRATION_URL,requestData) as Response;
+      if(response){
         this.alert.setAlert('Account successfully created', false);
-        this.routerToMedia(response.data.token, response.data.user_id);
+        await this.login(requestData);
       } else {
         this.registFailed = true;
       }
     }
 
-    
-    routerToMedia(token:string, UserId:string){
-      this.router.navigate(['sign_up/confirm'], { queryParams: { userId: UserId}});
+
+    async login(requestData:{email:string, password:string} & Record<string, any>){
+      const loginObject = {
+        'email': requestData.email,
+        'password': requestData.password,
+      }
+      const response = await this.auth.login(loginObject);
+      if(response){
+          this.router.navigate(['/media']);
+      }
     }
-
-
 }

@@ -1,12 +1,12 @@
 import { Injectable } from '@angular/core';
 import { ApiService } from './api.service';
 import { Login } from '../interface/interface';
-import { Router } from '@angular/router';
+import { Router} from '@angular/router';
 import { AlertsService } from '../share/alerts/alerts.service';
 import { HttpClient } from '@angular/common/http';
 import { LOGIN_URL, REFRESH_URL, LOGOUT_URL, IS_AUTHENTICATED_URL } from './config';
 import { Observable, firstValueFrom, BehaviorSubject,switchMap, throwError, catchError } from 'rxjs';
-import { HttpRequest, HttpHandler, HttpEvent } from '@angular/common/http';
+import { Response } from '../interface/interface';
 
 export interface AuthResponse {ok:boolean};
 
@@ -50,11 +50,27 @@ sendRequestForIsAuthenticated():Observable<{ email_confirmed: boolean }> {
   return this.http.post<{ email_confirmed: boolean }>(IS_AUTHENTICATED_URL, {}, { withCredentials: true });
 }
 
+async getAuthenticated():Promise<boolean> {
+    const res = await firstValueFrom(this.sendRequestForIsAuthenticated()) as Response ;
+    if(res['authenticated']){
+      this.authStatusSubject.next(true)
+      return true
+    } else {
+      this.authStatusSubject.next(false)
+    }
+    return false
+}
+
 async isAuthenticated() {
   try {
-    const res = await firstValueFrom(this.sendRequestForIsAuthenticated());
-    this.emailConfirme = res.email_confirmed;
-    this.authStatusSubject.next(true)
+    const res = await firstValueFrom(this.sendRequestForIsAuthenticated()) as Response ;
+    if (res['authenticated']){
+      this.emailConfirme = res['email_confirmed'];
+      this.authStatusSubject.next(true)
+      if (!this.emailConfirme) {
+        this.router.navigate(['/sign_up/confirm']);
+      }
+    }
   } catch (error) {
     this.authStatusSubject.next(false)
   }
@@ -66,6 +82,16 @@ sendRequestForLogout(){
 
 async logout() {
   const res = await firstValueFrom(this.sendRequestForLogout());
+}
+
+async isAuth(){
+  const auth = await this.getAuthenticated();
+  console.log(auth);
+  if (!auth){
+      this.router.navigate(['/home']);
+      return false;
+  }
+  return true;
 }
 
 }

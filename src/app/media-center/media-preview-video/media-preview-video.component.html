@@ -1,6 +1,11 @@
 <div class="preview-wrapper">
 
-  <div class="video-wrapper">
+  <div class="video-wrapper" >
+
+    <div class="placeholder" *ngIf="service.lenghtOfData <= 0">
+      <img src="./assets/wallpaper/wallpaper-001.jpg" >
+    </div>
+
       <video #videoScreen
         id="my-video"
         class="video-js homescreen-video"
@@ -8,9 +13,14 @@
         muted="true"
         loop
         preload="auto"
-        data-setup="{}">
+        data-setup="{}" 
+        *ngIf="service.lenghtOfData > 0">
        
       </video>
+  </div>
+
+  <div >
+    
   </div>
 
   <div class="text-wrapper">
