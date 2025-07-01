@@ -7,7 +7,8 @@
         <div class="scrollbar-wrapper" #scrollWrapper (scroll)="onScroll($event, category)">
             <div class="scrollbar-content">
                 <div *ngFor="let item of arrayWithAllKeysOfItems(category); let i = index" class="box" (click)="service.switchCurrentChoice(category, i)" [attr.data-text]="service.dataquarry[category].content[i].headline">
-                    <img [src]="service.dataquarry[category].content[i].thumbnail">
+                    <img [src]="service.dataquarry[category].content[i].is_converted ? service.dataquarry[category].content[i].thumbnail : './assets/wallpaper/test-picture.jpg'" alt="Thumbnail">
+                    <div *ngIf="!service.dataquarry[category].content[i].is_converted" class="spinner-container"><span class="loader"></span></div>
                 </div>
             </div>
         </div>

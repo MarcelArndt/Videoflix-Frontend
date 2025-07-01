@@ -4,7 +4,7 @@ import { MediaCategoryService } from '../../../service/media-category.service';
 import { CommonModule } from '@angular/common';
 import { ApiService } from '../../../service/api.service';
 import videojs from 'video.js'
-import { Subscription } from 'rxjs';
+import { firstValueFrom, Subscription } from 'rxjs';
 import { Router } from '@angular/router';
 
 
@@ -26,16 +26,24 @@ export class MediaPreviewVideoComponent {
   subscription!: Subscription;
 
 async ngOnInit(){
+     
+  }
+
+async ngAfterViewInit() {
+  
       await this.service.pullAllData();
       await this.service.takeNewestVideoAsChoice();
       this.subscription = this.service.selectedChoice$.subscribe((item)=>{
-          this.setupPlayer(item.url);
+          if (item && item.url){
+            this.setupPlayer(item.url);
+          } 
       });
 
-  }
+}
 
   setupPlayer(url:string){
-    if (!url || !this.videoPlayer || !this.videoPlayer.nativeElement) return;
+    if (!url) return;
+    console.log(this.videoPlayer.nativeElement)
     const videoElement = this.videoPlayer.nativeElement;
     if (this.player) {
       this.player.src({ src: url, type: 'application/x-mpegURL' });
@@ -47,6 +55,7 @@ async ngOnInit(){
       this.player.play();
       });
     }
+    console.log(this.videoPlayer);
   }
 
   ngOnDestroy() {

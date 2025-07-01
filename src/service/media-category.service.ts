@@ -21,13 +21,7 @@ export class MediaCategoryService {
   public siteLoadet = false;
   public lenghtOfData:number = 0;
 
-  private selectedChoiceSubject = new BehaviorSubject<CategoryItem>({
-    id:0,
-    url: '',
-    thumbnail: '',
-    headline: '',
-    description:''
-  });
+  private selectedChoiceSubject = new BehaviorSubject<CategoryItem | null>(null);
   selectedChoice$ = this.selectedChoiceSubject.asObservable();
   dataquarry: CategoryWrapper  = {}
 

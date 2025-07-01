@@ -20,6 +20,7 @@ constructor(private api:ApiService, private router: Router, private alert: Alert
 emailConfirme!:boolean;
 private authStatusSubject = new BehaviorSubject<boolean>(false);
 authStatus$ = this.authStatusSubject.asObservable();
+private authFailedCounter:number = 0;
 
 
 sendRequestForLogin(loginObject: Login): Observable<object> {
@@ -70,9 +71,15 @@ async isAuthenticated() {
       if (!this.emailConfirme) {
         this.router.navigate(['/sign_up/confirm']);
       }
+    } else {
+      this.authFailedCounter++;
     }
   } catch (error) {
+    this.authFailedCounter++;
     this.authStatusSubject.next(false)
+  }
+  if(this.authFailedCounter >= 3 ){
+    this.logout();
   }
 }
 
@@ -86,7 +93,6 @@ async logout() {
 
 async isAuth(){
   const auth = await this.getAuthenticated();
-  console.log(auth);
   if (!auth){
       this.router.navigate(['/home']);
       return false;

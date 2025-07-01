@@ -9,7 +9,7 @@ import { IconComponent } from '../../../share/icon/icon.component';
   selector: 'app-media-category-slider',
   imports: [ CommonModule, IconComponent ],
   templateUrl: './media-category-slider.component.html',
-  styleUrl: './media-category-slider.component.scss'
+  styleUrls: ['./media-category-slider.component.scss','./spinner.scss'],
 })
 export class MediaCategorySliderComponent {
 constructor(public service: MediaCategoryService){}

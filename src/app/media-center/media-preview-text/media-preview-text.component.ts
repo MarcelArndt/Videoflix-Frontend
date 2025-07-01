@@ -28,9 +28,11 @@ export class MediaPreviewTextComponent {
   this.isData = this.service.checkForEmpty();
   if(!this.isData) this.alert.setAlert('No Video Found. Please Upload at least One Video!');
   this.subscription = this.service.selectedChoice$.subscribe((item)=>{
-    this.currenVideotId = item.id
-    this.description = item.description
-    this.headline = item.headline
+    if(item){
+      this.currenVideotId = item.id
+      this.description = item.description
+      this.headline = item.headline
+    }
   });
   }
 

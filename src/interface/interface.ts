@@ -14,6 +14,8 @@ export interface CategoryItem {
   thumbnail:string,
   headline:string,
   description:string,
+  is_converted:boolean;
+  current_convert_state:number;
 }
 
 export interface canObjectScroll

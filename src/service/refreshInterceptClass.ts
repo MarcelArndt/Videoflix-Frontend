@@ -21,7 +21,6 @@ export const authRefreshInterceptor: HttpInterceptorFn = ( req: HttpRequest<any>
             return next(req); 
           }),
           catchError(refreshErr => {
-            authService.logout();
             return throwError(() => refreshErr);
           })
         );
