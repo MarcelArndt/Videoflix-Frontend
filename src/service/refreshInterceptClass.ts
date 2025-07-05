@@ -1,7 +1,7 @@
 import { inject } from '@angular/core';
 import { HttpInterceptorFn, HttpRequest, HttpHandlerFn, HttpEvent, HttpErrorResponse} from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
-import { catchError, switchMap } from 'rxjs/operators';
+import { catchError, switchMap, tap, timeout } from 'rxjs/operators';
 import { AuthService } from './auth.service';
 
   // next.handle(request) führt anfrage aus.
@@ -16,16 +16,28 @@ export const authRefreshInterceptor: HttpInterceptorFn = ( req: HttpRequest<any>
   return next(req).pipe(
     catchError((err: HttpErrorResponse) => {
       if (err.status == 401) {
+        if (req.url.includes('/refresh')) {
+          authService.logout();
+          return throwError(() => new Error('Refresh token is invalid'));
+        }
         return authService.sendRequestForRefreshToken().pipe(
-          switchMap(() => {
+          switchMap((res:any) => {
+            console.log(res)
+            if (!res.authenticated){
+              authService.logout();
+              return throwError(() => new Error('Not authenticated after refresh'));
+            }
             return next(req); 
           }),
           catchError(refreshErr => {
+             authService.logout();
             return throwError(() => refreshErr);
           })
         );
       }
-      return throwError(() => err);
+      return throwError(() =>{
+        authService.logout(); 
+        console.log(err)});
     })
   );
 };

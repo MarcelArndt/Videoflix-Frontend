@@ -43,7 +43,7 @@ sendRequestForRefreshToken() {
   return this.http.post(REFRESH_URL, {}, { withCredentials: true });
 }
 
-async reshToken(){
+async refreshToken(){
   const res = await firstValueFrom(this.sendRequestForRefreshToken());
 }
 
