@@ -92,12 +92,11 @@ async logout() {
 }
 
 async isAuth(){
-  const auth = await this.getAuthenticated();
-  if (!auth){
-      this.router.navigate(['/home']);
-      return false;
+  if (await this.getAuthenticated()){
+      return true;
   }
-  return true;
+  this.router.navigate(['/home']);
+  return false;
 }
 
 }

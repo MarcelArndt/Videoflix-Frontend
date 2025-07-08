@@ -22,7 +22,6 @@ export const authRefreshInterceptor: HttpInterceptorFn = ( req: HttpRequest<any>
         }
         return authService.sendRequestForRefreshToken().pipe(
           switchMap((res:any) => {
-            console.log(res)
             if (!res.authenticated){
               authService.logout();
               return throwError(() => new Error('Not authenticated after refresh'));

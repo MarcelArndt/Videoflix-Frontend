@@ -13,6 +13,7 @@ import { MediaCategoryService } from '../../service/media-category.service';
 import { AlertsService } from '../../share/alerts/alerts.service';
 import { MAX_VIDEO_UPLOAD_SIZE_IN_MB } from '../../service/config';
 import { Router } from '@angular/router';
+import { VideoStatus } from '../../interface/interface';
 
 
 @Component({
@@ -39,6 +40,7 @@ export class AddVideoFormComponent {
   validation!:ValidationHelperClass;
   uploadProcess:number = 0
   uploadIsInProcess:boolean = false
+  pollingInterval: any = null;
 
   constructor(private form: FormBuilder, private selectService:SelectGenreService, private api: ApiService, private service: MediaCategoryService, private alert:AlertsService, private router: Router){
       this.uploadForm = this.form.nonNullable.group({
@@ -132,25 +134,42 @@ export class AddVideoFormComponent {
     this.selectService.resetChoice();
   }
 
-  async postVideo(event:Event){
-    event.preventDefault();
-    this.isLoading.emit(true);
-    this.uploadIsInProcess = true
-    const videoObj = this.makeVideoObj();
-    this.resetAll();
-    this.api.postVideo(videoObj).subscribe(event => {
-      if (event.type === HttpEventType.UploadProgress) {
-        this.fakeProcess();
-      } else if (event.type === HttpEventType.Response) {
-        this.isLoading.emit(false);
-        this.uploadIsInProcess = false;
-        this.alert.setAlert('Upload was successfully.', false);
-        this.uploadComplete.emit();
-        this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
-          this.router.navigate(['/media']);
-        });
-      }
-    });
+startVideoStatusPolling() {
+  if (this.pollingInterval) {
+    clearInterval(this.pollingInterval);
   }
+  this.pollingInterval = setInterval(async () => {
+    const currentStatus: VideoStatus = await this.service.checkStatusOfNewestVideo();
+    this.uploadProcess = Math.round(currentStatus?.[1] * 100) / 100;
+    if (currentStatus?.[0] && currentStatus?.[1] == 100) {
+      clearInterval(this.pollingInterval);
+      this.pollingInterval = null;
+      /*this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
+        this.router.navigate(['/media']);
+      });*/
+      this.alert.setAlert('Upload was successfully.', false);
+      this.uploadIsInProcess = false;
+    }
+  }, 3000);
+}
+
+async postVideo(event: Event) {
+  event.preventDefault();
+  this.isLoading.emit(true);
+  this.uploadIsInProcess = true;
+  const videoObj = this.makeVideoObj();
+  this.resetAll();
+  this.api.postVideo(videoObj).subscribe(event => {
+    if (event.type == HttpEventType.Response) {
+      this.service.setNewNewestVideoSubject(event.body);
+      this.startVideoStatusPolling();
+      this.uploadComplete.emit();
+      this.isLoading.emit(false);
+      this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
+        this.router.navigate(['/media']);
+      });
+    }
+  });
+}
 
 }

@@ -42,8 +42,12 @@ export class ApiService {
   }
   
   async get(url:string, queryParams?: { [key: string]: any }){
-    const res = await firstValueFrom(this.sendGetRquest(url, queryParams));
-    return res;
+    try{
+      let res = await firstValueFrom(this.sendGetRquest(url, queryParams)) || null;
+      return res
+    } catch(error){
+      return { 'ok' : false };
+    }
   }
 
   sendPostRequest(url:string,body:{[key:string]:any}){

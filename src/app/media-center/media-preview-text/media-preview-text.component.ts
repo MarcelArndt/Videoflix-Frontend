@@ -38,6 +38,7 @@ export class MediaPreviewTextComponent {
 
   openVideoPlayer(event:Event){
     event.preventDefault();
+    const url = `/video?videoId=${this.currenVideotId}`
     this.router.navigate(['/video'], { queryParams: {videoId: this.currenVideotId} });
   }
 

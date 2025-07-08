@@ -56,12 +56,12 @@ async getVideo(){
   }
 }
 
-
 initPlayer(){
     this.subscription = this.service.selectedChoice$.subscribe((item) => {
     if (!item?.url) return;
     if (this.playerReady) {
       this.setupPlayer(item.url);
+      console.log(item);
     } else {
       this.bufferedVideoUrl = item.url;
     }
@@ -86,15 +86,13 @@ async isVideoEnded(){
  await this.saveProgress(this.videoPlayer.nativeElement.duration, true);
 }
 
-
 async onTimeUpdate(){
   const currentTime = this.videoPlayer.nativeElement.currentTime;
   if (Math.abs(currentTime - this.lastSavedTime) >= this.updateInterval) {
-      this.lastSavedTime = currentTime;
-     await this.saveProgress(currentTime, false);
-    }
+    this.lastSavedTime = currentTime;
+    await this.saveProgress(currentTime, false);
+  }
 }
-
 
 async updateOnSeek(){
   const currentTime = this.videoPlayer.nativeElement.currentTime;
@@ -102,8 +100,13 @@ async updateOnSeek(){
   await this.saveProgress(currentTime, false);
 }
 
+userfallback(){
+  console.log('userfallback')
+  this.router.navigate(['/home']);
+}
 
-ngAfterViewInit() {
+
+async ngAfterViewInit() {
   this.video.enableVideoMode();
   this.playerReady = true;
   if (this.bufferedVideoUrl) {
@@ -114,6 +117,9 @@ ngAfterViewInit() {
     this.videoPlayer.nativeElement.currentTime = this.videoBufferTimer;
   }
   this.lastSavedTime = this.videoPlayer.nativeElement.currentTime
+  this.auth.authStatus$.subscribe(async (isAuth) =>{
+    if (!isAuth) this.userfallback();
+  });
 }
 
 
@@ -132,7 +138,6 @@ async askForLatestTime(){
 }
 
 async ngOnInit() {
-  await this.auth.isAuth()
   this.initPlayer();
   this.checkForUrlParams();
   await this.askForLatestTime();

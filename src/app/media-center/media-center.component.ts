@@ -32,6 +32,11 @@ export class MediaCenterComponent {
     this.api.isVideoMode = false;
   }
 
+
+  async ngAfterViewInit(){
+  }
+
+
   userfallback(){
     this.authSubscription = this.auth.authStatus$.subscribe(((auth:boolean) =>{
       if(!auth) {

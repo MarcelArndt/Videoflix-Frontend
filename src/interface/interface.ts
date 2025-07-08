@@ -85,6 +85,8 @@ export interface videoProgress {
   id:number
 }
 
+export type VideoStatus = [boolean, number];
+
 
 
 
