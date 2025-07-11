@@ -7,7 +7,7 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { AuthService } from './auth.service';
 import { Router } from '@angular/router';
-import { VideoStatus, CategoryItem } from '../interface/interface'; // Assuming you have this type defined in your interface file
+import { VideoStatus, CategoryItem, ConvertingVideoStatus } from '../interface/interface'; // Assuming you have this type defined in your interface file
 
 @Injectable({
   providedIn: 'root'
@@ -18,20 +18,21 @@ export class MediaCategoryService {
   public toRefreshData: boolean = false;
   public dataReady: boolean = false;
   public refreshData = false;
-  public siteLoadet = false;
   public lenghtOfData:number = 0;
-
+  public siteLoaded:boolean = false;
   private selectedChoiceSubject = new BehaviorSubject<CategoryItem | null>(null);
   selectedChoice$ = this.selectedChoiceSubject.asObservable();
   private newestVideoSubject = new BehaviorSubject<CategoryItem | null>(null);
   newestVideo$ = this.newestVideoSubject.asObservable();
-  dataquarry: CategoryWrapper  = {}
+  dataQuarry: CategoryWrapper  = {}
+  public convertingVideos: ConvertingVideoStatus[] = [];
+  pollingInterval: any = null;
 
   async switchCurrentChoice(category:string, index:number){
-    if (!this.dataquarry) return
+    if (!this.dataQuarry) return
     let newItem = null
-    if (this.dataquarry[category].content[index]){
-      newItem = await JSON.parse(JSON.stringify(this.dataquarry[category].content[index]));
+    if (this.dataQuarry[category].content[index]){
+      newItem = { ...this.dataQuarry[category].content[index] };
     }
     if(!newItem) return
     this.selectedChoiceSubject.next({ ...newItem });
@@ -46,10 +47,10 @@ export class MediaCategoryService {
   }
 
   async takeNewestVideoAsChoice(){
-    if (!this.dataquarry || this.lenghtOfData <= 0) return
+    if (!this.dataQuarry || this.lenghtOfData <= 0) return
     let newItem = null
-    if(this.dataquarry['newOnVideoflix'].content[0]){
-          newItem = await JSON.parse(JSON.stringify(this.dataquarry['newOnVideoflix'].content[0]));
+    if(this.dataQuarry['newOnVideoflix'].content[0]){
+          newItem = { ...this.dataQuarry['newOnVideoflix'].content[0] };
     }
     if(!newItem) return
     this.selectedChoiceSubject.next({ ...newItem });
@@ -57,7 +58,6 @@ export class MediaCategoryService {
   }
 
   async checkStatusOfNewestVideo():Promise<VideoStatus>{
-
       const newestVideo = await firstValueFrom(this.newestVideo$);
       if (newestVideo && !newestVideo['is_converted']){
         const url = MAIN_SERVICE_URL + `${newestVideo['id']}`
@@ -73,18 +73,69 @@ export class MediaCategoryService {
       return [false, 0];
   }
 
-  sendRequest(): Observable<object> {
+  sendRequest(index:number | null= null): Observable<object> {
+    if (index) return this.http.get(MAIN_SERVICE_URL + index + '/' , { withCredentials: true });
     return this.http.get(MAIN_SERVICE_URL, { withCredentials: true });
   }
 
+
+async updateSingleVideoStatus(){
+  if(this.convertingVideos.length <= 0) return;
+  const stillConverting: ConvertingVideoStatus[] = [];
+ for (const [index, videoInfos] of this.convertingVideos.entries()) {
+    this.checkForDataQuarryId(videoInfos, index);
+    const newVideoData: CategoryItem = await firstValueFrom(this.sendRequest(videoInfos.videoId)) as CategoryItem;
+    if (newVideoData && !newVideoData.is_converted && newVideoData.current_convert_state < 100) {
+      stillConverting.push(videoInfos);
+    }
+    if (videoInfos?.dataQuarryID) {
+      this.dataQuarry[videoInfos.genre].content[videoInfos.dataQuarryID] = newVideoData;
+      this.findCurrentNewestVideoAndUpdate(videoInfos, newVideoData);
+    }
+  }
+  this.convertingVideos = [ ...stillConverting ];
+}
+
+findCurrentNewestVideoAndUpdate(videoInfos:ConvertingVideoStatus, videoData:CategoryItem){
+  const index = this.dataQuarry['newOnVideoflix'].content.findIndex(videoItem => videoItem.id == videoInfos.videoId);
+  this.dataQuarry['newOnVideoflix'].content[index] = videoData
+}
+
+startGlobalVideoStatusPolling() {
+  if (this.pollingInterval) return;
+  this.pollingInterval = setInterval(() => {
+    this.updateSingleVideoStatus();
+    if (this.convertingVideos.length <= 0) {
+      clearInterval(this.pollingInterval);
+      this.pollingInterval = null;
+    }
+  }, 2000);
+}
+
+checkForDataQuarryId(videoInfos:ConvertingVideoStatus, index:number){
+      if (!videoInfos.dataQuarryID || videoInfos.videoId != this.dataQuarry[videoInfos.genre].content[videoInfos.dataQuarryID].id){
+      const contentArray = this.dataQuarry[videoInfos.genre]?.content;
+      if (contentArray){
+        const newDataQuarryID = contentArray.findIndex((videoItem:CategoryItem) => videoItem.id === videoInfos.videoId);
+        if (newDataQuarryID && newDataQuarryID >= 0){
+          this.convertingVideos[index].dataQuarryID = newDataQuarryID;
+        }
+    }
+  }
+}
+
   async pullAllData()  {
-    const auth = await this.auth.isAuth()
-    if (!auth) return
-    const res =  await firstValueFrom(this.sendRequest()) || null;
-    if(res){
-      this.dataquarry = res as CategoryWrapper
-      this.lenghtOfData = Object.keys(this.dataquarry).length
+    try {
+      const auth = await this.auth.isAuth()
+      if (!auth) return
+      const res =  await firstValueFrom(this.sendRequest()) || null;
+      if(res){
+      this.dataQuarry = res as CategoryWrapper
+      this.lenghtOfData = Object.keys(this.dataQuarry).length
       this.dataReady = true
+    }
+    } catch(error){
+      this.dataReady = false
     }
   }
 
@@ -117,8 +168,7 @@ export class MediaCategoryService {
   }
 
   checkForEmpty():boolean{
-    if(this.dataquarry)return true
-    return false
+    return !!this.dataQuarry
   }
 
 }

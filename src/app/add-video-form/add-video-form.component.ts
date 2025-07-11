@@ -40,7 +40,7 @@ export class AddVideoFormComponent {
   validation!:ValidationHelperClass;
   uploadProcess:number = 0
   uploadIsInProcess:boolean = false
-  pollingInterval: any = null;
+
 
   constructor(private form: FormBuilder, private selectService:SelectGenreService, private api: ApiService, private service: MediaCategoryService, private alert:AlertsService, private router: Router){
       this.uploadForm = this.form.nonNullable.group({
@@ -109,23 +109,6 @@ export class AddVideoFormComponent {
     }
   }
   
-
-  fakeProcess(){
-    if(this.uploadProcess <= 100){
-      setTimeout(()=>{
-        const randomInt = Math.floor(Math.random() * 3)
-        this.uploadProcess = this.uploadProcess + randomInt;
-        if(this.uploadProcess > 100){
-          this.uploadProcess = 100;
-        }
-        if (this.uploadProcess < 100){
-          this.fakeProcess()
-        }
-      }, 2250);
-    }
-  }
-
-
   resetAll(){
     this.uploadProcess = 0;
     this.uploadTitle = 'No video upload';
@@ -134,42 +117,26 @@ export class AddVideoFormComponent {
     this.selectService.resetChoice();
   }
 
-startVideoStatusPolling() {
-  if (this.pollingInterval) {
-    clearInterval(this.pollingInterval);
-  }
-  this.pollingInterval = setInterval(async () => {
-    const currentStatus: VideoStatus = await this.service.checkStatusOfNewestVideo();
-    this.uploadProcess = Math.round(currentStatus?.[1] * 100) / 100;
-    if (currentStatus?.[0] && currentStatus?.[1] == 100) {
-      clearInterval(this.pollingInterval);
-      this.pollingInterval = null;
-      /*this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
-        this.router.navigate(['/media']);
-      });*/
-      this.alert.setAlert('Upload was successfully.', false);
-      this.uploadIsInProcess = false;
-    }
-  }, 3000);
-}
-
 async postVideo(event: Event) {
   event.preventDefault();
   this.isLoading.emit(true);
   this.uploadIsInProcess = true;
   const videoObj = this.makeVideoObj();
   this.resetAll();
-  this.api.postVideo(videoObj).subscribe(event => {
+  this.api.postVideo(videoObj).subscribe(async event => {
     if (event.type == HttpEventType.Response) {
       this.service.setNewNewestVideoSubject(event.body);
-      this.startVideoStatusPolling();
+      const object = {'videoId': event.body.id, 'genre': event.body.genre, 'dataQuarryID': null}
+      this.service.convertingVideos.unshift(object);
+      this.service.startGlobalVideoStatusPolling();
       this.uploadComplete.emit();
       this.isLoading.emit(false);
-      this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
-        this.router.navigate(['/media']);
-      });
+      this.alert.setAlert('Upload was successfully.', false);
+      this.uploadIsInProcess = false;
+      await this.service.refreshCategorySliderData();
     }
   });
+
 }
 
 }

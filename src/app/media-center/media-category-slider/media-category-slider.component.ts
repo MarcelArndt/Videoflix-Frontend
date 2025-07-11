@@ -5,6 +5,7 @@ import { Category, canObjectScroll } from '../../../interface/interface';
 import { IconComponent } from '../../../share/icon/icon.component';
 
 
+
 @Component({
   selector: 'app-media-category-slider',
   imports: [ CommonModule, IconComponent ],
@@ -28,17 +29,20 @@ isData:boolean = false
 
   async ngOnInit(){
   this.service.waitForData(()=> {
-    this.allCategoryKey = Object.keys(this.service.dataquarry);
+    this.allCategoryKey = Object.keys(this.service.dataQuarry);
   });
-  this.isData = this.service.checkForEmpty()
+  this.isData = this.service.checkForEmpty();
   }
 
   ngAfterViewInit() {
     setTimeout(() => {this.checkAllScrollPositions()}, 500);
+      this.service.newestVideo$.subscribe((video)=>{
+    this.checkAllScrollPositions();
+  });
   }
 
   arrayWithAllKeysOfItems(category: string): string[] {
-    return Object.keys(this.service.dataquarry[category].content);
+    return Object.keys(this.service.dataQuarry[category].content);
   }
 
   onScroll(event: Event, category: string) {

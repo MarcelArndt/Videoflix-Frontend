@@ -28,7 +28,7 @@ export class MediaCenterComponent {
     await this.auth.isAuthenticated();
     this.userfallback()
     this.video.disableVideoMode();
-    this.service.siteLoadet = true;
+    this.service.siteLoaded = true;
     this.api.isVideoMode = false;
   }
 
