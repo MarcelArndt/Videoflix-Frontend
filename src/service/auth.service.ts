@@ -76,7 +76,7 @@ async isAuthenticated() {
     }
   } catch (error) {
     this.authFailedCounter++;
-    this.authStatusSubject.next(false)
+    this.authStatusSubject.next(false);
   }
   if(this.authFailedCounter >= 3 ){
     this.logout();
@@ -89,6 +89,7 @@ sendRequestForLogout(){
 
 async logout() {
   const res = await firstValueFrom(this.sendRequestForLogout());
+  this.authStatusSubject.next(false);
 }
 
 async isAuth(){

@@ -13,6 +13,7 @@ export const UPLOAD_VIDEO = BASE_URL + 'media/';
 export const VIDEO_PROGRESS_URL = BASE_URL + 'video/progress/';
 export const LOGOUT_URL = BASE_URL + 'logout/';
 export const IS_AUTHENTICATED_URL= BASE_URL + 'is-authenticated/';
+export const VIDEO_CONVERT_PROGRESS_URL= BASE_URL + 'video/current-progress/';
 
 
 //Settings

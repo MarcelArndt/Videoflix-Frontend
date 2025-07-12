@@ -34,6 +34,7 @@ export class MediaCenterComponent {
 
 
   async ngAfterViewInit(){
+    this.service.startGlobalVideoStatusPolling();
   }
 
 

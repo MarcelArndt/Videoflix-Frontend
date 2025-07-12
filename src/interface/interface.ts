@@ -88,9 +88,11 @@ export interface videoProgress {
 export type VideoStatus = [boolean, number];
 
 export interface ConvertingVideoStatus {
-  videoId: number;
+  video: number;
   genre: string;
   dataQuarryID: number | null;
+  current_convert_state: string | null;
+  is_converted:boolean;
 }
 
 

@@ -26,6 +26,7 @@ export class AddVideoFormComponent {
 
   @Output() uploadComplete = new EventEmitter<void>();
   @Output()isLoading = new EventEmitter<boolean>();
+  @Output()closePopUp = new EventEmitter<boolean>();
   @ViewChild('scrollbar')scrollbar!:ElementRef;
   @ViewChild('scrollAnimtion')scrollAnimtion!:ElementRef;
   @ViewChild('fileupload')fileupload!:ElementRef;
@@ -126,17 +127,14 @@ async postVideo(event: Event) {
   this.api.postVideo(videoObj).subscribe(async event => {
     if (event.type == HttpEventType.Response) {
       this.service.setNewNewestVideoSubject(event.body);
-      const object = {'videoId': event.body.id, 'genre': event.body.genre, 'dataQuarryID': null}
-      this.service.convertingVideos.unshift(object);
-      this.service.startGlobalVideoStatusPolling();
       this.uploadComplete.emit();
       this.isLoading.emit(false);
       this.alert.setAlert('Upload was successfully.', false);
       this.uploadIsInProcess = false;
-      await this.service.refreshCategorySliderData();
+      await this.service.startGlobalVideoStatusPolling();
+      this.closePopUp.emit();
     }
   });
-
 }
 
 }
