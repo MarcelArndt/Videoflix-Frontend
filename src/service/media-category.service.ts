@@ -7,7 +7,7 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { AuthService } from './auth.service';
 import { Router } from '@angular/router';
-import { VideoStatus, CategoryItem, ConvertingVideoStatus } from '../interface/interface'; // Assuming you have this type defined in your interface file
+import { VideoStatus, CategoryItem, ConvertingVideoStatus } from '../interface/interface';
 
 @Injectable({
   providedIn: 'root'
@@ -29,7 +29,7 @@ export class MediaCategoryService {
   pollingInterval: any = null;
 
   async switchCurrentChoice(category:string, index:number){
-    if (!this.dataQuarry) return
+    if (!this.dataQuarry || !this.dataQuarry[category].content[index].is_converted) return
     let newItem = null
     if (this.dataQuarry[category].content[index]){
       newItem = { ...this.dataQuarry[category].content[index] };
@@ -86,10 +86,8 @@ export class MediaCategoryService {
 async updateSingleVideoStatus(){
   if(this.convertingVideos.length <= 0) return;
  for (const [index, videoInfos] of this.convertingVideos.entries()) {
-    //console.log(this.convertingVideos)
     this.checkForDataQuarryId(videoInfos, index);
     const newVideoData: CategoryItem = await firstValueFrom(this.sendRequest(videoInfos.video)) as CategoryItem;
-    //console.log(videoInfos)
     if (videoInfos?.dataQuarryID == 0 || videoInfos?.dataQuarryID && videoInfos?.dataQuarryID >= 0) {
       this.dataQuarry[videoInfos.genre].content[videoInfos.dataQuarryID] = newVideoData;
       this.findCurrentNewestVideoAndUpdate(videoInfos, newVideoData);

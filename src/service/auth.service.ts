@@ -4,7 +4,7 @@ import { Login } from '../interface/interface';
 import { Router} from '@angular/router';
 import { AlertsService } from '../share/alerts/alerts.service';
 import { HttpClient } from '@angular/common/http';
-import { LOGIN_URL, REFRESH_URL, LOGOUT_URL, IS_AUTHENTICATED_URL } from './config';
+import { LOGIN_URL, REFRESH_URL, LOGOUT_URL, IS_AUTHENTICATED_URL, ACCESS_TOKEN_EXPIRES_IN_MINUTES } from './config';
 import { Observable, firstValueFrom, BehaviorSubject,switchMap, throwError, catchError } from 'rxjs';
 import { Response } from '../interface/interface';
 
@@ -21,6 +21,8 @@ emailConfirme!:boolean;
 private authStatusSubject = new BehaviorSubject<boolean>(false);
 authStatus$ = this.authStatusSubject.asObservable();
 private authFailedCounter:number = 0;
+private tokenExpirationTime: number = 0;
+private tokenExpirationTimeInMinutes: number = (ACCESS_TOKEN_EXPIRES_IN_MINUTES) >= 1? ACCESS_TOKEN_EXPIRES_IN_MINUTES : 1;
 
 
 sendRequestForLogin(loginObject: Login): Observable<object> {
@@ -31,7 +33,11 @@ sendRequestForLogin(loginObject: Login): Observable<object> {
 async login(loginObject: Login):Promise<boolean>{
   try{
     const resLogin:AuthResponse = await firstValueFrom(this.sendRequestForLogin(loginObject)) as AuthResponse;
-    if (resLogin.ok) return true
+    if (resLogin.ok){
+      this.tokenExpirationTime = Date.now() + (this.tokenExpirationTimeInMinutes * 60 * 1000)
+      this.authStatusSubject.next(true);
+      return true
+    } 
   }
   catch(error){
     return false
@@ -39,13 +45,35 @@ async login(loginObject: Login):Promise<boolean>{
   return false
 }
 
+isTokenValid(): boolean {
+  return Date.now() < this.tokenExpirationTime;
+}
+
 sendRequestForRefreshToken() {
   return this.http.post(REFRESH_URL, {}, { withCredentials: true });
 }
 
-async refreshToken(){
-  const res = await firstValueFrom(this.sendRequestForRefreshToken());
+tokenExpiresInSeconds(): number {
+  return Math.max(0, (this.tokenExpirationTime - Date.now()) / 1000);
 }
+
+async refreshToken(): Promise<boolean> {
+  try {
+    const res = await firstValueFrom(this.sendRequestForRefreshToken()) as any;
+    if (res.ok || res.authenticated) {
+      this.tokenExpirationTime = Date.now() + (this.tokenExpirationTimeInMinutes * 60 * 1000);
+      return true;
+    }
+  } catch (error) {
+    this.logout();
+  }
+  return false;
+}
+
+tokenExpiresSoon(): boolean {
+    return this.tokenExpiresInSeconds() < this.tokenExpirationTimeInMinutes;
+  }
+
 
 sendRequestForIsAuthenticated():Observable<{ email_confirmed: boolean }> {
   return this.http.post<{ email_confirmed: boolean }>(IS_AUTHENTICATED_URL, {}, { withCredentials: true });
@@ -87,9 +115,16 @@ sendRequestForLogout(){
   return this.http.post(LOGOUT_URL, {}, { withCredentials: true });
 }
 
-async logout() {
-  const res = await firstValueFrom(this.sendRequestForLogout());
+async logout(): Promise<void> {
+  try {
+    await firstValueFrom(this.sendRequestForLogout());
+  } catch (error) {
+    console.error('Logout request failed:', error);
+  }
+  this.tokenExpirationTime = 0;
   this.authStatusSubject.next(false);
+  this.authFailedCounter = 0;
+  this.router.navigate(['/home']);
 }
 
 async isAuth(){
@@ -99,6 +134,5 @@ async isAuth(){
   this.router.navigate(['/home']);
   return false;
 }
-
 }
 

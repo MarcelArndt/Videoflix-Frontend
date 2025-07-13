@@ -133,6 +133,12 @@ async postVideo(event: Event) {
       this.uploadIsInProcess = false;
       await this.service.startGlobalVideoStatusPolling();
       this.closePopUp.emit();
+    } else {
+      this.closePopUp.emit();
+      this.uploadComplete.emit();
+      this.uploadIsInProcess = false;
+      this.isLoading.emit(false);
+      this.alert.setAlert('Error: Upload failed');
     }
   });
 }

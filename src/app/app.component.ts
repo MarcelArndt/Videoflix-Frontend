@@ -2,7 +2,8 @@ import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { MainContentComponent } from './main-content/main-content.component';
 import { Router, NavigationStart, NavigationError } from '@angular/router';
-
+import { AuthInterceptorTokenRefreshServiceService } from '../service/auth-interceptor-token-refresh-service.service';
+import { AuthService } from '../service/auth.service';
 
 @Component({
   selector: 'app-root',
@@ -12,6 +13,7 @@ import { Router, NavigationStart, NavigationError } from '@angular/router';
 })
 export class AppComponent {
   title = 'videoflix';
+
 
 // Debug Router
 /*
