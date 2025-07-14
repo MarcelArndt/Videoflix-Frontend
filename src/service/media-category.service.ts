@@ -27,6 +27,12 @@ export class MediaCategoryService {
   dataQuarry: CategoryWrapper  = {}
   public convertingVideos: ConvertingVideoStatus[] = [];
   pollingInterval: any = null;
+  allCategoryKey!:string[];
+
+
+  collectAllKeysOfCategory(){
+    this.allCategoryKey = Object.keys(this.dataQuarry);
+  }
 
   async switchCurrentChoice(category:string, index:number){
     if (!this.dataQuarry || !this.dataQuarry[category].content[index].is_converted) return
@@ -104,7 +110,6 @@ findCurrentNewestVideoAndUpdate(videoInfos:ConvertingVideoStatus, videoData:Cate
 async startGlobalVideoStatusPolling() {
   if (this.pollingInterval) return;
   await this.checkServerForQueue();
-  await this.refreshCategorySliderData();
   this.pollingInterval = setInterval(() => {
     this.updateSingleVideoStatus();
     if (this.convertingVideos.length <= 0) {
@@ -137,6 +142,7 @@ checkForDataQuarryId(videoInfos:ConvertingVideoStatus, index:number){
       this.dataQuarry = res as CategoryWrapper
       this.lenghtOfData = Object.keys(this.dataQuarry).length
       this.dataReady = true
+      this.collectAllKeysOfCategory()
     }
     } catch(error){
       this.dataReady = false

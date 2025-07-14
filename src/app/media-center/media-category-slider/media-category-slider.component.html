@@ -1,6 +1,6 @@
 
 <div class="slider-wrapper" *ngIf="isData && !service.refreshData">
-    <div *ngFor="let category of allCategoryKey" class="scroolbar"> 
+    <div *ngFor="let category of service.allCategoryKey" class="scroolbar"> 
         <div class="button-previous navigation-button" *ngIf="canScrollLeft[category]" (click)="scrollTo(category)"><icon>arrow_back_ios</icon></div>
         <div class="button-next navigation-button" *ngIf="canScrollRight[category]" (click)="scrollTo(category, 'next')"><icon>arrow_forward_ios</icon></div>
         <h3>{{service.dataQuarry[category].title}}</h3>  

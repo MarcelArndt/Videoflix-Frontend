@@ -133,6 +133,7 @@ async postVideo(event: Event) {
       this.uploadIsInProcess = false;
       await this.service.startGlobalVideoStatusPolling();
       this.closePopUp.emit();
+      await this.service.refreshCategorySliderData();
     } else {
       this.closePopUp.emit();
       this.uploadComplete.emit();

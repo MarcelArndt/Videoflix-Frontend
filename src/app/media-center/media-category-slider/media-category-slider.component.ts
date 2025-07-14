@@ -17,7 +17,6 @@ constructor(public service: MediaCategoryService){}
 
 @ViewChildren('scrollWrapper') scrollWrappers!: QueryList<ElementRef<HTMLDivElement>>;
 
-allCategoryKey:string[] = []
 canScrollLeft: canObjectScroll = {};
 canScrollRight:canObjectScroll = {};
 isData:boolean = false
@@ -28,9 +27,6 @@ isData:boolean = false
   }
 
   async ngOnInit(){
-  this.service.waitForData(()=> {
-    this.allCategoryKey = Object.keys(this.service.dataQuarry);
-  });
   this.isData = this.service.checkForEmpty();
   }
 
@@ -52,7 +48,7 @@ isData:boolean = false
 
   checkAllScrollPositions() {
     this.scrollWrappers.forEach((ref, index) => {
-      const category = this.allCategoryKey[index];
+      const category = this.service.allCategoryKey[index];
       this.updateScrollButtons(ref.nativeElement, category);
     });
   }
@@ -64,7 +60,7 @@ isData:boolean = false
 
   scrollTo(category: string, direction:string = ""){
     const movingSpeed =  direction == "next" || direction == "right" ? 300 : -300; 
-    const index = this.allCategoryKey.indexOf(category);
+    const index = this.service.allCategoryKey.indexOf(category);
     const element = this.scrollWrappers.get(index)?.nativeElement;
     if (element) {
       element.scrollBy({ left: movingSpeed, behavior: 'smooth' });
