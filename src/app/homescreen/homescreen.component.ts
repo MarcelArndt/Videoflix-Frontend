@@ -34,10 +34,10 @@ export class HomescreenComponent {
 
    async ngOnInit(){
       this.video.disableVideoMode();
-      await this.auth.isAuthenticated()
-      this.auth.authStatus$.subscribe((status)=>{
-        if (status && this.auth.emailConfirme) this.router.navigate(['/media']);
-      });
+      const isAuth = await this.auth.isAuth();
+      if ( isAuth && this.auth.emailConfirme ){
+          this.router.navigate(['/media']);
+      }
     }
 
 }

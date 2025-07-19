@@ -1,4 +1,4 @@
-import { Component, ElementRef, QueryList, ViewChildren, HostListener} from '@angular/core';
+import { Component, ElementRef, QueryList, ViewChildren, HostListener, ChangeDetectorRef} from '@angular/core';
 import { MediaCategoryService } from '../../../service/media-category.service';
 import { CommonModule } from '@angular/common';
 import { Category, canObjectScroll } from '../../../interface/interface';
@@ -13,7 +13,7 @@ import { IconComponent } from '../../../share/icon/icon.component';
   styleUrls: ['./media-category-slider.component.scss','./spinner.scss'],
 })
 export class MediaCategorySliderComponent {
-constructor(public service: MediaCategoryService){}
+constructor(public service: MediaCategoryService, private cdr: ChangeDetectorRef){}
 
 @ViewChildren('scrollWrapper') scrollWrappers!: QueryList<ElementRef<HTMLDivElement>>;
 
@@ -34,6 +34,7 @@ isData:boolean = false
     setTimeout(() => {this.checkAllScrollPositions()}, 500);
       this.service.newestVideo$.subscribe((video)=>{
     this.checkAllScrollPositions();
+    this.cdr.detectChanges();
   });
   }
 

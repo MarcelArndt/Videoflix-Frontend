@@ -108,11 +108,12 @@ findCurrentNewestVideoAndUpdate(videoInfos:ConvertingVideoStatus, videoData:Cate
 }
 
 async startGlobalVideoStatusPolling() {
+  const isAuth = await this.auth.onlyGetCurrentAuthStatus()
   if (this.pollingInterval) return;
   await this.checkServerForQueue();
   this.pollingInterval = setInterval(() => {
     this.updateSingleVideoStatus();
-    if (this.convertingVideos.length <= 0) {
+    if (this.convertingVideos.length <= 0 || !isAuth) {
       clearInterval(this.pollingInterval);
       this.pollingInterval = null;
     }
@@ -120,6 +121,8 @@ async startGlobalVideoStatusPolling() {
 }
 
 async checkServerForQueue(){
+  const isAuth = await this.auth.isAuth();
+  if (!isAuth) return;
   this.convertingVideos = await firstValueFrom(this.askConvertStatus()) as ConvertingVideoStatus[]
 }
 
@@ -134,9 +137,9 @@ checkForDataQuarryId(videoInfos:ConvertingVideoStatus, index:number){
 }
 
   async pullAllData()  {
+    const isAuth = await this.auth.isAuth();
+    if (!isAuth) return;
     try {
-      const auth = await this.auth.isAuth()
-      if (!auth) return
       const res =  await firstValueFrom(this.sendRequest()) || null;
       if(res){
       this.dataQuarry = res as CategoryWrapper

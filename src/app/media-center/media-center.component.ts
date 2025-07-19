@@ -25,26 +25,16 @@ export class MediaCenterComponent {
 
 
   async ngOnInit(){
-    await this.auth.isAuthenticated();
-    this.userfallback()
+    await this.auth.isAuth();
     this.video.disableVideoMode();
     this.service.siteLoaded = true;
     this.api.isVideoMode = false;
   }
 
-
   async ngAfterViewInit(){
     this.service.startGlobalVideoStatusPolling();
   }
 
-
-  userfallback(){
-    this.authSubscription = this.auth.authStatus$.subscribe(((auth:boolean) =>{
-      if(!auth) {
-        this.router.navigate(["/home"]);
-      }
-    }));
-  }
 
   get serviceState():boolean{
     return this.service.toRefreshData

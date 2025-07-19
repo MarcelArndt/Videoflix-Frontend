@@ -55,7 +55,8 @@ export class ApiService {
     return res;
   }
 
-  async post(url:string, body: { [key: string]: any }){
+  async post(url:string, body: { [key: string]: any } | null = null){
+    if (!body) body = {} 
     const res = await firstValueFrom(this.sendPostRequest(url,body));
     return res
   }

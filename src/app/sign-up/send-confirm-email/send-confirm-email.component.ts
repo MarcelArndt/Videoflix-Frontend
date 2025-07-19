@@ -4,7 +4,6 @@ import { RouterLink, ActivatedRoute } from '@angular/router';
 import { checkScrollbar } from '../../../service/scrollbar';
 import { Location } from '@angular/common';
 import { ApiService } from '../../../service/api.service';
-import { SendEmail } from '../../../interface/interface';
 import { RESEND_EMAIL } from '../../../service/config';
 import { AlertsService } from '../../../share/alerts/alerts.service';
 @Component({
@@ -29,24 +28,11 @@ export class SendConfirmEmailComponent {
     checkScrollbar(this.scrollbar, this.scrollAnimtion)
   }
 
-
   ngOnInit(){
-    this.checkForUrlParams()
-  }
-
-  checkForUrlParams(){
-    this.route.queryParams.subscribe(params => {
-      this.userId = params['userId'] || '';
-      this.location.replaceState('/confirm');
-    });
-    
   }
 
   async sendEmailAgain(){
-    const email_object:SendEmail = {
-      "user_id": this.userId,
-    }
-    const response = await this.api.post(RESEND_EMAIL,email_object);
+    const response = await this.api.post(RESEND_EMAIL);
     if (response) this.alert.setAlert('E-Mail was sent',false);
   }
 

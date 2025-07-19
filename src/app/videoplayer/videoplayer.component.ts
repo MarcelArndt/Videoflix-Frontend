@@ -2,7 +2,7 @@ import { Component, viewChild, ViewChild, ElementRef } from '@angular/core';
 import { MediaCategoryService } from '../../service/media-category.service';
 import { ApiService } from '../../service/api.service';
 import { VideoPlayerManagerService } from './video-player-manager.service';
-import { Subscription } from 'rxjs';
+import { firstValueFrom, Subscription } from 'rxjs';
 import videojs from 'video.js'
 import { ActivatedRoute } from '@angular/router';
 import { UPLOAD_VIDEO } from '../../service/config';
@@ -61,7 +61,6 @@ initPlayer(){
     if (!item?.url) return;
     if (this.playerReady) {
       this.setupPlayer(item.url);
-      console.log(item);
     } else {
       this.bufferedVideoUrl = item.url;
     }
@@ -100,13 +99,8 @@ async updateOnSeek(){
   await this.saveProgress(currentTime, false);
 }
 
-userfallback(){
-  console.log('userfallback')
-  this.router.navigate(['/home']);
-}
-
-
 async ngAfterViewInit() {
+  await this.auth.isAuth();
   this.video.enableVideoMode();
   this.playerReady = true;
   if (this.bufferedVideoUrl) {
@@ -117,13 +111,12 @@ async ngAfterViewInit() {
     this.videoPlayer.nativeElement.currentTime = this.videoBufferTimer;
   }
   this.lastSavedTime = this.videoPlayer.nativeElement.currentTime
-  this.auth.authStatus$.subscribe(async (isAuth) =>{
-    if (!isAuth) this.userfallback();
-  });
 }
 
 
 async askForLatestTime(){
+  const auth = await firstValueFrom(this.auth.authStatus$);
+  if(!auth) return;
   const params = {'videoId': this.currentVideoId}
   const res:videoProgress[] = await this.api.get(VIDEO_PROGRESS_URL, params) as videoProgress[];
   if (res.length <= 0){

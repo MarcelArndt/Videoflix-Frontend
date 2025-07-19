@@ -3,7 +3,6 @@ import { HeadlineComponent } from '../headline/headline.component';
 import { RouterOutlet } from '@angular/router';
 import { AlertsComponent } from '../../share/alerts/alerts.component';
 import { AuthService } from '../../service/auth.service';
-import { AuthInterceptorTokenRefreshServiceService } from '../../service/auth-interceptor-token-refresh-service.service';
 
 @Component({
   selector: 'app-main-content',
@@ -13,12 +12,10 @@ import { AuthInterceptorTokenRefreshServiceService } from '../../service/auth-in
 })
 export class MainContentComponent {
 
-  constructor(private tokenRefreshService: AuthInterceptorTokenRefreshServiceService, private auth: AuthService) {}
+  constructor(private auth: AuthService) {}
 
   async ngOnInit() {
-  if (await this.auth.isAuth()) {
-    this.tokenRefreshService.startAutoRefresh();
-  }
+
 }
 
 }
