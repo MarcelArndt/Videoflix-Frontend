@@ -107,8 +107,8 @@ findCurrentNewestVideoAndUpdate(videoInfos:ConvertingVideoStatus, videoData:Cate
   this.dataQuarry['newOnVideoflix'].content[index] = videoData
 }
 
-async startGlobalVideoStatusPolling() {
-  const isAuth = await this.auth.onlyGetCurrentAuthStatus()
+async startGlobalVideoStatusPulling() {
+  const isAuth = await firstValueFrom(this.auth.authStatus$)
   if (this.pollingInterval) return;
   await this.checkServerForQueue();
   this.pollingInterval = setInterval(() => {

@@ -131,6 +131,7 @@ async askForLatestTime(){
 }
 
 async ngOnInit() {
+  this.auth.setSiteIsGuarded()
   this.initPlayer();
   this.checkForUrlParams();
   await this.askForLatestTime();

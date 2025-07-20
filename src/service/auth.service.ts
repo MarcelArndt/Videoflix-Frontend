@@ -21,6 +21,7 @@ emailConfirme!:boolean;
 private authStatusSubject = new BehaviorSubject<boolean>(false);
 authStatus$ = this.authStatusSubject.asObservable();
 private tokenExpirationTime: number = 0;
+private siteIsGuarded = false;
 
 
 sendRequestForLogin(loginObject: Login): Observable<object> {
@@ -42,16 +43,9 @@ async login(loginObject: Login):Promise<boolean>{
   return false
 }
 
-isTokenValid(): boolean {
-  return Date.now() < this.tokenExpirationTime;
-}
 
 sendRequestForRefreshToken() {
   return this.http.post(REFRESH_URL, {}, { withCredentials: true });
-}
-
-tokenExpiresInSeconds(): number {
-  return Math.max(0, (this.tokenExpirationTime - Date.now()) / 1000);
 }
 
 async refreshToken(): Promise<boolean> {
@@ -63,13 +57,10 @@ async refreshToken(): Promise<boolean> {
     }
   } catch (error) {
     this.logout();
+    return false;
   }
   return false;
 }
-
-tokenExpiresSoon(): boolean {
-    return this.tokenExpiresInSeconds() < ACCESS_TOKEN_EXPIRES_IN_MINUTES;
-  }
 
 
 sendRequestForIsAuthenticated():Observable<{ email_confirmed: boolean }> {
@@ -102,19 +93,23 @@ async handleAuth(){
     }
   }
 
-  if(!auth){
+  if(!auth && this.siteIsGuarded){
     this.router.navigate(['home']);
   }
-
 }
+
+setSiteIsGuarded(){
+  this.siteIsGuarded = true;
+}
+
+setSiteIsUnguarded(){
+  this.siteIsGuarded = false;
+}
+
 
 async isAuth(){
   await this.handleAuth();
   return await firstValueFrom(this.authStatus$);
-}
-
-async onlyGetCurrentAuthStatus(){
-  return firstValueFrom(this.authStatus$);
 }
 
 sendRequestForLogout(){

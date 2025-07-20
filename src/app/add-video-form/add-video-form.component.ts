@@ -131,7 +131,7 @@ async postVideo(event: Event) {
       this.isLoading.emit(false);
       this.alert.setAlert('Upload was successfully.', false);
       this.uploadIsInProcess = false;
-      await this.service.startGlobalVideoStatusPolling();
+      await this.service.startGlobalVideoStatusPulling();
       this.closePopUp.emit();
       await this.service.refreshCategorySliderData();
     } else {

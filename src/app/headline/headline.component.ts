@@ -39,7 +39,6 @@ export class HeadlineComponent {
 
   async logUserOut(){
     await this.auth.logout();
-    this.router.navigate(['']);
   }
 
   buttonBackwards(){

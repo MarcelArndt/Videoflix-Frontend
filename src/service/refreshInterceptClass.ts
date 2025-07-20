@@ -1,42 +1,49 @@
-import { inject } from '@angular/core';
-import { HttpInterceptorFn, HttpRequest, HttpHandlerFn, HttpEvent, HttpErrorResponse} from '@angular/common/http';
-import { Observable, throwError } from 'rxjs';
-import { catchError, switchMap, tap, timeout } from 'rxjs/operators';
+import { Injectable } from '@angular/core';
+import {
+  HttpInterceptor,
+  HttpRequest,
+  HttpHandler,
+  HttpEvent,
+  HttpErrorResponse
+} from '@angular/common/http';
+import { Observable, from, throwError } from 'rxjs';
+import { catchError, switchMap } from 'rxjs/operators';
 import { AuthService } from './auth.service';
 
-  // next.handle(request) führt anfrage aus.
-  // pipe sendet Ergebnis weiter .
-  // falls Ergebnis Error 401 | keine Befugnis - wird ein Refresh des Tokens versucht.
-  // switchMap wartet auf Antwort und nach Erfolg von Refresh wird urspüngliche Anfrage wiederholt. -> Happy Path
-  // falls kein erfolg wird Error ausgegeben.
+@Injectable()
+export class AuthInterceptor implements HttpInterceptor {
 
-export const authRefreshInterceptor: HttpInterceptorFn = ( req: HttpRequest<any>, next: HttpHandlerFn): Observable<HttpEvent<any>> => {
-  const authService = inject(AuthService);
+  constructor(private auth: AuthService) {}
+  refreshErrorCounter:number = 0
 
-  return next(req).pipe(
-    catchError((err: HttpErrorResponse) => {
-      if (err.status == 401) {
-        if (req.url.includes('/refresh')) {
-          authService.logout();
-          return throwError(() => new Error('Refresh token is invalid'));
+  intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
+    return next.handle(req).pipe(
+      catchError((error: HttpErrorResponse) => {
+        if (error.status === 401 && this.refreshErrorCounter < 3) {
+          // Bei 401 → Token refreshen
+          return from(this.auth.refreshToken()).pipe(
+            switchMap(success => {
+              if (success) {
+                console.log('refresh success')
+                // Retry mit demselben Request nach erfolgreichem Refresh
+                return next.handle(req);
+              } else {
+                console.log('refresh failed')
+                this.refreshErrorCounter ++
+                this.auth.logout();
+                return throwError(() => new Error('Unauthorized after token refresh'));
+              }
+            }),
+            catchError(() => {
+              this.auth.logout();
+              return throwError(() => new Error('Refresh token failed'));
+            })
+          );
+        } else {
+          // Andere Fehler normal durchreichen
+          return throwError(() => error);
         }
-        return authService.sendRequestForRefreshToken().pipe(
-          switchMap((res:any) => {
-            if (!res.authenticated){
-              authService.logout();
-              return throwError(() => new Error('Not authenticated after refresh'));
-            }
-            return next(req); 
-          }),
-          catchError(refreshErr => {
-             authService.logout();
-            return throwError(() => refreshErr);
-          })
-        );
-      }
-      return throwError(() =>{
-        authService.logout(); 
-        console.log(err)});
-    })
-  );
-};
+      })
+    );
+  }
+}

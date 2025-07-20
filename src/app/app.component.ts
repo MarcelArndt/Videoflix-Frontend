@@ -11,7 +11,7 @@ import { AuthService } from '../service/auth.service';
   styleUrl: './app.component.scss'
 })
 export class AppComponent {
-  title = 'videoflix';
+  title = 'Videoflix';
 
 
 // Debug Router

@@ -7,7 +7,7 @@ import { MediaCategoryService } from '../../service/media-category.service';
 import { CommonModule } from '@angular/common';
 import { VideoPlayerManagerService } from '../videoplayer/video-player-manager.service';
 import { AuthService } from '../../service/auth.service';
-import { Subscription } from 'rxjs';
+import { firstValueFrom, Subscription } from 'rxjs';
 import { Router } from '@angular/router';
 
 
@@ -25,6 +25,7 @@ export class MediaCenterComponent {
 
 
   async ngOnInit(){
+    this.auth.setSiteIsGuarded()
     await this.auth.isAuth();
     this.video.disableVideoMode();
     this.service.siteLoaded = true;
@@ -32,7 +33,8 @@ export class MediaCenterComponent {
   }
 
   async ngAfterViewInit(){
-    this.service.startGlobalVideoStatusPolling();
+    const auth = await firstValueFrom(this.auth.authStatus$);
+    if (auth) this.service.startGlobalVideoStatusPulling();
   }
 
 

@@ -33,6 +33,7 @@ export class HomescreenComponent {
     }
 
    async ngOnInit(){
+    this.auth.setSiteIsUnguarded()
       this.video.disableVideoMode();
       const isAuth = await this.auth.isAuth();
       if ( isAuth && this.auth.emailConfirme ){
