@@ -1,4 +1,4 @@
-import { Component, viewChild, ViewChild, ElementRef } from '@angular/core';
+import { Component, viewChild, ViewChild, ElementRef, ViewEncapsulation } from '@angular/core';
 import { MediaCategoryService } from '../../service/media-category.service';
 import { ApiService } from '../../service/api.service';
 import { VideoPlayerManagerService } from './video-player-manager.service';
@@ -12,12 +12,12 @@ import { AuthService } from '../../service/auth.service';
 import { videoProgress } from '../../interface/interface';
 import { Router } from '@angular/router';
 
-
 @Component({
   selector: 'app-videoplayer',
   imports: [],
   templateUrl: './videoplayer.component.html',
-  styleUrl: './videoplayer.component.scss'
+  styleUrls: ['./videoplayer.component.scss','./videoJs.scss'],
+  encapsulation: ViewEncapsulation.None
 })
 export class VideoplayerComponent {
   constructor(public service:MediaCategoryService, private api:ApiService, private video:VideoPlayerManagerService, private route: ActivatedRoute, private http:HttpClient, private auth:AuthService, private router:Router ){}
@@ -55,6 +55,7 @@ async getVideo(){
     console.error('Fehler beim Laden des Videos:', error);
   }
 }
+
 
 initPlayer(){
     this.subscription = this.service.selectedChoice$.subscribe((item) => {
@@ -99,9 +100,15 @@ async updateOnSeek(){
   await this.saveProgress(currentTime, false);
 }
 
+CheckForLandscapeMode() {
+  //const isPortrait = window.innerHeight > window.innerWidth;
+  //document.body.classList.toggle('portrait', isPortrait);
+}
+
 async ngAfterViewInit() {
   await this.auth.isAuth();
   this.video.enableVideoMode();
+  this.CheckForLandscapeMode();
   this.playerReady = true;
   if (this.bufferedVideoUrl) {
     this.setupPlayer(this.bufferedVideoUrl);
@@ -131,7 +138,8 @@ async askForLatestTime(){
 }
 
 async ngOnInit() {
-  this.auth.setSiteIsGuarded()
+  this.auth.setSiteIsGuarded();
+  await this.auth.isAuth();
   this.initPlayer();
   this.checkForUrlParams();
   await this.askForLatestTime();

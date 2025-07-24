@@ -1,7 +1,9 @@
 
-//URL
+//BASE_URL
 export const standart_BASE_URL = 'http://127.0.0.1:8000/api/';
 export const BASE_URL = 'http://localhost:8000/api/';
+
+//URLs
 export const REGISTRATION_URL = BASE_URL + 'registration/';
 export const LOGIN_URL = BASE_URL + 'login/';
 export const REFRESH_URL = BASE_URL + 'token/refresh/';
@@ -14,7 +16,6 @@ export const VIDEO_PROGRESS_URL = BASE_URL + 'video/progress/';
 export const LOGOUT_URL = BASE_URL + 'logout/';
 export const IS_AUTHENTICATED_URL= BASE_URL + 'is-authenticated/';
 export const VIDEO_CONVERT_PROGRESS_URL= BASE_URL + 'video/current-progress/';
-
 
 //Settings
 export const MIN_PASSWORD_LENGHT = 8;
