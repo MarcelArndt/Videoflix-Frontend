@@ -69,15 +69,36 @@ initPlayer(){
 }
 
 
-setupPlayer(url:string){
+setupPlayer(url: string) {
   const videoElement = this.videoPlayer.nativeElement;
+
   if (this.player) {
     this.player.src({ src: url, type: 'application/x-mpegURL' });
     this.player.load();
   } else {
-    this.player = videojs(videoElement, {}, () => {
-    this.player.src({ src: url, type: 'application/x-mpegURL' });
-    this.player.load();
+    console.log('init Video Player');
+    this.player = videojs(videoElement, {
+      controls: true,
+      playbackRates: [0.5, 1, 1.5, 2], 
+      controlBar: {
+        children: [
+          'playToggle',
+          // 'rewindButton', // kommt später, wenn du ihn selbst definierst
+          // 'forwardButton',
+          'volumePanel',
+          'currentTimeDisplay',
+          'progressControl',
+          'durationDisplay',
+          'playbackRateMenuButton',
+          'fullscreenToggle'
+        ]
+      }
+    }, () => {
+      this.player.src({ src: url, type: 'application/x-mpegURL' });
+      this.player.load();
+
+      // Nur wenn du eigene Buttons hinzufügen willst
+      // this.addCustomButtons();
     });
   }
 }

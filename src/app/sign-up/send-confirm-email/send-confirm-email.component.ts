@@ -1,6 +1,6 @@
 import { Component, ViewChild, ElementRef, HostListener } from '@angular/core';
 import { IconComponent } from '../../../share/icon/icon.component';
-import { RouterLink, ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { checkScrollbar } from '../../../service/scrollbar';
 import { Location } from '@angular/common';
 import { ApiService } from '../../../service/api.service';
@@ -9,7 +9,7 @@ import { AlertsService } from '../../../share/alerts/alerts.service';
 import { AuthService } from '../../../service/auth.service';
 @Component({
   selector: 'app-send-confirm-email',
-  imports: [IconComponent, RouterLink ],
+  imports: [IconComponent],
   templateUrl: './send-confirm-email.component.html',
   styleUrls: ['./send-confirm-email.component.scss', "./../sign-up-form/show-scroolable.scss"]
 })

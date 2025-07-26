@@ -2,6 +2,7 @@
 //BASE_URL
 export const standart_BASE_URL = 'http://127.0.0.1:8000/api/';
 export const BASE_URL = 'http://localhost:8000/api/';
+export const test_url  = 'http://arndt-dev.de:7595/api/'
 
 //URLs
 export const REGISTRATION_URL = BASE_URL + 'registration/';

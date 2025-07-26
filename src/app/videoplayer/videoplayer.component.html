@@ -6,10 +6,10 @@
   <div class="video-wrapper">
       <video #videoScreen
         id="my-video"
-        class="video-js homescreen-video"
+        class="video-js vjs-default-skin homescreen-video"
         preload="auto"
         controls
-        data-setup="{}"        
+     
         (timeupdate)="onTimeUpdate()"
         (ended)="isVideoEnded()"
         (seeked)="updateOnSeek()"
