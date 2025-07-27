@@ -52,8 +52,16 @@
     position: absolute;
     top: 32px;
     width: 100%;
-    height: max-content;
+    height: 20px;
     max-width: 1920px;
+    color: var(--white);
+    transition: color 0.25s ease-in-out;
+
+    &:hover{
+    background-color: transparent;
+    color: var(--blue-hover);
+    transition: color 0.25s ease-in-out;
+    }
 }
 .video-js .vjs-fullscreen-control{
     position: absolute;
@@ -61,45 +69,28 @@
     right: calc(0px + 2rem);
     top: 56px;
     z-index: 100;
+    color: var(--white);
+    transition: color 0.25s ease-in-out;
+    &:hover{
+    background-color: transparent;
+    color: var(--blue-hover);
+    transition: color 0.25s ease-in-out;
+    }
 }
 
 .video-js .vjs-play-control{
     position: absolute;
-    font-size: 1rem;
+    font-size: 1.15rem;
     left: calc(0px + 6px);
-    top: 56px; 
-}
+    top: 52px; 
+    color: var(--white);
+    transition: color 0.25s ease-in-out;
 
-.video-js .vjs-volume-panel {
-    position: absolute;
-    left: 56px;
-    top: 56px;
-    z-index: 100;
-    font-size: 1rem;
-
-}
-
-.video-js .vjs-volume-panel .vjs-volume-control {
-  left: 32px;
-  margin-left: 0;
-}
-
-
-.video-js .vjs-playback-rate {
-  position: absolute;
-  right: 56px;
-  height: 100px;
-  z-index: 100px;
-  font-size: 1rem;
-  height: max-content;
-  text-align: center;
-  vertical-align: middle;
-    padding-top: 0px;
-
-  &:hover{
+    &:hover{
     background-color: transparent;
-  } 
-
+    color: var(--blue-hover);
+    transition: color 0.25s ease-in-out;
+    }
 }
 
 
@@ -110,3 +101,60 @@
   z-index: 101;
   pointer-events: auto;
 }
+
+.video-js .vjs-rewind-button{
+  position: absolute;
+  top: 64px;
+  left: 42px;
+}
+
+.video-js .vjs-forward-button{
+  position: absolute;
+  top: 64px;
+  left: calc(60px + 28px);
+}
+
+.video-js .vjs-volume-panel .vjs-volume-control {
+  left: calc(32px);
+  margin-left: 0;
+}
+
+.video-js .vjs-volume-panel {
+    position: absolute;
+    left: calc(60px + 80px);
+    top: 56px;
+    z-index: 100;
+    font-size: 1rem;
+    color: var(--white);
+    transition: color 0.25s ease-in-out;
+
+    &:hover{
+      background-color: transparent;
+      color: var(--blue-hover);
+      transition: color 0.25s ease-in-out;
+    }
+
+}
+
+.video-js .vjs-playback-rate {
+  position: absolute;
+  right: 32px;
+  min-height: 26px;
+  margin-top: 14px;
+  z-index: 100;
+  font-size: 1rem;
+  height: max-content;
+  text-align: center;
+  vertical-align: middle;
+  padding-top: 0px;
+  color: var(--white);
+  transition: color 0.25s ease-in-out;
+
+  &:hover{
+    background-color: transparent;
+    color: var(--blue-hover);
+    transition: color 0.25s ease-in-out;
+  } 
+
+}
+

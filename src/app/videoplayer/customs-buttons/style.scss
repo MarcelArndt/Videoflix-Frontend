@@ -1,0 +1,29 @@
+@font-face {
+    font-display: swap;
+    font-family: 'Material Symbols Outlined';
+    font-style: normal;
+    font-weight: 400;
+    src: url('../../../../public/assets/fonts/material-symbols-outlined-v213-latin-regular.woff2') format('woff2');
+}
+
+
+.video-js .vjs-rewind-button, .video-js .vjs-forward-button{
+    font-family: 'Material Symbols Outlined';
+    text-align: center;
+    vertical-align: middle;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.65rem;
+    width: 32px;
+    height: 32px;
+    flex-shrink: 0;
+    margin: 0px 8px;
+    color: var(--white);
+    transition: color 0.25s ease-in-out;
+    &:hover{
+        background-color: transparent;
+        color: var(--blue-hover);
+        transition: color 0.25s ease-in-out;
+    }
+}

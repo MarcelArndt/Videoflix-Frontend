@@ -11,16 +11,20 @@ import { UPDATE_INTERVAL_PROGRESS_IN_SEC, VIDEO_PROGRESS_URL } from '../../servi
 import { AuthService } from '../../service/auth.service';
 import { videoProgress } from '../../interface/interface';
 import { Router } from '@angular/router';
+import { RewindButton, ForwardButton, addCustomButtons } from './customs-buttons/timecontrolButtons';
 
 @Component({
   selector: 'app-videoplayer',
   imports: [],
   templateUrl: './videoplayer.component.html',
-  styleUrls: ['./videoplayer.component.scss','./videoJs.scss'],
+  styleUrls: ['./videoplayer.component.scss','./videoJs.scss', './customs-buttons/style.scss'],
   encapsulation: ViewEncapsulation.None
 })
 export class VideoplayerComponent {
+
+  
   constructor(public service:MediaCategoryService, private api:ApiService, private video:VideoPlayerManagerService, private route: ActivatedRoute, private http:HttpClient, private auth:AuthService, private router:Router ){}
+
 
   @ViewChild('videoScreen') videoPlayer!:ElementRef;
   subscription!:Subscription;
@@ -71,41 +75,29 @@ initPlayer(){
 
 setupPlayer(url: string) {
   const videoElement = this.videoPlayer.nativeElement;
-
   if (this.player) {
     this.player.src({ src: url, type: 'application/x-mpegURL' });
     this.player.load();
   } else {
-    console.log('init Video Player');
     this.player = videojs(videoElement, {
       controls: true,
       playbackRates: [0.5, 1, 1.5, 2], 
       controlBar: {
-        children: [
-          'playToggle',
-          // 'rewindButton', // kommt später, wenn du ihn selbst definierst
-          // 'forwardButton',
-          'volumePanel',
-          'currentTimeDisplay',
-          'progressControl',
-          'durationDisplay',
-          'playbackRateMenuButton',
-          'fullscreenToggle'
-        ]
+        children: [ 'playToggle', 'volumePanel', 'currentTimeDisplay', 'progressControl', 'durationDisplay', 'playbackRateMenuButton', 'fullscreenToggle' ]
       }
     }, () => {
       this.player.src({ src: url, type: 'application/x-mpegURL' });
+      addCustomButtons(this.player);
       this.player.load();
-
-      // Nur wenn du eigene Buttons hinzufügen willst
-      // this.addCustomButtons();
     });
   }
 }
 
+
 async isVideoEnded(){
  await this.saveProgress(this.videoPlayer.nativeElement.duration, true);
 }
+
 
 async onTimeUpdate(){
   const currentTime = this.videoPlayer.nativeElement.currentTime;
@@ -125,6 +117,7 @@ CheckForLandscapeMode() {
   //const isPortrait = window.innerHeight > window.innerWidth;
   //document.body.classList.toggle('portrait', isPortrait);
 }
+
 
 async ngAfterViewInit() {
   await this.auth.isAuth();
@@ -158,6 +151,7 @@ async askForLatestTime(){
   }
 }
 
+
 async ngOnInit() {
   this.auth.setSiteIsGuarded();
   await this.auth.isAuth();
@@ -186,5 +180,4 @@ ngOnDestroy() {
   this.paramSubscription?.unsubscribe();
   this.httpSubscription?.unsubscribe();
 }
-
 }
