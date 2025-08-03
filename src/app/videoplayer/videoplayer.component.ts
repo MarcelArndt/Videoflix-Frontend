@@ -1,4 +1,4 @@
-import { Component, viewChild, ViewChild, ElementRef, ViewEncapsulation } from '@angular/core';
+import { Component, viewChild, ViewChild, ElementRef, ViewEncapsulation, HostListener } from '@angular/core';
 import { MediaCategoryService } from '../../service/media-category.service';
 import { ApiService } from '../../service/api.service';
 import { VideoPlayerManagerService } from './video-player-manager.service';
@@ -39,6 +39,20 @@ export class VideoplayerComponent {
   updateInterval:number = UPDATE_INTERVAL_PROGRESS_IN_SEC;
   lastSavedTime!:number;
   latestProgressId!:number
+  isMobilDevice:boolean = false;
+  isLandscapemode:boolean= false;
+
+  @HostListener('window:orientationchange', [])
+  onOrientationChange() {
+    this.checkForMobilDevice();
+    this.checkForLandscapeMode();
+  }
+
+  @HostListener('window:resize', [])
+  onResize() {
+    this.checkForMobilDevice();
+    this.checkForLandscapeMode();
+  }
 
 
 checkForUrlParams(){
@@ -113,16 +127,33 @@ async updateOnSeek(){
   await this.saveProgress(currentTime, false);
 }
 
-CheckForLandscapeMode() {
-  //const isPortrait = window.innerHeight > window.innerWidth;
-  //document.body.classList.toggle('portrait', isPortrait);
+checkForMobilDevice() {
+  const isUserAgentMobile = /Mobi|Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
+  const isSmallViewport = window.innerWidth <= 768;
+  if (isUserAgentMobile && isSmallViewport || isUserAgentMobile && !isSmallViewport ) this.isMobilDevice = true
+  if (!isUserAgentMobile && !isSmallViewport || !isUserAgentMobile && isSmallViewport) this.isMobilDevice = false
+  console.log(this.isMobilDevice)
+}
+
+checkForLandscapeMode() {
+  this.isLandscapemode = window.innerWidth > window.innerHeight
+  if(!this.isLandscapemode && this.isMobilDevice){
+    document.body.classList.add("force-landscape");
+  }
+
+  if(this.isLandscapemode){
+    document.body.classList.remove("force-landscape");
+  }
 }
 
 
 async ngAfterViewInit() {
+
   await this.auth.isAuth();
   this.video.enableVideoMode();
-  this.CheckForLandscapeMode();
+  this.checkForUrlParams();
+  this.checkForMobilDevice();
+  this.checkForLandscapeMode();
   this.playerReady = true;
   if (this.bufferedVideoUrl) {
     this.setupPlayer(this.bufferedVideoUrl);
@@ -156,7 +187,6 @@ async ngOnInit() {
   this.auth.setSiteIsGuarded();
   await this.auth.isAuth();
   this.initPlayer();
-  this.checkForUrlParams();
   await this.askForLatestTime();
   this.api.isVideoMode = true;
 }

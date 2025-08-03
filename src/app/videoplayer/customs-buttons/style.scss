@@ -27,3 +27,11 @@
         transition: color 0.25s ease-in-out;
     }
 }
+
+@media screen and (orientation: landscape) and (max-width: 1240px) {
+    .video-js .vjs-rewind-button, .video-js .vjs-forward-button{
+        font-size: 2.75rem;
+        width: 64px;
+        height: 64px;
+    }
+}

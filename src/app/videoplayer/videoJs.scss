@@ -1,8 +1,10 @@
 .head-wrapper{
     position: fixed !important;
     top: 0px;
-    
 }
+
+
+
 
 .vjs-audio-only-mode .vjs-control-bar, .vjs-has-started .vjs-control-bar{
     width: 95%;
@@ -135,6 +137,10 @@
     }
 
 }
+.video-js {
+  height: auto;
+  min-height: 100vh;
+}
 
 .video-js .vjs-playback-rate {
   position: absolute;
@@ -155,6 +161,106 @@
     color: var(--blue-hover);
     transition: color 0.25s ease-in-out;
   } 
+}
+
+@media screen and (orientation: landscape) and (max-width: 1240px) {
+
+    .vjs-audio-only-mode .vjs-control-bar, .vjs-has-started .vjs-control-bar{
+      background: transparent;
+      height: 100vh;
+    }
+
+    .video-js .vjs-fullscreen-control{
+      display: none;
+    }
+
+    .video-js .vjs-volume-panel .vjs-volume-control {
+      display: none;
+    }
+
+    .video-js .vjs-volume-panel{
+      display: none;
+    }
+
+  .video-js .vjs-rewind-button{
+      font-size: 2.75rem;
+      position: fixed;
+      top: 50%;
+      left: 30%;
+      transform: translate(-50%,-50%);
+    }
+
+  .video-js .vjs-forward-button{
+      font-size: 2.75rem;
+      position: fixed;
+      top: 50%;
+      left: 70%;
+      transform: translate(-50%,-50%);
+    }
+
+  .video-js .vjs-progress-control{
+    top: auto;
+    bottom: 15%;
+  }
+
+  .video-js .vjs-playback-rate{
+    margin-top: 0px;
+    padding-bottom: 52px;
+    position: fixed;
+    left: 50%;
+    bottom: -4px;
+    transform: translate(-50%, -50%);
+    top: auto;
+  }
+
+
+  .video-js .vjs-play-control {
+    position: absolute !important;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 2.75rem;
+    height: 64px;
+    width: 64px;
+    border-radius: 50%;
+    border: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 10;
+
+    .vjs-icon-placeholder {
+        position: relative !important;
+        left: 0 !important;
+        top: 0 !important;
+        height: 64px;
+        width: 64px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .vjs-icon-placeholder:before {
+        position: relative !important;
+        left: 0 !important;
+        top: 0 !important;
+        transform: none !important;
+        display: block;
+        text-align: center;
+        line-height: 1;
+    }
+
+
+    &.vjs-playing .vjs-icon-placeholder:before {
+        left: 0 !important;
+    }
+
+    &:not(.vjs-playing) .vjs-icon-placeholder:before {
+        left: 2px !important;
+        position: relative;
+    }
+}
 
 }
+
 
