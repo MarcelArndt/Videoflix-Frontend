@@ -4,7 +4,7 @@ import { BehaviorSubject, firstValueFrom } from 'rxjs';
 import { ApiService } from './api.service';
 import { MAIN_SERVICE_URL, VIDEO_CONVERT_PROGRESS_URL } from './config';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { Observable, Subject  } from 'rxjs';
 import { AuthService } from './auth.service';
 import { Router } from '@angular/router';
 import { VideoStatus, CategoryItem, ConvertingVideoStatus } from '../interface/interface';
@@ -18,7 +18,7 @@ export class MediaCategoryService {
   public toRefreshData: boolean = false;
   public dataReady: boolean = false;
   public refreshData = false;
-  public lenghtOfData:number = 0;
+  public lengthOfData:number = 0;
   public siteLoaded:boolean = false;
   private selectedChoiceSubject = new BehaviorSubject<CategoryItem | null>(null);
   selectedChoice$ = this.selectedChoiceSubject.asObservable();
@@ -26,15 +26,21 @@ export class MediaCategoryService {
   newestVideo$ = this.newestVideoSubject.asObservable();
   dataQuarry: CategoryWrapper  = {}
   public convertingVideos: ConvertingVideoStatus[] = [];
-  pollingInterval: any = null;
+  pullingInterval: any = null;
   allCategoryKey!:string[];
+  private firstConversionFinishedSubject = new Subject<void>();
+  public firstConversionFinished$ = this.firstConversionFinishedSubject.asObservable();
 
 
   collectAllKeysOfCategory(){
     this.allCategoryKey = Object.keys(this.dataQuarry);
   }
 
-  async switchCurrentChoice(category:string, index:number){
+  deleteCurrentChoice(){
+    this.selectedChoiceSubject.next(null);
+  }
+
+  switchCurrentChoice(category:string, index:number){
     if (!this.dataQuarry || !this.dataQuarry[category].content[index].is_converted) return
     let newItem = null
     if (this.dataQuarry[category].content[index]){
@@ -53,7 +59,7 @@ export class MediaCategoryService {
   }
 
   async takeNewestVideoAsChoice(){
-    if (!this.dataQuarry || this.lenghtOfData <= 0) return
+    if (!this.dataQuarry || this.lengthOfData <= 0) return
     let newItem = null
     if(this.dataQuarry['newOnVideoflix'].content[0]){
           newItem = { ...this.dataQuarry['newOnVideoflix'].content[0] };
@@ -91,7 +97,8 @@ export class MediaCategoryService {
 
 async updateSingleVideoStatus(){
   if(this.convertingVideos.length <= 0) return;
- for (const [index, videoInfos] of this.convertingVideos.entries()) {
+
+  for (const [index, videoInfos] of this.convertingVideos.entries()) {
     this.checkForDataQuarryId(videoInfos, index);
     const newVideoData: CategoryItem = await firstValueFrom(this.sendRequest(videoInfos.video)) as CategoryItem;
     if (videoInfos?.dataQuarryID == 0 || videoInfos?.dataQuarryID && videoInfos?.dataQuarryID >= 0) {
@@ -108,22 +115,35 @@ findCurrentNewestVideoAndUpdate(videoInfos:ConvertingVideoStatus, videoData:Cate
 }
 
 async startGlobalVideoStatusPulling() {
-  const isAuth = await firstValueFrom(this.auth.authStatus$)
-  if (this.pollingInterval) return;
+  if (this.pullingInterval) return;
   await this.checkServerForQueue();
-  this.pollingInterval = setInterval(() => {
-    this.updateSingleVideoStatus();
-    if (this.convertingVideos.length <= 0 || !isAuth) {
-      clearInterval(this.pollingInterval);
-      this.pollingInterval = null;
-    }
-  }, 2000);
+  if(this.convertingVideos.length > 0){
+    this.pullingInterval = setInterval(() => {
+      console.log(this.dataQuarry['newOnVideoflix'].content.length)
+      if (this.convertingVideos.length <= 0 && this.pullingInterval){
+        this.checkforFirstVideoAndSignal()
+        clearInterval(this.pullingInterval);
+        this.pullingInterval = null;
+        return
+      }
+      this.updateSingleVideoStatus();
+    }, 2000);
+  }
 }
 
 async checkServerForQueue(){
   const isAuth = await this.auth.isAuth();
   if (!isAuth) return;
   this.convertingVideos = await firstValueFrom(this.askConvertStatus()) as ConvertingVideoStatus[]
+}
+
+checkforFirstVideoAndSignal(){
+  this.selectedChoice$.subscribe((item)=>{
+    if(item && this.dataQuarry['newOnVideoflix'].content.length == 1){
+      console.log('fire First-Video-Event')
+      this.firstConversionFinishedSubject.next();
+    }
+  });
 }
 
 checkForDataQuarryId(videoInfos:ConvertingVideoStatus, index:number){
@@ -143,7 +163,7 @@ checkForDataQuarryId(videoInfos:ConvertingVideoStatus, index:number){
       const res =  await firstValueFrom(this.sendRequest()) || null;
       if(res){
       this.dataQuarry = res as CategoryWrapper
-      this.lenghtOfData = Object.keys(this.dataQuarry).length
+      this.lengthOfData = Object.keys(this.dataQuarry).length
       this.dataReady = true
       this.collectAllKeysOfCategory()
     }

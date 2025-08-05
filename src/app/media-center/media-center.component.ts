@@ -34,12 +34,15 @@ export class MediaCenterComponent {
 
   async ngAfterViewInit(){
     const auth = await firstValueFrom(this.auth.authStatus$);
-    if (auth) this.service.startGlobalVideoStatusPulling();
   }
 
 
   get serviceState():boolean{
     return this.service.toRefreshData
+  }
+
+  ngOnDestroy() {
+    this.authSubscription?.unsubscribe();
   }
 
 

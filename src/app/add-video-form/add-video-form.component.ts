@@ -14,6 +14,7 @@ import { AlertsService } from '../../share/alerts/alerts.service';
 import { MAX_VIDEO_UPLOAD_SIZE_IN_MB } from '../../service/config';
 import { Router } from '@angular/router';
 import { VideoStatus } from '../../interface/interface';
+import { firstValueFrom } from 'rxjs';
 
 
 @Component({
@@ -68,7 +69,6 @@ export class AddVideoFormComponent {
   };
 }
 
-
   ngAfterViewInit(){
     checkScrollbar(this.scrollbar, this.scrollAnimtion)
   }
@@ -118,6 +118,15 @@ export class AddVideoFormComponent {
     this.selectService.resetChoice();
   }
 
+async checkForFirstVideoAndRefresh(){
+  const currentChoice = await firstValueFrom(this.service.selectedChoice$);
+  if (this.service.lengthOfData > 0 && !currentChoice){
+     this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
+          this.router.navigate(['/media']);
+    });
+  }
+}
+
 async postVideo(event: Event) {
   event.preventDefault();
   this.isLoading.emit(true);
@@ -134,6 +143,7 @@ async postVideo(event: Event) {
       await this.service.startGlobalVideoStatusPulling();
       this.closePopUp.emit();
       await this.service.refreshCategorySliderData();
+      await this.checkForFirstVideoAndRefresh();
     } else {
       this.closePopUp.emit();
       this.uploadComplete.emit();

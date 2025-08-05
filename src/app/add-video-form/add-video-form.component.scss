@@ -162,8 +162,18 @@ button{
 }
 
 .errorBox{
+    display: flex;
+    justify-content: center;
     margin-top: -16px;
     margin-bottom: 8px;
+    min-height: 36px;
+    p{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        vertical-align: middle;
+        margin: 0px;
+    }
 }
 
 .popUp-wrapper{

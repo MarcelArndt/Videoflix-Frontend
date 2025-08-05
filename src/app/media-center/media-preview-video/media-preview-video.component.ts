@@ -23,23 +23,27 @@ export class MediaPreviewVideoComponent {
   headline:string='';
   description:string='';
   isData = true;
-  subscription!: Subscription;
+  selectedChoicesubscription!: Subscription;
+  fisrtVideoIsReadySubscription = new Subscription();
 
-async ngOnInit(){
-     
+  ngOnInit() {
+    this.fisrtVideoIsReadySubscription = this.service.firstConversionFinished$.subscribe(() => {
+      window.location.reload();
+    });
   }
 
-async ngAfterViewInit() {
+  async ngAfterViewInit() {
       await this.service.pullAllData();
       await this.service.takeNewestVideoAsChoice();
       this.cdr.detectChanges();
-      this.subscription = this.service.selectedChoice$.subscribe((item)=>{
+      this.selectedChoicesubscription = this.service.selectedChoice$.subscribe((item)=>{
+        console.log(item?.url)
           if (item && item.url){
             this.setupPlayer(item.url);
           } 
       });
-
-}
+    this.service.startGlobalVideoStatusPulling();
+  }
 
   setupPlayer(url:string){
     if (!url || !this.videoPlayer || !this.videoPlayer.nativeElement) return;
@@ -56,7 +60,8 @@ async ngAfterViewInit() {
     if (this.player) {
       this.player.dispose();
     }
-    this.subscription?.unsubscribe();
+    this.selectedChoicesubscription?.unsubscribe();
+    this.fisrtVideoIsReadySubscription?.unsubscribe();
   }
 
 }

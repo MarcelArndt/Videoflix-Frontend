@@ -132,7 +132,6 @@ checkForMobilDevice() {
   const isSmallViewport = window.innerWidth <= 768;
   if (isUserAgentMobile && isSmallViewport || isUserAgentMobile && !isSmallViewport ) this.isMobilDevice = true
   if (!isUserAgentMobile && !isSmallViewport || !isUserAgentMobile && isSmallViewport) this.isMobilDevice = false
-  console.log(this.isMobilDevice)
 }
 
 checkForLandscapeMode() {

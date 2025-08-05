@@ -45,6 +45,7 @@ export class MediaPreviewTextComponent {
   async deleteVideo(event:Event){
     event.preventDefault();
     const url = MAIN_SERVICE_URL + `${this.currenVideotId}/`
+    this.service.deleteCurrentChoice();
     await this.api.delete(url);
     this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
           this.router.navigate(['/media']);
