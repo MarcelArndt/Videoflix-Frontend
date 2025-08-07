@@ -1,0 +1,11 @@
+<section class="popUp" #popUp (click)="closePopUp()" 
+[ngClass]="{'popUp-fade-in': popUpService.isPopUpOpen && !popUpService.firstTimeopen, 'popUp-fade-out' : !popUpService.isPopUpOpen && !popUpService.firstTimeopen, 'init' : popUpService.firstTimeopen}">
+
+    <div class="popUp-wrapper" [ngClass]="{'popUp-content-fade-in' : popUpService.isPopUpOpen, 'popUp-content-fade-out' : !popUpService.isPopUpOpen}" (click)="preventClick($event)"> 
+        <div class="popUp-content">
+            <ng-content></ng-content>
+            <ng-container #popUpContainer></ng-container>
+        </div>
+    </div>
+
+</section>

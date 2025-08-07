@@ -1,0 +1,99 @@
+.sign-in{
+    width: 100%;
+    height: 100%;
+    background-image: url(../../../public/assets/wallpaper/wallpaper-002-login.jpg);
+    background-repeat: no-repeat;
+    background-position: top;
+    background-size: cover;
+    min-height: 100dvh;
+}
+
+.flex{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+h1{
+    text-align: center;
+}
+
+form{
+    width: 100%;
+    display: flex;
+    margin-top: 16px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.darken{
+ opacity: 0.6;
+}
+
+form{
+    display: flex;
+    flex-direction: column;
+}
+
+input{
+    padding-top: 2px;
+    background: none;
+    width: 100%;
+    margin-left: 0px;
+    border: none;
+    padding-right:0px;
+    border-radius: 8px;
+}
+
+button{
+    margin: 24px 0px;
+}
+
+.show-password-icon{
+    &:hover{
+        cursor: pointer;
+    }
+}
+
+
+.scrollbar{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    overflow-y: auto;
+    max-height: 60vh;
+}
+
+.bold{
+    font-weight: 600;
+    margin-left: 8px;
+}
+
+.input-field{
+    margin: 16px 0px;
+    display: flex;
+    align-items: center;
+    border: 1px solid var(--blue);
+    padding: 0px 24px;
+    box-sizing: border-box;
+    border-radius: 8px;
+    background-color: var(--glass);
+    width: 100%;
+
+    icon{
+        color: var(--blue);
+        font-size: 1.75rem;
+
+    }
+
+    &:hover, &:hover>icon, &:focus, &:focus>icon, &:focus-within, &:focus-within>icon{
+        border-color: var(--blue-hover);
+        color: var(--blue-hover);
+    }
+
+    
+}

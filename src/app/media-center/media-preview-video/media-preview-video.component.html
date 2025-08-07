@@ -1,0 +1,32 @@
+<div class="preview-wrapper" >
+
+  <div class="video-wrapper" >
+
+    
+    
+
+      <div class="placeholder" *ngIf="service.lengthOfData <= 0">
+        <img src="./assets/wallpaper/wallpaper-001.jpg" >
+      </div>
+
+      <ng-container *ngIf="service.selectedChoice$ | async as video">
+         
+      <video #videoScreen
+        id="my-video"
+        class="video-js homescreen-video"
+        autoplay 
+        muted
+        loop
+        preload="auto"
+        data-setup="{}" 
+        *ngIf="service.lengthOfData > 0 && video.is_converted">
+      </video>
+
+      </ng-container>
+  </div>
+
+  <div class="text-wrapper">
+    <app-media-preview-text></app-media-preview-text>
+  </div>
+
+</div>

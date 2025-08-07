@@ -1,0 +1,21 @@
+.footer-navi{
+    z-index: 100;
+    position: fixed;
+    bottom: 10%;
+    left: 50%;
+    transform: translateX(-50%);
+    color: var(--white);
+
+    li:hover{
+        color: var(--blue-hover);
+        cursor: pointer;
+        transition: color 0.25s ease-in-out;
+    }
+}
+
+
+@media screen and (max-width:1180px){
+    .footer-navi{ 
+        bottom: 24px;
+    }
+}

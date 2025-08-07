@@ -1,0 +1,37 @@
+ <h2>Sign Up</h2>
+
+
+        <div #scrollAnimtion animation-duration="1.5s" class="show-is-scrollable"></div>
+
+         <form [formGroup]="signUpForm">
+            <div class="scrollbar" #scrollbar>
+<div class="errorBox">
+    <p *ngIf="validation.checkError() as error">{{ error }}</p>
+    <p *ngIf="!validation.checkError() && registFailed">Ops... Username is already in use</p>
+</div>
+
+            <div class="input-field" [ngClass]="{'invalid-border': validation.getError('username')?.hasError}">
+                <icon>person</icon>
+               <input formControlName="username" autocomplete="username" type="text" placeholder="Username"/>
+            </div>
+
+            <div class="input-field" [ngClass]="{'invalid-border': validation.getError('email')?.hasError}">
+                <icon>mail</icon>
+                <input formControlName="email" autocomplete="email" type="email" placeholder="Email Address"/>
+            </div>
+
+            <div class="input-field" [ngClass]="{'invalid-border': validation.getError('password')?.hasError || validation.getFormError('passwordMismatch').hasError}">
+                <icon>password</icon>
+                <input formControlName="password" autocomplete="new-password" [type]="fieldTypeIsPassword ? 'password' : 'text'" placeholder="Enter a password">
+                <icon (click)="changePasswordFieldType()" class="show-password-icon">{{fieldTypeIsPassword ? 'visibility' : 'visibility_off' }}</icon>
+            </div>
+
+            <div class="input-field" [ngClass]="{'invalid-border': validation.getError('password')?.hasError || validation.getFormError('passwordMismatch').hasError}">
+                <icon>password</icon>
+                <input formControlName="repeatedPassword" autocomplete="current-password" [type]="fieldTypeIsPassword ? 'password' : 'text'" placeholder="Confirm password">
+                <icon (click)="changePasswordFieldType()" class="show-password-icon">{{fieldTypeIsPassword ? 'visibility' : 'visibility_off' }}</icon>
+            </div>
+
+             <button [disabled]="signUpForm.invalid" (click)="sendSignUp($event)">Get Started</button>
+           </div>
+         </form>

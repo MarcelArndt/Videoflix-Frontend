@@ -1,0 +1,14 @@
+
+<section class="main-wrapper">
+    <div class="content-wrapper">
+        <app-headline></app-headline>
+        
+        <section>
+
+            <router-outlet/>
+            <alerts [animationDuration]="1500" [messageLifetime]="3000"></alerts>
+
+        </section>
+
+    </div>
+</section>

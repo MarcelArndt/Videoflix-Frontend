@@ -1,0 +1,133 @@
+.popUp{
+    --popUp-background-color: rgba(11, 4, 39, 0.5);
+    --popUp-wrapper-color: rgba(28, 28, 28, 0.7);
+    --popUp-wrapper-max-width: min(664px, 80%);
+    --popUp-wrapper-max-height: 800px;
+    --popUp-wrapper-border-radius: 24px;
+    --popUp-wrapper-padding: 12px 12px;
+    --popUp-inner-animation-duration: 750ms;
+    --popUp-animation-duration: 750ms;
+
+    width: 100%;
+    height: 100%;
+    position: fixed;
+    top: 0px;
+    left: 0px;
+    z-index: 9999;
+    background-color: var(--popUp-background-color);
+    backdrop-filter: blur(3px);
+}
+
+.popUp-wrapper{
+    position: absolute;
+    transform: translate(-50%,-50%);
+    top: 50%;
+    left: 50%;
+    width: 100%;
+    height: max-content;
+    min-height: 450px;
+    max-width: var(--popUp-wrapper-max-width);
+    max-height: var(--popUp-wrapper-max-height);
+    background-color: var(--popUp-wrapper-color);
+    border-radius: var(--popUp-wrapper-border-radius);
+    backdrop-filter: blur(6px);
+}
+
+.popUp-content{
+    display: flex;
+    flex-direction: column;
+    justify-items: center;
+    align-items: center;
+    padding: var(--popUp-wrapper-padding);
+    width: 100%;
+}
+
+.no-scroll {
+    overflow: hidden;
+    height: 100vh;
+    max-height: 100vh;
+}
+
+.disable-popUp{
+    display: none;
+}
+
+.popUp-fade-in {
+    animation: fade-popUp-in var(--popUp-inner-animation-duration) ease-in-out forwards;
+}
+
+.popUp-fade-out {
+    animation: fade-popUp-out var(--popUp-inner-animation-duration) ease-in-out forwards;
+}
+
+.popUp-content-fade-in {
+    animation: popUp-content-fade-in var(--popUp-inner-animation-duration) ease-in-out forwards;
+}
+
+.popUp-content-fade-out {
+    animation: popUp-content-fade-out var(--popUp-inner-animation-duration) ease-in-out forwards;
+}
+
+.init {
+    display: none;
+    transform: translateX(300px);
+    opacity: 0;
+}
+
+@keyframes popUp-content-fade-in {
+    from {
+        transform: translate(-50%, 750px);
+        opacity: 0;
+    }
+
+    to {
+        transform: translate(-50%, -50%);
+        opacity: 1;
+    }
+
+}
+
+@keyframes popUp-content-fade-out {
+    from {
+        transform: translate(-50%, -50%);
+        opacity: 1;
+    }
+
+    to {
+        transform: translate(-50%, 750px);
+        opacity: 0;
+    }
+
+}
+
+@keyframes fade-popUp-out {
+    0% {
+        opacity: 1;
+    }
+
+    100% {
+        opacity: 0;
+    }
+}
+
+@keyframes fade-popUp-in {
+    0% {
+        display: flex;
+        opacity: 0;
+    }
+
+    100% {
+        opacity: 1;
+    }
+}
+
+@media screen and ( max-width: 650px) {
+    .popUp-wrapper{
+        max-width: 95%;
+        height: 80%;
+    }
+
+    .popUp-content{
+        height: 100%;
+    }
+}

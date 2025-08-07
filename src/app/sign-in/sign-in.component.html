@@ -1,0 +1,42 @@
+
+
+
+
+<section class="screen-wrapper sign-in">
+
+    <div class="black-glass-background">
+        <div #scrollAnimtion animation-duration="1.5s" class="show-is-scrollable"></div>
+        <div class="flex">
+        <div class="scrollbar" #scrollbar>
+        <h2>Log in</h2>
+         <form [formGroup]="signInForm">
+
+            <div class="errorBox">
+                <p *ngIf="validation.checkError() as error">{{ error }}</p>
+                <p *ngIf="!validation.checkError() && loginFailed">Login Failed! Wrong Username or Password.</p>
+            </div>
+
+            <div class="input-field">
+                <icon>mail</icon>
+                <input formControlName="email" autocomplete="email" placeholder="Email Address" (keydown)="resetLoginFailed()">
+            </div>
+
+            <div class="input-field">
+                <icon>password</icon>
+                <input autocomplete="current-password" formControlName="password" [type]="fieldTypeIsPassword ? 'password' : 'text'" placeholder="Password" (keydown)="resetLoginFailed()">
+                <icon (click)="changePasswordFieldType()" class="show-password-icon">{{fieldTypeIsPassword ? 'visibility' : 'visibility_off' }}</icon>
+            </div>
+
+             <button (click)="sendSignIn($event)" [disabled]="signInForm.invalid">Log in</button>
+             <a routerLink="/forgot_pw">Forgot password?</a>
+             <p>New to Videoflix? <a class="bold" routerLink="/sign_up">Sign Up now</a></p>
+
+         </form>
+        </div>
+    </div>
+    </div>
+
+    <div class="curtain darken"></div>
+
+    <footer-navigation></footer-navigation>
+</section>

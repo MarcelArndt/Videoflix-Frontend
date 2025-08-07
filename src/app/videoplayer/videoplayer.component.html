@@ -1,0 +1,19 @@
+<section class="videoflix">
+
+<div class="meta-container">
+
+</div>
+  <div class="video-wrapper">
+      <video #videoScreen
+        id="my-video"
+        class="video-js vjs-default-skin homescreen-video"
+        preload="auto"
+        controls
+     
+        (timeupdate)="onTimeUpdate()"
+        (ended)="isVideoEnded()"
+        (seeked)="updateOnSeek()"
+        >
+      </video>
+  </div>
+</section>

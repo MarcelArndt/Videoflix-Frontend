@@ -1,0 +1,73 @@
+form{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    max-height: 50vh;
+    overflow-y: hidden;
+    box-sizing: border-box;
+}
+
+.scrollbar{
+    box-sizing: border-box;
+    overflow-y: auto;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+input{
+    padding-top: 2px;
+    background: none;
+    width: 100%;
+    margin-left: 0px;
+    border: none;
+    padding-right:0px;
+    border-radius: 8px;
+}
+
+button{
+    margin: 16px 0px;
+}
+
+h2{
+    text-align: center;
+}
+
+.show-password-icon{
+    &:hover{
+        cursor: pointer;
+    }
+}
+
+.input-field{
+    margin: 16px 0px;
+    display: flex;
+    align-items: center;
+    border: 1px solid var(--blue);
+    padding: 0px 24px;
+    box-sizing: border-box;
+    border-radius: 8px;
+    background-color: var(--glass);
+    width: 100%;
+
+    icon{
+        color: var(--blue);
+        font-size: 1.75rem;
+
+    }
+
+    &:hover, &:hover>icon, &:focus, &:focus>icon, &:focus-within, &:focus-within>icon{
+        border-color: var(--blue-hover);
+        color: var(--blue-hover);
+    }  
+}
+
+.invalid-border{
+    border-color: var(--error);
+    icon{ 
+        color: var(--error);
+    }
+}

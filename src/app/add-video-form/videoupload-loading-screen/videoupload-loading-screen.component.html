@@ -1,0 +1,11 @@
+
+<div class="loading-wrapper">
+    <div class="loading-text">
+        <h2>Uploading Video</h2>
+        <div class="loading-spinner">
+            <span class="loader"></span>
+        </div>
+        <p *ngIf="uploadProcess < 100">Current Uploading {{uploadProcess}}%</p>
+        <p *ngIf="uploadProcess >= 100">Video is converting</p>
+    </div>
+</div>

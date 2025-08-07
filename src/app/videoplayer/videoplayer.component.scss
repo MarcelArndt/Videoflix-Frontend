@@ -1,0 +1,57 @@
+section{
+    z-index: 0;
+    position: fixed;
+    width: 100%;
+    height: 100vh;
+    overflow: hidden;
+    top: 0px;
+    left: 0px;
+}
+
+video{
+    width:100%;
+    height: 100vh;
+}
+
+.history-back{
+    z-index: 99999;
+    position: fixed;
+    top: 0px;
+    right:  0px;
+}
+
+.video-wrapper{
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    min-height: 100vh;
+    position: fixed;
+    top: 0;
+    left: 0;
+}
+.video-js{
+    width: 100%;
+    height: 100vh;
+}
+
+.portrait section.videoflix {
+  transform: rotate(90deg) scale(1.78);
+  transform-origin: center center;
+  width: 100vh;
+  height: 100vw;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 0;
+  overflow: hidden;
+}
+
+.portrait .video-wrapper {
+
+  width: 100vh;
+  height: 100vw;
+}
+
+
+

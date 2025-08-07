@@ -1,0 +1,123 @@
+.head-wrapper{
+    z-index: 900;
+    position: sticky;
+    top: 0px;
+    left: 0px;
+    width: 100%;
+    height: 100px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0px 64px;
+    box-sizing: border-box;
+    transition: padding 0.5s ease-in-out;
+}
+
+icon{
+    margin-right: 12px;
+    font-size: 1.25rem;
+    margin-left: 0px;
+    margin-top: -1px;
+}
+
+.button-container{
+    align-items: center;
+}
+
+button{
+    padding-bottom: 10px;
+}
+
+.head-button-wrapper{
+    display: flex;
+    flex-wrap: nowrap;
+    gap: 48px;
+    transition: gap 0.5s ease-in-out;
+}
+
+.button-history-back{
+    background-color: transparent;
+    padding: 0px 0px 0px 0px;
+    border: none;
+    icon{
+        font-size: 2.75rem;
+        scale: (1);
+        transition: scale 0.25s ease-in-out;
+    }
+
+    &:hover{
+        background-color: transparent;
+
+        icon{
+            scale: (1.25);
+            transition: scale 0.25s ease-in-out;
+        }
+
+    }
+}
+
+.logo{
+    width: 33%;
+    max-width: 200px;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    max-height: 32px;
+    flex-direction: start;
+    scale: 100%;
+    transition: scale 0.25s ease-in-out, filter 0.25s ease-in-out;
+
+    img{
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+        object-position: left;
+        filter: brightness(100%) contrast(100%);
+
+    }
+
+    &:hover{
+        cursor: pointer;
+        filter: brightness(125%) contrast(90%);
+        scale: 102%;
+        transition: all 0.25s ease-in-out;
+    }
+}
+
+@media only screen and (max-width: 850px) {
+    button{
+
+        padding: 12px 14px;
+
+
+        span{
+            display: none;
+        }
+
+        icon{
+            font-size: 1.5rem;
+            margin-right: 0px;
+        }
+    
+    }
+
+    .head-button-wrapper{
+        gap: 16px;
+        transition: gap 0.5s ease-in-out;
+    }
+    
+}
+
+
+@media only screen and (max-width: 650px) {
+    .head-wrapper{
+    padding: 0px 24px;
+    transition: padding 0.5s ease-in-out;
+    }
+
+    .logo{
+        width: 32px;
+
+    }
+    
+}

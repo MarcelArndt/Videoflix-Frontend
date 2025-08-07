@@ -1,0 +1,49 @@
+.content{
+    width: 90%;
+    padding-bottom: 94px;
+    padding-top: 48px;
+    max-width: 1024px;
+    margin-left: 5%;
+}
+
+h1{
+    text-align: left;
+    padding-bottom:64px;
+    font-size: clamp(1.5rem, 5vw, 5.5rem);
+}
+
+.wrapper{
+    width: 100%;
+    display: flex;
+    position: relative;
+}
+
+a{
+    margin-left: 8px;
+    color: var(--white);
+    text-decoration: underline;
+    &:hover{
+      color: var(--blue-hover);  
+    }
+}
+
+h3{
+     font-size: clamp(1.25rem, 5vw, 2em);
+}
+
+.back-to-button{
+    position: absolute;
+    z-index: 999;
+    right: 5%;
+    top: 6px;
+    transition: color 0.25s ease-in-out;
+    icon{
+        font-size: 5rem;
+    }
+
+    &:hover{
+        cursor: pointer;
+        color: var(--blue-hover);
+        transition: color 0.25s ease-in-out;
+    }
+}
