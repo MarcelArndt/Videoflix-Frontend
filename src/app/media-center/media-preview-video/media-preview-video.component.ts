@@ -37,7 +37,6 @@ export class MediaPreviewVideoComponent {
       await this.service.takeNewestVideoAsChoice();
       this.cdr.detectChanges();
       this.selectedChoicesubscription = this.service.selectedChoice$.subscribe((item)=>{
-        console.log(item?.url)
           if (item && item.url){
             this.setupPlayer(item.url);
           } 

@@ -5,9 +5,9 @@ import { VideoPlayerManagerService } from './video-player-manager.service';
 import { firstValueFrom, Subscription } from 'rxjs';
 import videojs from 'video.js'
 import { ActivatedRoute } from '@angular/router';
-import { UPLOAD_VIDEO } from '../../service/config';
+import { UPLOAD_VIDEO } from '../../../config';
 import { HttpClient} from '@angular/common/http';
-import { UPDATE_INTERVAL_PROGRESS_IN_SEC, VIDEO_PROGRESS_URL } from '../../service/config';
+import { UPDATE_INTERVAL_PROGRESS_IN_SEC, VIDEO_PROGRESS_URL } from '../../../config';
 import { AuthService } from '../../service/auth.service';
 import { videoProgress } from '../../interface/interface';
 import { Router } from '@angular/router';

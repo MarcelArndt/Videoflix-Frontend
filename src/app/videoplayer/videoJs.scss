@@ -2,10 +2,6 @@
     position: fixed !important;
     top: 0px;
 }
-
-
-
-
 .vjs-audio-only-mode .vjs-control-bar, .vjs-has-started .vjs-control-bar{
     width: 95%;
     height: 125px;
@@ -43,11 +39,9 @@
         font-size: 48px;
     }
 }
-
 .video-js:hover .vjs-big-play-button {
   background-color: rgba(124, 9, 224, 0.7); /* Beispiel: halbtransparentes Rot */
 }
-
 .video-js .vjs-progress-control{
     align-items: start;
     flex: 1;
@@ -79,7 +73,6 @@
     transition: color 0.25s ease-in-out;
     }
 }
-
 .video-js .vjs-play-control{
     position: absolute;
     font-size: 1.15rem;
@@ -94,8 +87,6 @@
     transition: color 0.25s ease-in-out;
     }
 }
-
-
 .video-js .vjs-playback-rate .vjs-menu {
   bottom: -32px;
   left: 4px;
@@ -103,24 +94,20 @@
   z-index: 101;
   pointer-events: auto;
 }
-
 .video-js .vjs-rewind-button{
   position: absolute;
   top: 64px;
   left: 42px;
 }
-
 .video-js .vjs-forward-button{
   position: absolute;
   top: 64px;
   left: calc(60px + 28px);
 }
-
 .video-js .vjs-volume-panel .vjs-volume-control {
   left: calc(32px);
   margin-left: 0;
 }
-
 .video-js .vjs-volume-panel {
     position: absolute;
     left: calc(60px + 80px);
@@ -141,7 +128,6 @@
   height: auto;
   min-height: 100vh;
 }
-
 .video-js .vjs-playback-rate {
   position: absolute;
   right: 32px;
@@ -249,7 +235,6 @@
         text-align: center;
         line-height: 1;
     }
-
 
     &.vjs-playing .vjs-icon-placeholder:before {
         left: 0 !important;

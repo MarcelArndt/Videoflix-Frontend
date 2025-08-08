@@ -4,7 +4,7 @@ import { Login } from '../interface/interface';
 import { Router} from '@angular/router';
 import { AlertsService } from '../share/alerts/alerts.service';
 import { HttpClient } from '@angular/common/http';
-import { LOGIN_URL, REFRESH_URL, LOGOUT_URL, IS_AUTHENTICATED_URL, ACCESS_TOKEN_EXPIRES_IN_MINUTES } from './config';
+import { LOGIN_URL, REFRESH_URL, LOGOUT_URL, IS_AUTHENTICATED_URL, REFRESH_TOKEN_INTERVAL_IN_MIN } from '../../config';
 import { Observable, firstValueFrom, BehaviorSubject,switchMap, throwError, catchError } from 'rxjs';
 import { Response } from '../interface/interface';
 
@@ -22,6 +22,7 @@ private authStatusSubject = new BehaviorSubject<boolean>(false);
 authStatus$ = this.authStatusSubject.asObservable();
 private tokenExpirationTime: number = 0;
 private siteIsGuarded = false;
+private refreshTokenInterval:any = null
 
 
 sendRequestForLogin(loginObject: Login): Observable<object> {
@@ -32,7 +33,6 @@ async login(loginObject: Login):Promise<boolean>{
   try{
     const resLogin:AuthResponse = await firstValueFrom(this.sendRequestForLogin(loginObject)) as AuthResponse;
     if (resLogin.ok){
-      this.tokenExpirationTime = Date.now() + (ACCESS_TOKEN_EXPIRES_IN_MINUTES * 60 * 1000)
       this.authStatusSubject.next(true);
       return true
     } 
@@ -52,7 +52,6 @@ async refreshToken(): Promise<boolean> {
   try {
     const res = await firstValueFrom(this.sendRequestForRefreshToken()) as any;
     if (res.ok || res.authenticated) {
-      this.tokenExpirationTime = Date.now() + (ACCESS_TOKEN_EXPIRES_IN_MINUTES * 60 * 1000);
       return true;
     }
   } catch (error) {
@@ -109,7 +108,19 @@ setSiteIsUnguarded(){
 
 async isAuth(){
   await this.handleAuth();
-  return await firstValueFrom(this.authStatus$);
+  const auth = await firstValueFrom(this.authStatus$)
+  if(auth) await this.refreshToken();
+  if(auth && !this.refreshTokenInterval){
+    const refreshTimer = REFRESH_TOKEN_INTERVAL_IN_MIN * 60 * 1000
+    this.refreshTokenInterval = setInterval(async () => {
+      try{
+        await this.refreshToken();
+      } catch(error){
+        console.log(error) 
+      }
+    }, refreshTimer);
+  }
+  return auth;
 }
 
 sendRequestForLogout(){
@@ -117,6 +128,10 @@ sendRequestForLogout(){
 }
 
 async logout(): Promise<void> {
+  if(this.refreshTokenInterval){
+    clearInterval(this.refreshTokenInterval);
+    this.refreshTokenInterval = null;
+  }
   try {
     await firstValueFrom(this.sendRequestForLogout());
   } catch (error) {

@@ -2,13 +2,13 @@ import { Component } from '@angular/core';
 import { IconComponent } from '../../../share/icon/icon.component';
 import { RouterLink, ActivatedRoute, Router } from '@angular/router';
 import { ValidationHelperClass } from '../../../service/ValidationHelperClass';
-import { MIN_PASSWORD_LENGHT } from '../../../service/config';
+import { MIN_PASSWORD_LENGHT } from '../../../../config';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule} from '@angular/forms';
 import { CommonModule, Location} from '@angular/common';
 import { passwordsMatchValidator } from '../../custom-validators/password-missmatch';
 import { ApiService } from '../../../service/api.service';
 import { AlertsService } from '../../../share/alerts/alerts.service';
-import { RESET_PASSWORD } from '../../../service/config';
+import { RESET_PASSWORD } from '../../../../config';
 
 @Component({
   selector: 'app-forgot-password-reset',

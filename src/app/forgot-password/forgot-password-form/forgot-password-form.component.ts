@@ -6,7 +6,7 @@ import { ValidationHelperClass } from '../../../service/ValidationHelperClass';
 import { CommonModule } from '@angular/common';
 import { ApiService } from '../../../service/api.service';
 import { AlertsService } from '../../../share/alerts/alerts.service';
-import { FIND_USER_RESET_PASSWORD } from '../../../service/config';
+import { FIND_USER_RESET_PASSWORD } from '../../../../config';
 
 
 

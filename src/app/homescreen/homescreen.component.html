@@ -5,11 +5,17 @@
       <h4>Watch whenever you want wherever you want</h4>
       <p>Enter your email to create or restart your subscription.</p>
       <form [formGroup]="emailForm">
+         <div class="flex-column">
             <div class="errorBox">
                 <p *ngIf="validation.checkError() as error">{{ error }}</p>
             </div>
-         <input placeholder="Email Address" autocomplete="email" formControlName="email" [ngClass]="{'invalid-border': validation.getError('email')?.hasError}">
-         <button [disabled]="emailForm.invalid" (click)="routerToSignUp()">Sign Up <icon>arrow_forward_ios</icon></button>
+            <div class="flex">
+               <input placeholder="Email Address" autocomplete="email" formControlName="email" [ngClass]="{'invalid-border': validation.getError('email')?.hasError}">
+               <button [disabled]="emailForm.invalid" (click)="routerToSignUp()">Sign Up <icon>arrow_forward_ios</icon></button>
+            </div>
+         </div>
+              
+            
       </form>
    </div>
 

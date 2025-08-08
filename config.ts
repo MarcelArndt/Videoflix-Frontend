@@ -1,6 +1,5 @@
 
 //BASE_URL
-export const standart_BASE_URL = 'http://127.0.0.1:8000/api/';
 export const BASE_URL = 'http://localhost:8000/api/';
 export const test_url  = 'http://arndt-dev.de:7595/api/'
 
@@ -22,4 +21,4 @@ export const VIDEO_CONVERT_PROGRESS_URL= BASE_URL + 'video/current-progress/';
 export const MIN_PASSWORD_LENGHT = 8;
 export const MAX_VIDEO_UPLOAD_SIZE_IN_MB = 200;
 export const UPDATE_INTERVAL_PROGRESS_IN_SEC = 5;
-export const ACCESS_TOKEN_EXPIRES_IN_MINUTES = 5
+export const REFRESH_TOKEN_INTERVAL_IN_MIN = 3

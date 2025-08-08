@@ -6,7 +6,7 @@ import { AlertsService } from '../../../share/alerts/alerts.service';
 import { VideoPlayerManagerService } from '../../videoplayer/video-player-manager.service';
 import { Subscription} from 'rxjs';
 import { Router } from '@angular/router';
-import { MAIN_SERVICE_URL } from '../../../service/config';
+import { MAIN_SERVICE_URL } from '../../../../config';
 import { ApiService } from '../../../service/api.service';
 
 

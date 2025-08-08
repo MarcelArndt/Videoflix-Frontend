@@ -24,7 +24,8 @@ p{
 form{
     width: 100%;
     display: flex;
-    margin-top: 16px;
+    margin-top: -8px;
+    justify-content: center;
 }
 
 .invalid-border{
@@ -35,10 +36,29 @@ form{
 }
 
 button{
+    max-height: 48px;
     display: flex;
     flex-wrap: nowrap;
     white-space: nowrap;
 }
+
+.flex-column{
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    justify-content: flex-end;
+    text-align: left;
+}
+
+.flex{
+    display: flex;
+}
+
+.errorBox{
+    min-height: 50px;
+    padding-left: 18px;
+}
+
 
 @media screen and (max-width:1180px) {
     form{
@@ -47,6 +67,20 @@ button{
         align-items: center;
         button{
             margin-top: 24px;
+        }
+    }
+
+    .flex{
+        align-items: center;
+        justify-content: center;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .errorBox{
+        padding-left: 0px;
+        p{
+            text-align: center;
         }
     }
 }

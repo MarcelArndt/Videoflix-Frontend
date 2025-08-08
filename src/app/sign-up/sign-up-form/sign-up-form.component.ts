@@ -7,9 +7,9 @@ import { CommonModule, Location} from '@angular/common';
 import { ValidationHelperClass } from '../../../service/ValidationHelperClass';
 import { passwordsMatchValidator } from '../../custom-validators/password-missmatch';
 import { ApiService } from '../../../service/api.service';
-import { MIN_PASSWORD_LENGHT } from '../../../service/config';
+import { MIN_PASSWORD_LENGHT } from '../../../../config';
 import { AlertsService } from '../../../share/alerts/alerts.service';
-import { REGISTRATION_URL } from '../../../service/config';
+import { REGISTRATION_URL } from '../../../../config';
 import { Response } from '../../../interface/interface';
 import { AuthService } from '../../../service/auth.service';
 

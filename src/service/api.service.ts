@@ -1,5 +1,5 @@
 import { Injectable} from '@angular/core';
-import { UPLOAD_VIDEO} from './config';
+import { UPLOAD_VIDEO} from '../../config';
 import { HttpClient, HttpRequest, HttpParams } from '@angular/common/http';
 import { Observable, firstValueFrom } from 'rxjs';
 import { AlertsService } from '../share/alerts/alerts.service';

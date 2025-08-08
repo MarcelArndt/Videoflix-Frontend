@@ -4,7 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { checkScrollbar } from '../../../service/scrollbar';
 import { Location } from '@angular/common';
 import { ApiService } from '../../../service/api.service';
-import { RESEND_EMAIL } from '../../../service/config';
+import { RESEND_EMAIL } from '../../../../config';
 import { AlertsService } from '../../../share/alerts/alerts.service';
 import { AuthService } from '../../../service/auth.service';
 @Component({

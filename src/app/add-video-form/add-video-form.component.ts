@@ -11,11 +11,17 @@ import { HttpEventType } from '@angular/common/http';
 import { VideouploadLoadingScreenComponent } from './videoupload-loading-screen/videoupload-loading-screen.component';
 import { MediaCategoryService } from '../../service/media-category.service';
 import { AlertsService } from '../../share/alerts/alerts.service';
-import { MAX_VIDEO_UPLOAD_SIZE_IN_MB } from '../../service/config';
+import { MAX_VIDEO_UPLOAD_SIZE_IN_MB } from '../../../config';
 import { Router } from '@angular/router';
 import { VideoStatus } from '../../interface/interface';
 import { firstValueFrom } from 'rxjs';
 
+interface UploadData {
+  title: string;
+  description: string;
+  genre: string;
+  original_file: File;
+}
 
 @Component({
   selector: 'app-add-video-form',
@@ -127,13 +133,8 @@ async checkForFirstVideoAndRefresh(){
   }
 }
 
-async postVideo(event: Event) {
-  event.preventDefault();
-  this.isLoading.emit(true);
-  this.uploadIsInProcess = true;
-  const videoObj = this.makeVideoObj();
-  this.resetAll();
-  this.api.postVideo(videoObj).subscribe(async event => {
+sendRequest(videoObj:UploadData){
+this.api.postVideo(videoObj).subscribe(async event => {
     if (event.type == HttpEventType.Response) {
       this.service.setNewNewestVideoSubject(event.body);
       this.uploadComplete.emit();
@@ -149,9 +150,24 @@ async postVideo(event: Event) {
       this.uploadComplete.emit();
       this.uploadIsInProcess = false;
       this.isLoading.emit(false);
-      this.alert.setAlert('Error: Upload failed');
+      this.alert.setAlert('Upload: waiting for Response', false);
     }
   });
+}
+
+async postVideo(event: Event) {
+  event.preventDefault();
+  this.isLoading.emit(true);
+  this.uploadIsInProcess = true;
+  const videoObj = this.makeVideoObj() as UploadData;
+  this.resetAll();
+  try{
+    this.sendRequest(videoObj);
+  }catch(error){
+    this.alert.setAlert('Error: Upload was not successful!');
+    console.log(error);
+  }
+  
 }
 
 }

@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { CategoryWrapper } from '../interface/interface';
 import { BehaviorSubject, firstValueFrom } from 'rxjs';
 import { ApiService } from './api.service';
-import { MAIN_SERVICE_URL, VIDEO_CONVERT_PROGRESS_URL } from './config';
+import { MAIN_SERVICE_URL, VIDEO_CONVERT_PROGRESS_URL } from '../../config';
 import { HttpClient } from '@angular/common/http';
 import { Observable, Subject  } from 'rxjs';
 import { AuthService } from './auth.service';
@@ -119,7 +119,6 @@ async startGlobalVideoStatusPulling() {
   await this.checkServerForQueue();
   if(this.convertingVideos.length > 0){
     this.pullingInterval = setInterval(() => {
-      console.log(this.dataQuarry['newOnVideoflix'].content.length)
       if (this.convertingVideos.length <= 0 && this.pullingInterval){
         this.checkforFirstVideoAndSignal()
         clearInterval(this.pullingInterval);
@@ -140,7 +139,6 @@ async checkServerForQueue(){
 checkforFirstVideoAndSignal(){
   this.selectedChoice$.subscribe((item)=>{
     if(item && this.dataQuarry['newOnVideoflix'].content.length == 1){
-      console.log('fire First-Video-Event')
       this.firstConversionFinishedSubject.next();
     }
   });
