@@ -48,7 +48,7 @@ export class MediaPreviewTextComponent {
     this.service.deleteCurrentChoice();
     await this.api.delete(url);
     this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
-          this.router.navigate(['/media']);
+          this.router.navigate(['/library']);
     });
   }
 

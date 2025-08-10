@@ -56,7 +56,7 @@ export class SignInComponent {
     if(res){
       this.alert.setAlert('Sign-In was successful', false);
       setTimeout(()=>{
-        this.routerToMedia();
+        this.routerTolibrary();
       },1750);
 
     } else {
@@ -64,8 +64,8 @@ export class SignInComponent {
     }
   }
 
-  routerToMedia(){
-    this.router.navigate(['/media']);
+  routerTolibrary(){
+    this.router.navigate(['/library']);
   }
 
   ngOnInit(){

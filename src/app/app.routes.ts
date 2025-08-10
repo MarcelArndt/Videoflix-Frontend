@@ -34,7 +34,7 @@ export const routes: Routes = [
         { path: 'reset-password', component: ForgotPasswordResetComponent },
         { path: 'validated', component: ResetPasswordValidComponent }
     ] },
-    {path: 'media', component: MediaCenterComponent },
+    {path: 'library', component: MediaCenterComponent },
     {path: 'video', component: VideoplayerComponent },
     { path: '**', redirectTo: 'home' }
 

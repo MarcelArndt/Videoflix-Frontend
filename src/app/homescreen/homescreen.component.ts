@@ -37,7 +37,7 @@ export class HomescreenComponent {
       this.video.disableVideoMode();
       const isAuth = await this.auth.isAuth();
       if ( isAuth && this.auth.emailConfirme ){
-          this.router.navigate(['/media']);
+          this.router.navigate(['/library']);
       }
     }
 

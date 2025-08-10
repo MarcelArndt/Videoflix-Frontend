@@ -128,7 +128,7 @@ async checkForFirstVideoAndRefresh(){
   const currentChoice = await firstValueFrom(this.service.selectedChoice$);
   if (this.service.lengthOfData > 0 && !currentChoice){
      this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
-          this.router.navigate(['/media']);
+          this.router.navigate(['/library']);
     });
   }
 }

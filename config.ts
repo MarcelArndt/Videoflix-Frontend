@@ -1,8 +1,6 @@
 
-//BASE_URL
-export const BASE_URL = 'http://localhost:8000/api/';
-export const test_url  = 'http://arndt-dev.de:7595/api/'
-
+//BACKEND-BASE_URL
+export const BASE_URL = 'https://videoflix.arndt-dev.de/backend/api/';
 //URLs
 export const REGISTRATION_URL = BASE_URL + 'registration/';
 export const LOGIN_URL = BASE_URL + 'login/';
