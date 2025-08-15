@@ -1,13 +1,25 @@
-.loader {
+
+.loader-wrapper{
     position: absolute;
     top: 50%;
     left: 50%;
-    transform: translate(-50% -50%);
-    z-index: 999;
-    width: 100px;
-    height: 100px;
-    border: 9px solid var(--blue);
-    border-bottom-color: var(--blue-hover);
+    transform: translate( -50%, -50%) ;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 16px;
+
+}
+
+.loader {
+    width: 90px;
+    height: 90px;
+    aspect-ratio: 1 / 1;
+    flex-shrink: 0;
+    border: 5px solid #581295;
+    opacity: 80%;
+    border-bottom-color: transparent;
     border-radius: 50%;
     display: inline-block;
     box-sizing: border-box;

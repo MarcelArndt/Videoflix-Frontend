@@ -12,7 +12,7 @@ import { Subscription } from 'rxjs';
   selector: 'app-media-preview-video',
   imports: [MediaPreviewTextComponent, CommonModule ],
   templateUrl: './media-preview-video.component.html',
-  styleUrls: ['./media-preview-video.component.scss']
+  styleUrls: ['./media-preview-video.component.scss', './animation-spinner.scss']
 })
 export class MediaPreviewVideoComponent {
   constructor(public service: MediaCategoryService, public api: ApiService,  private cdr: ChangeDetectorRef){}

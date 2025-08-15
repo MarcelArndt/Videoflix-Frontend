@@ -20,7 +20,6 @@ export class AuthInterceptor implements HttpInterceptor {
           return from(this.auth.refreshToken()).pipe(
             switchMap(success => {
               if (success) {
-                console.log('refresh success')
                 this.refreshErrorCounter = 0
                 return next.handle(req);
               } else {

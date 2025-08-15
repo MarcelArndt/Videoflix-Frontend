@@ -105,13 +105,8 @@ setSiteIsUnguarded(){
   this.siteIsGuarded = false;
 }
 
-
-async isAuth(){
-  await this.handleAuth();
-  const auth = await firstValueFrom(this.authStatus$)
-  if(auth) await this.refreshToken();
-  if(auth && !this.refreshTokenInterval){
-    const refreshTimer = REFRESH_TOKEN_INTERVAL_IN_MIN * 60 * 1000
+async startRefreshTokenclock(){
+  const refreshTimer = REFRESH_TOKEN_INTERVAL_IN_MIN * 60 * 1000
     this.refreshTokenInterval = setInterval(async () => {
       try{
         await this.refreshToken();
@@ -119,6 +114,15 @@ async isAuth(){
         console.log(error) 
       }
     }, refreshTimer);
+}
+
+
+async isAuth(){
+  await this.handleAuth();
+  const auth = await firstValueFrom(this.authStatus$)
+  if(auth) await this.refreshToken();
+  if(auth && !this.refreshTokenInterval){
+    this.startRefreshTokenclock();
   }
   return auth;
 }

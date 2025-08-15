@@ -22,8 +22,19 @@
         *ngIf="service.lengthOfData > 0 && video.is_converted">
       </video>
 
+      <div class="placeholder" *ngIf="!video.is_converted">
+        <img src="./assets/wallpaper/wallpaper-001.jpg" >
+
+        <div class="loader-wrapper">
+          <span class="loader"></span>
+          <p>Video is converting ...</p>
+        </div>
+      </div>
+
       </ng-container>
   </div>
+
+
 
   <div class="text-wrapper">
     <app-media-preview-text></app-media-preview-text>

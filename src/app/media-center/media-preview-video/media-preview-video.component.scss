@@ -11,6 +11,14 @@
   height: calc(100vh - 250px);
   overflow: hidden;
   user-select: none;
+  display: flex;
+  p{
+    text-align: center;
+    z-index: 999;
+    margin: 0px;
+    padding: 0px;
+    font-size: 1rem;
+  }
   
   img{
     width: 100%;
