@@ -8,6 +8,8 @@ import { Subscription} from 'rxjs';
 import { Router } from '@angular/router';
 import { MAIN_SERVICE_URL } from '../../../../config';
 import { ApiService } from '../../../service/api.service';
+import { PopupServiceService } from '../../../share/popup-window/popup-service.service';
+import { EditVideoFormComponent } from '../../edit-video-form/edit-video-form.component';
 
 
 @Component({
@@ -17,7 +19,7 @@ import { ApiService } from '../../../service/api.service';
   styleUrl: './media-preview-text.component.scss'
 })
 export class MediaPreviewTextComponent {
-  constructor(public service: MediaCategoryService, private alert: AlertsService , private video:VideoPlayerManagerService, private router: Router, private api:ApiService){}
+  constructor(public service: MediaCategoryService, private alert: AlertsService , private video:VideoPlayerManagerService, private router: Router, private api:ApiService, private popUpService: PopupServiceService){}
   headline:string = '';
   description:string = '';
   isData:boolean = false;
@@ -40,6 +42,11 @@ export class MediaPreviewTextComponent {
     event.preventDefault();
     const url = `/video?videoId=${this.currenVideotId}`
     this.router.navigate(['/video'], { queryParams: {videoId: this.currenVideotId} });
+  }
+
+  openPopUpWindowEdit(event:Event){
+    event.preventDefault()
+    this.popUpService.openPopUp(EditVideoFormComponent);
   }
 
   async deleteVideo(event:Event){

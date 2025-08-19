@@ -17,26 +17,32 @@ p{
     flex-wrap: nowrap;
 }
 
-.delete-button{
+.sub-flex{
+    gap: 16px;
+    display: flex;
+    flex-wrap: nowrap;
     margin-left: 16px;
+}
+
+.delete-button{
     background-color: transparent;
-    width: 156px;
     color: var(--light-grey);
     display: flex;
     justify-content: center;
     align-items: center;
     border: 1px solid var(--blue-hover);
-    padding: 10px 26px 10px 52px;
     display: flex;
     justify-content: space-between;
     align-items: center;
     gap: 16px;
 
-
-
     span{
         width: max-content;
-        display: block;
+        transform-origin: left 50%;
+        scale: 0% 100%;
+        width: 0px;
+        opacity: 0;
+        transition: scale 0.25s ease-in-out, width 0.25s ease-in-out, padding-left 0.25s ease-in-out, opacity 0.25s ease-in-out;
     }
 
     icon{
@@ -49,11 +55,78 @@ p{
         display: flex;
         justify-content: center;
         align-items: center;
+        padding-left: 1px;
     }
 
     &:hover {
         border-color: var(--red-hover);
+        background-color: var(--red-hover);
         color: var(--white); 
+        span{
+            padding-left: 12px;
+            width: 46px;
+            transform-origin: left 50%;
+            scale: 100% 100%;
+            opacity: 1;
+            transition: scale 0.25s ease-in-out, width 0.25s ease-in-out, opacity 0.25s ease-in-out;
+        }
+    }
+
+    &:hover icon{
+        color: var(--white); 
+        transition: color 0.125s ease-in-out;
+    }
+}
+
+
+.edit-button{
+    background-color: transparent;
+    color: var(--light-grey);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 1px solid var(--blue-hover);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 16px;
+
+
+
+    span{
+        width: max-content;
+        transform-origin: left 50%;
+        scale: 0% 100%;
+        width: 0px;
+        opacity: 0;
+        transition: scale 0.25s ease-in-out, width 0.25s ease-in-out, padding-left 0.25s ease-in-out, opacity 0.25s ease-in-out;
+    }
+
+    icon{
+        margin-left: 18px;
+        width: max-content;
+        height: 100%;
+        font-size: 1.7rem;
+        color: var(--light-grey);
+        transition: color 0.125s ease-in-out;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding-left: 2px;
+    }
+
+    &:hover {
+        border-color: var(--blue);
+        color: var(--white); 
+        background-color: var(--blue);
+        span{
+            padding-left: 12px;
+            width: 32px;
+            transform-origin: left 50%;
+            scale: 100% 100%;
+            opacity: 1;
+            transition: scale 0.25s ease-in-out, width 0.25s ease-in-out, opacity 0.25s ease-in-out;
+        }
     }
 
     &:hover icon{
@@ -123,6 +196,36 @@ icon{
         text-overflow: ellipsis; 
         line-height: 105%;  
     }
+}
 
-    
+@media screen and (max-width:400px) {
+    .flex{
+        width: max-content;
+        flex-direction: column;
+    }
+
+    .sub-flex{
+        margin-top: 12px;
+        margin-left: 0px;
+    }
+
+    button{
+        display: flex;
+        flex-grow: 0;
+        width: max-content;
+        margin-left: 0px;
+    }
+
+    .edit-button{
+        display: flex;
+        flex-grow: 0;
+        width: max-content;
+        margin-left: 0px;
+    }
+    .delete-button{
+        display: flex;
+        flex-grow: 0;
+        width: max-content;
+        margin-left: 0px;
+    }
 }

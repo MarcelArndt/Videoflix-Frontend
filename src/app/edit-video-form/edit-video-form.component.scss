@@ -1,0 +1,228 @@
+:host {
+  display: block;
+  width: 90%;
+  height: 100%;
+}
+
+.form-wrapper{
+    max-width: calc(100% - 24px);
+    width: 100%;
+    height: 100%;
+
+}
+
+.flex{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+}
+
+h1{
+    text-align: center;
+}
+
+ p{
+    text-align: center;
+ }
+
+form{
+    width: 100%;
+    min-width: none;
+    display: flex;
+    margin-top: 16px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+}
+
+.darken{
+ opacity: 0.6;
+}
+
+form{
+    display: flex;
+    flex-direction: column;
+}
+
+input{
+    padding-top: 2px;
+    background: none;
+    width: 100%;
+    margin-left: 0px;
+    border: none;
+    padding-right:0px;
+    border-radius: 8px;
+    min-width: none;
+}
+
+
+
+textarea{
+    min-width: none;
+    padding-top: 2px;
+    background: none;
+    width: 100%;
+    margin-left: 0px;
+    border: none;
+    padding-right:0px;
+    border-radius: 8px;
+}
+
+button{
+    margin: 24px 0px;
+}
+
+.show-password-icon{
+    &:hover{
+        cursor: pointer;
+    }
+}
+
+
+.scrollbar{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    overflow-y: auto;
+    max-height: 60vh;
+    position: relative;
+}
+
+.bold{
+    font-weight: 600;
+    margin-left: 8px;
+}
+
+.fileupload-input{
+    display: flex;
+    align-items: center;
+    width: 100%;
+    gap: 16px;
+    margin: 8px 0px;
+
+    input{
+        display: none;
+    }
+
+    .fileUpload-button{
+        display: flex;
+       white-space: nowrap;
+    }
+
+    label{
+        background-color: var(--blue);
+        padding: 14px 24px 12px 24px;
+        border-radius: 24px;
+        display: flex;
+        min-width: min-content;
+        &:hover{
+            cursor: pointer;
+            background-color: var(--blue-hover);  
+        }
+    }
+
+    icon {
+        margin: -4px 8px 0px 0px;
+        font-size: 1.5rem;
+    }
+
+    p{
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+}
+
+.input-field{
+    margin: 16px 0px;
+    display: flex;
+    align-items: center;
+    border: 1px solid var(--blue);
+    padding: 0px 4px;
+    box-sizing: border-box;
+    border-radius: 8px;
+    background-color: var(--glass);
+    width: 100%;
+
+    icon{
+        color: var(--blue);
+        font-size: 1.75rem;
+    }
+
+    &:hover, &:hover>icon, &:focus, &:focus>icon, &:focus-within, &:focus-within>icon{
+        border-color: var(--blue-hover);
+        color: var(--blue-hover);
+    }
+  
+}
+
+.errorBox{
+    display: flex;
+    justify-content: center;
+    margin-top: -16px;
+    margin-bottom: 8px;
+    min-height: 36px;
+    p{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        vertical-align: middle;
+        margin: 0px;
+    }
+}
+
+.popUp-wrapper{
+    max-height: none;
+}
+
+
+app-select-genre{
+    margin: 16px 0px;
+    display: flex;
+    align-items: center;
+    border: 1px solid var(--blue);
+    padding: 0px 4px;
+    box-sizing: border-box;
+    background-color: var(--glass);
+    width: 100%;
+    border-radius: 8px;
+    height: 48px;
+
+    icon{
+        color: var(--blue);
+        font-size: 1.75rem;
+
+    }
+
+    &:hover, &:focus, &:focus>icon, &:focus-within, &:focus-within>icon{
+        border-color: var(--blue-hover);
+    }
+
+}
+
+.invalid-border{
+    border-color: var(--error);
+    icon{ 
+        color: var(--error);
+    }
+}
+
+@media screen and (max-width:550px) {
+    .fileupload-input{
+        display: flex;
+        flex-direction: column;
+    }
+}
+
+@media screen and (max-width:650px) {
+    .scrollbar{
+        max-height: calc(80vh - 24px);
+    }
+}
+
+

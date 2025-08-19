@@ -11,7 +11,6 @@ import { firstValueFrom, Subscription } from 'rxjs';
 import { Router } from '@angular/router';
 
 
-
 @Component({
   selector: 'app-media-center',
   imports: [MediaPreviewVideoComponent, MediaCategorySliderComponent, PopupWindowComponent, CommonModule ],

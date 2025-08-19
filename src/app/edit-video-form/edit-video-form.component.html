@@ -1,0 +1,31 @@
+<div class="form-wrapper" (click)="closeSelectInput()">
+<div class="scrollbar" #scrollbar>
+    <div #scrollAnimtion animation-duration="1.5s" class="show-is-scrollable"></div>
+    <h1>
+        Edit Video
+    </h1>
+    <p>Edit your current Video here.</p>
+    <div class="flex">
+
+            <form [formGroup]="patchForm">
+
+                <div class="errorBox">
+                    <p *ngIf="validation.checkError() as error">{{ error }}</p>
+                </div>
+
+                    <app-select-genre></app-select-genre>
+                
+                    <div class="input-field" [ngClass]="{'invalid-border': validation.getError('title')?.hasError}">
+                        <input formControlName="title" type="text">
+                    </div>
+
+                    <div class="input-field" [ngClass]="{'invalid-border': validation.getError('description')?.hasError}">
+                        <textarea formControlName="description"></textarea>
+                    </div>
+
+                    <button [disabled]="patchForm.invalid" (click)="patchVideo($event)">Upload Video</button>
+
+            </form>
+        </div>
+    </div>
+</div>

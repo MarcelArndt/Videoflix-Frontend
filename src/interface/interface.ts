@@ -16,6 +16,7 @@ export interface CategoryItem {
   description:string,
   is_converted:boolean;
   current_convert_state:number;
+  genre:string;
 }
 
 export interface canObjectScroll

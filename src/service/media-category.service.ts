@@ -188,6 +188,10 @@ checkForDataQuarryId(videoInfos:ConvertingVideoStatus, index:number){
     this.refreshData = false;
    }
 
+   async refreshSelectedChoice(newVideo:CategoryItem){
+    this.selectedChoiceSubject.next({ ...newVideo });
+   }
+
 
  waitForData(dataReadyCallback: () => void) {
     const timer = setInterval(() => {

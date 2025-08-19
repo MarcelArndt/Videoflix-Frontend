@@ -5,7 +5,10 @@
             <p class="description">{{video.description}}</p>
             <div class="flex" *ngIf="video.is_converted">
                 <button (click)="openVideoPlayer($event)"><icon>arrow_right</icon>Play</button>
-                <button class="delete-button" (click)="deleteVideo($event)"><icon>delete</icon><span>Delete</span></button>
+                <div class="sub-flex">
+                    <button class="delete-button" (click)="deleteVideo($event)"><icon>delete</icon><span>Delete</span></button>
+                    <button class="edit-button" (click)="openPopUpWindowEdit($event)"><icon>edit</icon><span>Edit</span></button>
+                </div>
             </div>
 
     </ng-container>

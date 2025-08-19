@@ -1,5 +1,5 @@
 import { Component, ViewChild, ElementRef, AfterViewInit, HostListener } from '@angular/core';
-import { IconComponent } from '../../../share/icon/icon.component';
+import { IconComponent } from '../icon/icon.component';
 import { CommonModule } from '@angular/common';
 import { SelectGenreService } from './select-genre.service';
 

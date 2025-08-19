@@ -4,8 +4,8 @@ import { FormBuilder, FormGroup, Validators, ReactiveFormsModule, ValidatorFn, A
 import { IconComponent } from '../../share/icon/icon.component';
 import { ValidationHelperClass } from '../../service/ValidationHelperClass';
 import { CommonModule } from '@angular/common';
-import { SelectGenreComponent } from './select-genre/select-genre.component';
-import { SelectGenreService } from './select-genre/select-genre.service';
+import { SelectGenreComponent } from '../../share/select-genre/select-genre.component';
+import { SelectGenreService } from '../../share/select-genre/select-genre.service';
 import { ApiService } from '../../service/api.service';
 import { HttpEventType } from '@angular/common/http';
 import { VideouploadLoadingScreenComponent } from './videoupload-loading-screen/videoupload-loading-screen.component';
@@ -13,7 +13,6 @@ import { MediaCategoryService } from '../../service/media-category.service';
 import { AlertsService } from '../../share/alerts/alerts.service';
 import { MAX_VIDEO_UPLOAD_SIZE_IN_MB } from '../../../config';
 import { Router } from '@angular/router';
-import { VideoStatus } from '../../interface/interface';
 import { firstValueFrom } from 'rxjs';
 
 interface UploadData {
@@ -24,7 +23,7 @@ interface UploadData {
 }
 
 @Component({
-  selector: 'app-add-video-form',
+  selector: 'app-edit-video-form',
   imports: [ ReactiveFormsModule, IconComponent, CommonModule, SelectGenreComponent, VideouploadLoadingScreenComponent],
   templateUrl: './add-video-form.component.html',
   styleUrl: './add-video-form.component.scss'
