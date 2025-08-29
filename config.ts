@@ -1,6 +1,7 @@
 
 //BACKEND-BASE_URL
 export const BASE_URL = 'http://localhost:8000/api/';
+
 //URLs
 export const REGISTRATION_URL = BASE_URL + 'registration/';
 export const LOGIN_URL = BASE_URL + 'login/';
@@ -17,6 +18,6 @@ export const VIDEO_CONVERT_PROGRESS_URL= BASE_URL + 'video/current-progress/';
 
 //Settings
 export const MIN_PASSWORD_LENGHT = 8;
-export const MAX_VIDEO_UPLOAD_SIZE_IN_MB = 200;
+export const MAX_VIDEO_UPLOAD_SIZE_IN_MB = 500;
 export const UPDATE_INTERVAL_PROGRESS_IN_SEC = 5;
 export const REFRESH_TOKEN_INTERVAL_IN_MIN = 3

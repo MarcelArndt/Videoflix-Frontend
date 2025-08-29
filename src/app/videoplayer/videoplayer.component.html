@@ -2,6 +2,7 @@
 
 <div class="meta-container">
 
+
 </div>
   <div class="video-wrapper">
       <video #videoScreen
@@ -9,7 +10,8 @@
         class="video-js vjs-default-skin homescreen-video"
         preload="auto"
         controls
-     
+        preload="metadata"
+        playsinline
         (timeupdate)="onTimeUpdate()"
         (ended)="isVideoEnded()"
         (seeked)="updateOnSeek()"
